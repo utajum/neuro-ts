@@ -1,0 +1,84 @@
+---
+title: Naming conventions
+description: How the neuro namespace is laid out and how method signatures map.
+---
+
+`neuro-js` exports a single object, `neuro`, with one key per built-in
+group:
+
+```ts
+import { neuro } from 'neuro-js';
+
+neuro.math.random();
+neuro.array.map([1, 2], (n) => n + 1);
+neuro.string.toUpperCase('hello');
+neuro.object.keys({ a: 1 });
+neuro.json.stringify({ a: 1 });
+neuro.date.getFullYear(new Date());
+neuro.set.has(new Set([1, 2]), 1);
+neuro.promise.all([Promise.resolve(1)]);
+```
+
+The eight whitelisted global functions live at the top level:
+
+```ts
+neuro.parseInt('42 widgets');
+neuro.encodeURI('https://x.test/?q=hi mum');
+neuro.isFinite(42);
+```
+
+## Receiver convention
+
+Methods that originally lived on a prototype take their receiver as the
+**first argument**:
+
+```ts
+neuro.array.map(arr, callback?, thisArg?, prompt?);
+neuro.string.split(str, separator?, limit?, prompt?);
+neuro.date.getFullYear(date, prompt?);
+neuro.map.get(map, key, prompt?);
+```
+
+Methods that were originally static keep their original signature, with
+the prompt at the end:
+
+```ts
+neuro.math.random(prompt?);
+neuro.math.max(...values, prompt?);
+neuro.object.keys(target, prompt?);
+neuro.json.stringify(value, replacer?, space?, prompt?);
+neuro.array.from(iterable, mapfn?, thisArg?, prompt?);
+neuro.promise.all(values, prompt?);
+```
+
+## Trailing prompt
+
+The trailing string is interpreted as a steering prompt only when the
+original signature does not natively accept a string at the same
+position, or when you supply one more argument than the original allows.
+[Native fallback](/guides/native-fallback/) explains the rule in detail.
+
+## TypeScript
+
+Every wrapper has typed overload signatures. Your editor will autocomplete
+both the native shape and the prompt-augmented shape:
+
+```ts
+neuro.array.map([1, 2, 3], (n) => n * 2);
+//             ^ T[]      ^ (v: T, i: number, a: T[]) => U      Promise<U[]>
+
+neuro.array.map([1, 2, 3], (n) => n * 2, 'square instead');
+//                                       ^ trailing prompt      Promise<U[]>
+```
+
+## Things we still expose without an LLM path
+
+Some methods cannot be simulated by an LLM (live iterators, internal
+lifecycle hooks, weak references). They are still exposed under
+`neuro.*` so your code can stay namespaced; calling them just runs the
+native built-in:
+
+```ts
+const it = await neuro.array.keys([10, 20, 30]); // IterableIterator<number>
+Array.from(it); // [0, 1, 2]
+```

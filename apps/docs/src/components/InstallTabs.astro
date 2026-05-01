@@ -1,0 +1,118 @@
+---
+/**
+ * InstallTabs - copy-ready install snippets for every common JS package
+ * manager. Renders accessible WAI-ARIA tabs with no dependency on a JS
+ * framework. Tabs are progressively-enhanced: without JS the first tab
+ * is shown.
+ */
+
+interface Props {
+  /** Package name to install (defaults to `neuro-js`). */
+  pkg?: string;
+}
+const { pkg = 'neuro-js' } = Astro.props as Props;
+
+const managers = [
+  { id: 'npm', label: 'npm', cmd: `npm install ${pkg}` },
+  { id: 'pnpm', label: 'pnpm', cmd: `pnpm add ${pkg}` },
+  { id: 'yarn', label: 'yarn', cmd: `yarn add ${pkg}` },
+  { id: 'bun', label: 'bun', cmd: `bun add ${pkg}` },
+  { id: 'deno', label: 'deno', cmd: `deno add npm:${pkg}` },
+];
+---
+
+<div class="neuro-install not-content" data-install-tabs>
+  <div role="tablist" aria-label="Package manager">
+    {
+      managers.map((m, i) => (
+        <button
+          role="tab"
+          type="button"
+          id={`tab-${m.id}`}
+          aria-controls={`panel-${m.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+          data-tab-id={m.id}
+        >
+          {m.label}
+        </button>
+      ))
+    }
+  </div>
+  {
+    managers.map((m, i) => (
+      <div
+        role="tabpanel"
+        id={`panel-${m.id}`}
+        aria-labelledby={`tab-${m.id}`}
+        hidden={i !== 0}
+        data-panel-id={m.id}
+      >
+        <code>
+          <span class="prompt">$</span>
+          {m.cmd}
+        </code>
+        <button class="copy" type="button" data-copy={m.cmd}>
+          copy
+        </button>
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  function activate(group: HTMLElement, id: string) {
+    group.querySelectorAll<HTMLButtonElement>('button[role="tab"]').forEach((tab) => {
+      const isActive = tab.dataset.tabId === id;
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      tab.tabIndex = isActive ? 0 : -1;
+    });
+    group.querySelectorAll<HTMLElement>('[role="tabpanel"]').forEach((panel) => {
+      panel.hidden = panel.dataset.panelId !== id;
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-install-tabs]').forEach((group) => {
+    const tabs = Array.from(group.querySelectorAll<HTMLButtonElement>('button[role="tab"]'));
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        if (tab.dataset.tabId) activate(group, tab.dataset.tabId);
+      });
+    });
+
+    group.addEventListener('keydown', (e) => {
+      const event = e as KeyboardEvent;
+      const idx = tabs.findIndex((t) => t === document.activeElement);
+      if (idx === -1) return;
+      let next: number | null = null;
+      if (event.key === 'ArrowRight') next = (idx + 1) % tabs.length;
+      else if (event.key === 'ArrowLeft') next = (idx - 1 + tabs.length) % tabs.length;
+      else if (event.key === 'Home') next = 0;
+      else if (event.key === 'End') next = tabs.length - 1;
+      if (next !== null) {
+        event.preventDefault();
+        const target = tabs[next];
+        target.focus();
+        if (target.dataset.tabId) activate(group, target.dataset.tabId);
+      }
+    });
+
+    group.querySelectorAll<HTMLButtonElement>('button.copy').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const text = btn.dataset.copy ?? '';
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.classList.add('copied');
+          btn.textContent = 'copied';
+          setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.textContent = 'copy';
+          }, 1400);
+        } catch {
+          /* ignore */
+        }
+      });
+    });
+  });
+</script>

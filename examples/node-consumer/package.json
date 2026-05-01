@@ -1,0 +1,18 @@
+{
+  "name": "neuro-js-node-consumer",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Smoke test: install neuro-js as a package and run a few wrappers in classic Node.js with a stubbed proxy.",
+  "scripts": {
+    "start": "node index.mjs",
+    "smoke": "node smoke.mjs",
+    "smoke:tsx": "tsx smoke.ts"
+  },
+  "dependencies": {
+    "neuro-js": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "4.19.2"
+  }
+}

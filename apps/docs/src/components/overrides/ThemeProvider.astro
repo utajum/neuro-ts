@@ -1,0 +1,33 @@
+---
+/**
+ * Override of Starlight's stock ThemeProvider. Two changes:
+ *
+ *   1. Default theme is `light` (not system-preference), so first-visit
+ *      readers land on the warm-paper canvas. Returning visitors keep
+ *      whatever they last picked via the toggle in the header (stored
+ *      under the same `starlight-theme` localStorage key as upstream).
+ *
+ *   2. We strip the `<template id="theme-icons">` and the `auto`/dropdown
+ *      hooks that the stock provider exposes, since our ThemeSelect
+ *      override is a two-state toggle (light/dark only), no `auto`.
+ *
+ * The `is:inline` script must run before paint to avoid a flash of the
+ * wrong theme; keeping it small.
+ */
+---
+
+<script is:inline>
+  window.StarlightThemeProvider = (() => {
+    const stored = typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+    const theme = stored === 'dark' || stored === 'light' ? stored : 'light';
+    document.documentElement.dataset.theme = theme;
+    return {
+      updatePickers(next) {
+        const value = next === 'dark' || next === 'light' ? next : theme;
+        document
+          .querySelectorAll('starlight-theme-toggle')
+          .forEach((el) => el.setAttribute('data-active-theme', value));
+      },
+    };
+  })();
+</script>

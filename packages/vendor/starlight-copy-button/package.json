@@ -1,0 +1,24 @@
+{
+  "name": "starlight-copy-button",
+  "version": "0.1.0-vendored",
+  "license": "MIT",
+  "description": "Vendored fork of dionysuzx/starlight-copy-button. Adds a copy-as-markdown button to Starlight pages. Peer widened to support Astro 6.",
+  "author": "dionysuz",
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./client": "./client.ts",
+    "./styles.css": "./styles.css"
+  },
+  "dependencies": {
+    "turndown": "^7.2.1",
+    "turndown-plugin-gfm": "^1.0.2"
+  },
+  "peerDependencies": {
+    "@astrojs/starlight": ">=0.31",
+    "astro": ">=5.15.9"
+  },
+  "engines": {
+    "node": ">=18.17.1"
+  }
+}

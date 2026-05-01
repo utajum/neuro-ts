@@ -1,0 +1,49 @@
+---
+/**
+ * PromptCard - renders the auto-generated system prompt for a single
+ * `neuro.*` wrapper. Pulls data from `neuro-js`'s emitted `prompts.json`.
+ *
+ * `name` is the dotted namespace key, e.g. `neuro.array.map` or
+ * `neuro.parseInt` for top-level globals.
+ */
+import prompts from 'neuro-js/prompts';
+
+interface Props {
+  /** Wrapper name, e.g. `neuro.array.map`. */
+  name: string;
+}
+const { name } = Astro.props as Props;
+const entry = (
+  prompts as Record<
+    string,
+    {
+      group: string;
+      methodName: string;
+      functionId: string;
+      systemPrompt: string;
+      kind: 'instance' | 'static' | 'global';
+      overloads: { params: string; returnType: string; jsDoc: string }[];
+    }
+  >
+)[name];
+---
+
+{
+  entry ? (
+    <div class="neuro-prompt-card not-content">
+      <header>
+        <span class="label">Generated prompt</span>
+        <span>
+          <code>{entry.functionId}</code>
+        </span>
+      </header>
+      <pre>{entry.systemPrompt}</pre>
+    </div>
+  ) : (
+    <p>
+      <em>
+        No prompt entry found for <code>{name}</code>.
+      </em>
+    </p>
+  )
+}

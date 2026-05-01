@@ -1,0 +1,779 @@
+/*
+ * neuro-js Starlight theme. Minimal dark, single warm accent.
+ *
+ * Kept tight: tinted near-black canvas, amber-to-ember accent, no gradient
+ * text, no glassmorphism, no nested cards, no big visual ornaments. The
+ * library is the product; the docs site stays out of its way.
+ */
+
+:root {
+  /* Brand ramp (iron-oxide). OKLCH, chroma reduced toward extremes. */
+  --neuro-50: oklch(98.5% 0.02 78);
+  --neuro-100: oklch(94.5% 0.06 80);
+  --neuro-200: oklch(88% 0.11 75);
+  --neuro-300: oklch(80.5% 0.15 65);
+  --neuro-400: oklch(74% 0.18 55);
+  --neuro-500: oklch(65% 0.2 47);
+  --neuro-600: oklch(55% 0.18 40);
+  --neuro-700: oklch(45% 0.15 35);
+  --neuro-800: oklch(36% 0.11 32);
+  --neuro-900: oklch(28% 0.08 30);
+  --neuro-950: oklch(18% 0.05 28);
+
+  /* Coal canvas. Warm-shifted neutrals, chroma only 0.012-0.020. */
+  --neuro-bg-0: oklch(13% 0.012 60);
+  --neuro-bg-1: oklch(15.5% 0.014 58);
+  --neuro-bg-2: oklch(18% 0.018 50);
+  --neuro-bg-3: oklch(22% 0.02 45);
+
+  --neuro-fg-1: oklch(95% 0.012 78);
+  --neuro-fg-2: oklch(80% 0.015 78);
+  --neuro-fg-3: oklch(60% 0.012 75);
+
+  --neuro-code-bg: oklch(15% 0.018 55);
+  --neuro-code-border: oklch(24% 0.022 50);
+
+  --neuro-font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --neuro-font-sans:
+    'Geist', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Dark theme (default). Coal canvas, ember accent. */
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --sl-color-accent: var(--neuro-400);
+  --sl-color-accent-low: var(--neuro-800);
+  --sl-color-accent-high: var(--neuro-200);
+
+  --sl-color-white: var(--neuro-fg-1);
+  --sl-color-gray-1: var(--neuro-fg-1);
+  --sl-color-gray-2: var(--neuro-fg-2);
+  --sl-color-gray-3: var(--neuro-fg-3);
+  --sl-color-gray-4: oklch(38% 0.013 75);
+  --sl-color-gray-5: var(--neuro-bg-3);
+  --sl-color-gray-6: var(--neuro-bg-2);
+  --sl-color-gray-7: var(--neuro-bg-1);
+  --sl-color-black: var(--neuro-bg-0);
+
+  --sl-color-bg: var(--neuro-bg-0);
+  --sl-color-bg-nav: var(--neuro-bg-1);
+  --sl-color-bg-sidebar: var(--neuro-bg-1);
+  --sl-color-bg-inline-code: var(--neuro-code-bg);
+  --sl-color-bg-accent: var(--neuro-600);
+
+  --sl-color-text: var(--neuro-fg-1);
+  --sl-color-text-accent: var(--neuro-300);
+  --sl-color-text-invert: var(--neuro-bg-0);
+
+  --sl-color-hairline-light: var(--neuro-bg-3);
+  --sl-color-hairline: var(--neuro-bg-3);
+  --sl-color-hairline-shade: oklch(20% 0.02 45);
+
+  --sl-font: var(--neuro-font-sans);
+  --sl-font-mono: var(--neuro-font-mono);
+
+  /* Per-mode tokens. Surfaces uses the warm coal ramp. */
+  --neuro-surface-0: var(--neuro-bg-0);
+  --neuro-surface-1: var(--neuro-bg-1);
+  --neuro-surface-2: var(--neuro-bg-2);
+  --neuro-surface-3: var(--neuro-bg-3);
+  --neuro-text-1: var(--neuro-fg-1);
+  --neuro-text-2: var(--neuro-fg-2);
+  --neuro-text-3: var(--neuro-fg-3);
+  --neuro-link: var(--neuro-300);
+  --neuro-link-hover: var(--neuro-100);
+  --neuro-accent-strong: var(--neuro-400);
+  --neuro-accent-soft: color-mix(in srgb, var(--neuro-600) 12%, var(--neuro-bg-1));
+  --neuro-table-head-bg: color-mix(in srgb, var(--neuro-600) 14%, var(--neuro-bg-1));
+  --neuro-table-row-alt: color-mix(in srgb, var(--neuro-bg-1) 60%, var(--neuro-bg-0));
+  --neuro-page-glow: radial-gradient(
+    60% 36% at 50% -8%,
+    color-mix(in srgb, var(--neuro-700) 16%, transparent) 0%,
+    transparent 60%
+  );
+
+  /*
+   * Site-graph node palette. The vendored starlight-site-graph reads
+   * `--slsg-node-color-1..5` to drive per-section node colours
+   * (configured via `sitemapConfig.styleRules` in `astro.config.mjs`).
+   * Saturated enough to read on the dark canvas; restraint via
+   * relatively low chroma in the violet/cyan slots so the brand amber
+   * stays loudest.
+   */
+  --slsg-graph-bg-color: transparent;
+  --slsg-node-color-1: oklch(76% 0.18 55); /* methods - brand amber */
+  --slsg-node-color-2: oklch(74% 0.12 195); /* guides - cool teal */
+  --slsg-node-color-3: oklch(72% 0.16 295); /* concepts - violet */
+  --slsg-node-color-4: oklch(70% 0.03 50); /* api - warm slate */
+  --slsg-node-color-5: oklch(82% 0.16 90); /* support - gold */
+  --slsg-node-color-current: oklch(80% 0.19 60);
+  --slsg-node-color-visited: oklch(58% 0.09 55);
+  --slsg-node-color-unresolved: oklch(50% 0.025 50);
+  --slsg-node-color-external: oklch(78% 0.09 220);
+  --slsg-node-color-tag: oklch(72% 0.14 320);
+  --slsg-link-color: oklch(45% 0.04 50);
+  --slsg-link-color-hover: var(--neuro-300);
+  --slsg-link-color-muted: oklch(35% 0.02 50);
+  --slsg-label-color: var(--neuro-text-2);
+  --slsg-label-color-hover: var(--neuro-text-1);
+  --slsg-label-color-muted: var(--neuro-text-3);
+}
+
+/* Light theme. Warm-paper canvas, deeper iron-oxide accent for contrast. */
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  /* Light surfaces tuned to a warm-paper feel (oat / cream / sand). */
+  --neuro-paper-0: oklch(98.4% 0.01 85);
+  --neuro-paper-1: oklch(96% 0.014 84);
+  --neuro-paper-2: oklch(93% 0.018 82);
+  --neuro-paper-3: oklch(88% 0.022 80);
+
+  --neuro-ink-1: oklch(22% 0.022 45);
+  --neuro-ink-2: oklch(36% 0.028 45);
+  --neuro-ink-3: oklch(48% 0.03 45);
+
+  --sl-color-accent: var(--neuro-700);
+  --sl-color-accent-low: oklch(94% 0.04 75);
+  --sl-color-accent-high: var(--neuro-800);
+
+  --sl-color-white: var(--neuro-ink-1);
+  --sl-color-gray-1: var(--neuro-ink-1);
+  --sl-color-gray-2: var(--neuro-ink-2);
+  --sl-color-gray-3: var(--neuro-ink-3);
+  --sl-color-gray-4: oklch(60% 0.024 60);
+  --sl-color-gray-5: var(--neuro-paper-3);
+  --sl-color-gray-6: var(--neuro-paper-2);
+  --sl-color-gray-7: var(--neuro-paper-1);
+  --sl-color-black: var(--neuro-paper-0);
+
+  --sl-color-bg: var(--neuro-paper-0);
+  --sl-color-bg-nav: var(--neuro-paper-1);
+  --sl-color-bg-sidebar: var(--neuro-paper-1);
+  --sl-color-bg-inline-code: var(--neuro-paper-2);
+  --sl-color-bg-accent: var(--neuro-700);
+
+  --sl-color-text: var(--neuro-ink-1);
+  --sl-color-text-accent: var(--neuro-800);
+  --sl-color-text-invert: var(--neuro-paper-0);
+
+  --sl-color-hairline-light: var(--neuro-paper-3);
+  --sl-color-hairline: oklch(82% 0.022 75);
+  --sl-color-hairline-shade: var(--neuro-paper-3);
+
+  --neuro-surface-0: var(--neuro-paper-0);
+  --neuro-surface-1: var(--neuro-paper-1);
+  --neuro-surface-2: var(--neuro-paper-2);
+  --neuro-surface-3: var(--neuro-paper-3);
+  --neuro-text-1: var(--neuro-ink-1);
+  --neuro-text-2: var(--neuro-ink-2);
+  --neuro-text-3: var(--neuro-ink-3);
+  --neuro-link: var(--neuro-800);
+  --neuro-link-hover: var(--neuro-700);
+  --neuro-accent-strong: var(--neuro-700);
+  --neuro-accent-soft: oklch(94% 0.04 78);
+  --neuro-code-bg: var(--neuro-paper-2);
+  --neuro-code-border: oklch(82% 0.025 78);
+  --neuro-table-head-bg: oklch(95% 0.03 80);
+  --neuro-table-row-alt: var(--neuro-paper-1);
+  --neuro-page-glow: radial-gradient(
+    60% 36% at 50% -8%,
+    color-mix(in srgb, var(--neuro-300) 14%, transparent) 0%,
+    transparent 60%
+  );
+
+  /*
+   * Site-graph palette in light mode. We deepen everything (lower
+   * lightness, slightly higher chroma) so saturated dots read on the
+   * pale paper canvas. Same hue families as the dark variants so the
+   * graph feels like the same illustration in two skins.
+   */
+  --slsg-node-color-1: oklch(55% 0.18 50); /* methods - iron amber */
+  --slsg-node-color-2: oklch(48% 0.11 210); /* guides - deep teal */
+  --slsg-node-color-3: oklch(46% 0.15 295); /* concepts - aubergine */
+  --slsg-node-color-4: oklch(45% 0.025 50); /* api - dark slate */
+  --slsg-node-color-5: oklch(60% 0.14 85); /* support - rich gold */
+  --slsg-node-color-current: oklch(50% 0.19 55);
+  --slsg-node-color-visited: oklch(70% 0.06 55);
+  --slsg-node-color-unresolved: oklch(75% 0.02 50);
+  --slsg-node-color-external: oklch(58% 0.09 220);
+  --slsg-node-color-tag: oklch(55% 0.15 320);
+  --slsg-link-color: oklch(78% 0.03 60);
+  --slsg-link-color-hover: var(--neuro-700);
+  --slsg-link-color-muted: oklch(86% 0.014 60);
+  --slsg-label-color: var(--neuro-text-2);
+  --slsg-label-color-hover: var(--neuro-text-1);
+  --slsg-label-color-muted: var(--neuro-text-3);
+}
+
+/* ---- Page chrome ------------------------------------------------------- */
+
+body {
+  background: var(--neuro-page-glow), var(--sl-color-bg);
+  background-attachment: fixed;
+}
+
+header.header {
+  border-bottom: 1px solid var(--sl-color-hairline);
+}
+
+.site-title {
+  font-family: var(--neuro-font-mono);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* ---- Layout: wider center column, tighter right rail, bigger graph --- */
+
+/*
+ * Starlight ships:
+ *   --sl-content-width: 45rem  (default; bumps to 67.5rem on >72rem screens)
+ *   --sl-sidebar-width: 18.75rem
+ *
+ * Most code samples on the per-method pages need more horizontal room
+ * than the stock 67.5rem allows (long signatures + the prompt JSON
+ * card). At the same time the right rail (TOC + site graph + backlinks)
+ * has lots of dead space at the bottom of the viewport because the
+ * 250x250 graph leaves a wide gutter to its right. We:
+ *
+ *   - Bump --sl-content-width so prose, tables and code blocks claim
+ *     more screen at >=72rem viewports without breaking the narrow
+ *     mobile layout.
+ *   - Enlarge the site-graph component so it fills its sidebar slot
+ *     instead of perching in the upper-left corner.
+ *   - Widen the right sidebar's graph panel padding inward so the
+ *     panel itself sits flush against the column edges.
+ */
+:root {
+  --sl-content-width: 56rem;
+}
+/*
+ * Responsive content width ladder.
+ *
+ * Starlight's three-column layout is:
+ *   [left nav 18.75rem] [content --sl-content-width] [right sidebar ~16rem]
+ *
+ * At 72rem the right sidebar appears. We keep content width modest at
+ * that breakpoint so the right rail (TOC + graph) always has room.
+ * Only at very wide viewports (≥110rem) do we open up to 80rem.
+ *
+ * 72-89rem  → 44rem  content  (right sidebar comfortably visible)
+ * 90-109rem → 60rem  content  (more breathing room)
+ * ≥110rem   → 80rem  content  (large monitors)
+ */
+@media (min-width: 72rem) {
+  :root {
+    --sl-content-width: 44rem;
+  }
+}
+@media (min-width: 90rem) {
+  :root {
+    --sl-content-width: 60rem;
+  }
+}
+@media (min-width: 110rem) {
+  :root {
+    --sl-content-width: 80rem;
+  }
+}
+
+/* Site-graph: bigger square. The simulator (PixiJS) reads
+ * `clientWidth` / `clientHeight` from the container at boot, which
+ * means the graph needs concrete pixel dimensions; using `100%` /
+ * `aspect-ratio` makes the canvas measure 0x0 before layout settles
+ * and the graph never paints. Keep the values numeric and bump from
+ * the upstream 250px default to 320px for more breathing room. */
+:root {
+  --slsg-graph-width: 320px;
+  --slsg-graph-height: 320px;
+}
+/* Tighten the panel chrome so the bigger square has room without
+ * forcing a horizontal scroll on narrower right rails. */
+.slsg-graph-panel {
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+.right-sidebar-panel {
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+
+/*
+ * Hide the Graph View on mobile / narrow viewports (<72rem).
+ * Below 72rem Starlight collapses the right sidebar into a drawer;
+ * the graph panel is heavy (PixiJS canvas) and not useful on small
+ * screens, so we suppress it entirely at that breakpoint.
+ */
+@media (max-width: 71.999rem) {
+  .slsg-graph-panel {
+    display: none !important;
+  }
+}
+
+/* Disable font ligatures in all monospace/code contexts so operators
+ * like !== and => render as individual characters, not merged glyphs. */
+code,
+pre,
+kbd,
+samp,
+[class*='expressive-code'],
+.sl-markdown-content code,
+.sl-markdown-content pre {
+  font-variant-ligatures: none;
+}
+
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3 {
+  font-family: var(--neuro-font-sans);
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: var(--neuro-text-1);
+}
+.sl-markdown-content h1 {
+  font-size: 2.1rem;
+  line-height: 1.15;
+  margin-bottom: 0.4em;
+}
+.sl-markdown-content h2 {
+  font-size: 1.4rem;
+  margin-top: 2.4rem;
+}
+.sl-markdown-content h3 {
+  font-size: 1.1rem;
+  margin-top: 1.8rem;
+}
+
+/* ---- Code -------------------------------------------------------------- */
+
+.sl-markdown-content pre,
+.expressive-code .frame {
+  background: var(--neuro-code-bg) !important;
+  border: 1px solid var(--neuro-code-border);
+  border-radius: 8px;
+}
+
+.sl-markdown-content code:not(pre > code) {
+  background: var(--neuro-accent-soft);
+  border: 1px solid var(--neuro-code-border);
+  color: var(--neuro-text-1);
+  padding: 0.06em 0.32em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* ---- Sidebar ----------------------------------------------------------- */
+
+/* Hover on non-selected entries: faint warm wash, accent text. */
+.sidebar-content a:hover,
+nav.sidebar a:hover {
+  color: var(--neuro-link-hover);
+  background: color-mix(in srgb, var(--neuro-accent-strong) 6%, transparent);
+}
+
+/* Selected entry. Starlight's default selected rule pairs
+ * `bg: --sl-color-text-accent` with `color: --sl-color-text-invert`; here
+ * we use a low-tint warm fill plus the highest-contrast neutral text in
+ * each mode and a 2px inset accent rail on the left edge. The inset
+ * shadow keeps the layout stable (a real border would reflow content).
+ *
+ * The :hover/:focus duplicates lock our colours over Starlight's own
+ * built-in [aria-current='page']:hover and :focus rules. */
+.sidebar-content a[aria-current='page'],
+.sidebar-content a[aria-current='page']:hover,
+.sidebar-content a[aria-current='page']:focus,
+nav.sidebar a[aria-current='page'],
+nav.sidebar a[aria-current='page']:hover,
+nav.sidebar a[aria-current='page']:focus {
+  background: var(--neuro-accent-soft);
+  color: var(--neuro-text-1);
+  font-weight: 600;
+  box-shadow: inset 2px 0 0 var(--neuro-accent-strong);
+}
+
+/* ---- Links ------------------------------------------------------------- */
+
+.sl-markdown-content a:not(.not-content *) {
+  color: var(--neuro-link);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--neuro-accent-strong) 30%, transparent);
+  text-underline-offset: 3px;
+  transition:
+    color 120ms ease,
+    text-decoration-color 120ms ease;
+}
+.sl-markdown-content a:not(.not-content *):hover {
+  color: var(--neuro-link-hover);
+  text-decoration-color: var(--neuro-accent-strong);
+}
+
+/* ---- Tables ------------------------------------------------------------ */
+
+/*
+ * Starlight defaults `.sl-markdown-content table` to `display: block;
+ * overflow: auto` so a wide table can horizontally scroll on narrow
+ * screens. The side-effect: every table shrinks to its intrinsic
+ * content width, so a 3-column "Mode | Use when | Doc" table sits
+ * squished on the left of the markdown well.
+ *
+ * We restore proper table layout (display: table) and force the table
+ * to span the available width. To preserve the wide-content
+ * scroll-affordance we cap with `max-width: 100%` and let cell `code`
+ * blocks wrap-and-break their characters so a fat method signature
+ * does not push a column past the right edge.
+ *
+ * Selectors carry one extra class (`.sl-markdown-content`) over
+ * Starlight's stock rule, plus an explicit `:where(table)` to keep
+ * specificity equal while ordering wins via cascade.
+ */
+/*
+ * Tables — clean, modern, framework-docs style.
+ *
+ * - Auto width: tables size to their content, never stretch to fill the
+ *   column unless they naturally need to.
+ * - Subtle border + soft shadow lifts the table off the page without
+ *   looking like a card.
+ * - Header row uses a slightly elevated background with a clear bottom
+ *   divider. No bold-all-caps — just weight + muted colour.
+ * - Rows separated by hairline borders; no zebra stripe (too noisy with
+ *   the dark canvas).
+ */
+.sl-markdown-content > :where(table),
+.sl-markdown-content table {
+  display: table;
+  width: auto;
+  max-width: 100%;
+  table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1.25rem 0;
+  font-size: 0.875rem;
+  box-shadow:
+    0 1px 3px color-mix(in srgb, var(--neuro-bg-0) 50%, transparent),
+    0 4px 12px color-mix(in srgb, var(--neuro-bg-0) 30%, transparent);
+}
+.sl-markdown-content thead {
+  background: var(--neuro-table-head-bg);
+}
+.sl-markdown-content thead th {
+  padding: 0.6rem 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: var(--neuro-font-sans);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--neuro-text-3);
+  border-bottom: 1px solid var(--sl-color-hairline);
+  white-space: nowrap;
+}
+.sl-markdown-content tbody tr {
+  transition: background 100ms ease;
+}
+.sl-markdown-content tbody tr:hover {
+  background: color-mix(in srgb, var(--neuro-accent-strong) 4%, transparent);
+}
+.sl-markdown-content tbody td {
+  padding: 0.6rem 1rem;
+  vertical-align: top;
+  border-bottom: 1px solid var(--sl-color-hairline-light);
+  line-height: 1.55;
+  color: var(--neuro-text-1);
+}
+.sl-markdown-content tbody tr:last-child td {
+  border-bottom: 0;
+}
+.sl-markdown-content table p {
+  margin: 0;
+}
+/* Inline code in cells: wrap long signatures instead of blowing out the column. */
+.sl-markdown-content table code {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+/* TypeDoc nested <p> tags inside <td> produce extra vertical gaps. */
+.sl-markdown-content table td > p:first-child {
+  margin-top: 0;
+}
+.sl-markdown-content table td > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Opt-in: stretch a table to fill the full content column. */
+.sl-markdown-content .neuro-table-wide table {
+  width: 100%;
+}
+/* Legacy alias. */
+.sl-markdown-content .neuro-table-fit table {
+  width: auto;
+  max-width: 100%;
+}
+
+/* ---- Hero -------------------------------------------------------------- */
+
+.neuro-hero {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1.6rem 0 1.4rem;
+  border-bottom: 1px solid var(--sl-color-hairline);
+  margin-bottom: 1.6rem;
+}
+.neuro-hero h1 {
+  font-size: clamp(1.9rem, 2.8vw + 0.4rem, 2.8rem);
+  margin: 0;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--neuro-text-1);
+}
+.neuro-hero .tag {
+  font-family: var(--neuro-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--neuro-accent-strong);
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.neuro-hero .tag::before {
+  content: '';
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--neuro-500);
+}
+.neuro-hero p.lede {
+  font-size: 1rem;
+  color: var(--neuro-text-2);
+  max-width: 60ch;
+  margin: 0.3rem 0 0;
+  line-height: 1.55;
+}
+.neuro-hero .actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
+}
+.neuro-hero .actions a {
+  text-decoration: none;
+  font-family: var(--neuro-font-mono);
+  font-size: 0.82rem;
+  padding: 0.45rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid var(--sl-color-hairline);
+  color: var(--neuro-text-1);
+  background: var(--neuro-surface-1);
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  transition:
+    border-color 120ms ease,
+    color 120ms ease;
+}
+.neuro-hero .actions a:hover {
+  border-color: var(--neuro-accent-strong);
+  color: var(--neuro-link-hover);
+}
+/* Primary stands out via a solid accent border (siblings use hairline)
+ * and a slightly warmer fill, keeping it inside the muted palette. */
+.neuro-hero .actions a.primary {
+  background: var(--neuro-accent-soft);
+  border-color: var(--neuro-accent-strong);
+  color: var(--neuro-text-1);
+  font-weight: 600;
+}
+.neuro-hero .actions a.primary:hover {
+  border-color: var(--neuro-accent-strong);
+  color: var(--neuro-link-hover);
+  transform: translateY(-1px);
+}
+
+/* ---- Install tabs ------------------------------------------------------ */
+
+.neuro-install {
+  display: grid;
+  gap: 0.4rem;
+}
+.neuro-install [role='tablist'] {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 7px;
+  background: var(--neuro-surface-1);
+  border: 1px solid var(--sl-color-hairline);
+  width: fit-content;
+}
+.neuro-install button[role='tab'] {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0.32rem 0.72rem;
+  font-family: var(--neuro-font-mono);
+  font-size: 0.78rem;
+  color: var(--neuro-text-3);
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    color 140ms ease,
+    background 140ms ease;
+}
+.neuro-install button[role='tab']:hover {
+  color: var(--neuro-text-2);
+}
+.neuro-install button[role='tab'][aria-selected='true'] {
+  background: var(--neuro-accent-soft);
+  color: var(--neuro-text-1);
+  box-shadow: inset 0 -2px 0 var(--neuro-accent-strong);
+}
+.neuro-install [role='tabpanel'] {
+  position: relative;
+  border: 1px solid var(--neuro-code-border);
+  border-radius: 8px;
+  background: var(--neuro-code-bg);
+  padding: 0.7rem 0.95rem;
+  font-family: var(--neuro-font-mono);
+  font-size: 0.86rem;
+}
+.neuro-install [role='tabpanel'][hidden] {
+  display: none;
+}
+.neuro-install [role='tabpanel'] code {
+  color: var(--neuro-text-1);
+}
+.neuro-install [role='tabpanel'] code .prompt {
+  color: var(--neuro-accent-strong);
+  user-select: none;
+  margin-right: 0.4rem;
+}
+.neuro-install button.copy {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-family: var(--neuro-font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--neuro-surface-2);
+  color: var(--neuro-text-2);
+  border: 1px solid var(--sl-color-hairline);
+  padding: 0.22rem 0.45rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.neuro-install button.copy:hover {
+  color: var(--neuro-link-hover);
+  border-color: var(--neuro-accent-strong);
+}
+.neuro-install button.copy.copied {
+  color: var(--neuro-accent-strong);
+  border-color: var(--neuro-accent-strong);
+}
+
+/* ---- Prompt card ------------------------------------------------------- */
+
+.neuro-prompt-card {
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 8px;
+  background: var(--neuro-surface-1);
+  padding: 0.85rem 1rem;
+  margin: 1.2rem 0;
+}
+.neuro-prompt-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  font-family: var(--neuro-font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--neuro-text-3);
+  margin-bottom: 0.5rem;
+  background: none;
+  border: 0;
+  padding: 0;
+  backdrop-filter: none;
+}
+.neuro-prompt-card .label {
+  color: var(--neuro-accent-strong);
+}
+.neuro-prompt-card pre {
+  margin: 0;
+  white-space: pre-wrap;
+  background: var(--neuro-code-bg);
+  border: 1px solid var(--neuro-code-border);
+  border-radius: 6px;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.78rem;
+  color: var(--neuro-text-2);
+  max-height: 300px;
+  overflow: auto;
+}
+
+/* ---- Catalog group columns -------------------------------------------- */
+
+.neuro-catalog ul {
+  columns: 2;
+  column-gap: 2rem;
+  padding-left: 1rem;
+}
+.neuro-catalog small {
+  color: var(--neuro-text-3);
+  font-weight: 400;
+}
+
+/* ---- API method-catalog group grid ------------------------------------ */
+
+.neuro-group-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.6rem;
+  margin: 1.2rem 0 2rem;
+}
+.neuro-group-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 8px;
+  background: var(--neuro-surface-1);
+  text-decoration: none !important;
+  color: var(--neuro-text-1) !important;
+  transition:
+    border-color 140ms ease,
+    transform 140ms ease;
+}
+.neuro-group-card:hover {
+  border-color: var(--neuro-accent-strong);
+  transform: translateY(-1px);
+}
+.neuro-group-card strong {
+  font-family: var(--neuro-font-sans);
+  font-size: 0.95rem;
+  color: var(--neuro-text-1);
+}
+.neuro-group-card span {
+  font-family: var(--neuro-font-mono);
+  font-size: 0.72rem;
+  color: var(--neuro-text-3);
+  letter-spacing: 0.04em;
+}
+
+/* ---- Reduced motion ---------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

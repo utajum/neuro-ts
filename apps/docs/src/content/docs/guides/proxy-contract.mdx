@@ -1,0 +1,135 @@
+---
+title: Custom proxy contract
+description: Wire format between the neuro-js SDK and your proxy endpoint.
+---
+
+When you call `configureClient({ proxyUrl })`, the SDK serialises every
+function invocation to JSON and POSTs it to your endpoint. Your endpoint
+returns a JSON envelope holding the LLM result.
+
+## Request
+
+```http
+POST /api/neuro HTTP/1.1
+Content-Type: application/json
+```
+
+```ts
+interface NeuroProxyRequest {
+  /** e.g. "Array.prototype.map", "Math.random", "globalThis.parseInt". */
+  functionId: string;
+
+  /** Natural-language prompt as supplied by the application. */
+  prompt: string;
+
+  /**
+   * Receiver / `this` value, JSON-serialised by the SDK with safe handling
+   * of Date, Map, Set, RegExp, BigInt, TypedArrays, and circular refs.
+   * `null` for static methods.
+   */
+  instanceData: string | null;
+
+  /**
+   * Named arguments map. Keys mirror the original JavaScript built-in's
+   * parameter names (e.g. `callbackfn`, `searchString`, `fromIndex`).
+   * Variadic items live under their declared rest-parameter name
+   * (e.g. `items`, `values`, `codes`).
+   */
+  args: Record<string, unknown>;
+
+  /** Original parameter signature for the LLM. */
+  signatureHint: { name: string; type: string }[];
+
+  /**
+   * Frozen, generated system prompt for this method. Forwarding it
+   * verbatim is recommended. `neuro-js` ships the same string in
+   * `prompts.json` so consumers can audit.
+   */
+  systemPrompt: string;
+
+  /** Model the SDK requested (already merged with NeuroClient defaults). */
+  model: string;
+}
+```
+
+## Response
+
+The SDK accepts three shapes (in order of preference):
+
+```ts
+// 1. Wrapped result. Recommended.
+{ "result": <any JSON value> }
+
+// 2. Wrapped text (will be parsed as JSON; falls back to raw string).
+{ "text": "[1, 4, 9]" }
+
+// 3. Bare value.
+[1, 4, 9]
+```
+
+Non-2xx responses surface as `NeuroClientError` on the caller side, with
+the response body included in `error.message`.
+
+## Minimal Node.js implementation
+
+```ts
+import OpenAI from 'openai';
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+export async function POST(req) {
+  const body = await req.json();
+  const argLines = Object.entries(body.args ?? {})
+    .map(([k, v]) => `- ${k} = ${JSON.stringify(v)}`)
+    .join('\n');
+  const completion = await openai.chat.completions.create({
+    model: body.model,
+    temperature: 0.2,
+    messages: [
+      { role: 'system', content: body.systemPrompt },
+      {
+        role: 'user',
+        content:
+          `## User intent\n${body.prompt}\n\n` +
+          `## Function\n\`${body.functionId}\`\n\n` +
+          `## Receiver\n${body.instanceData ?? 'null'}\n\n` +
+          `## Named arguments\n${argLines || '(none)'}`,
+      },
+    ],
+  });
+  const text = completion.choices[0]?.message?.content ?? '';
+  let result = text;
+  try {
+    result = JSON.parse(text);
+  } catch {
+    /* leave raw */
+  }
+  return Response.json({ result });
+}
+```
+
+## Drop-in package
+
+`neuro-js-proxy` ships a Web-standard `(req: Request) => Response`
+handler that implements this contract:
+
+```ts
+import { createNeuroProxy } from 'neuro-js-proxy/proxy';
+
+export default {
+  fetch: createNeuroProxy({
+    apiKey: process.env.OPENAI_API_KEY,
+    defaultModel: 'gpt-4o-mini',
+    allowedFunctionIds: ['Array.prototype.map', 'Math.random'],
+  }),
+};
+```
+
+## Rate-limiting and abuse mitigations
+
+Because every request includes `prompt`, `instanceData`, and the named
+`args`, your proxy is the right layer to:
+
+1. Authenticate the caller (cookie session, OAuth, API key).
+2. Cap request size. The SDK already bounds `instanceData` at 8 KiB; the prompt is not bounded.
+3. Log `functionId` plus caller for billing and abuse review.
+4. Apply per-user rate limits.

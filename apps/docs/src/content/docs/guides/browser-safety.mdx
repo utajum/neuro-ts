@@ -1,0 +1,115 @@
+---
+title: Browser safety
+description: Use neuro-js in a browser without leaking long-lived API keys.
+---
+
+Browsers cannot safely hold long-lived OpenAI API keys. `neuro-js`
+refuses to use `apiKey` in any environment where `window` and `document`
+exist (throws `NeuroBrowserApiKeyError`).
+
+Two safe options are supported.
+
+## Option A: `proxyUrl`
+
+Run a thin server endpoint that you control. The browser SDK posts the
+function context to your endpoint, the endpoint forwards to OpenAI with
+your real key, then returns the result.
+
+```ts
+// browser
+import { configureClient, neuro } from 'neuro-js';
+
+configureClient({
+  proxyUrl: '/api/neuro',
+  fetchOptions: { headers: { 'x-csrf': csrfToken } },
+});
+
+await neuro.array.map({
+  array: ['a', 'b', 'c'],
+  callbackfn: (s) => s,
+  prompt: 'uppercase each',
+});
+```
+
+```ts
+// /api/neuro (Node / Edge handler)
+import OpenAI from 'openai';
+const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+export async function POST(req) {
+  const body = await req.json();
+  const argLines = Object.entries(body.args ?? {})
+    .map(([k, v]) => `- ${k} = ${JSON.stringify(v)}`)
+    .join('\n');
+  const completion = await client.chat.completions.create({
+    model: body.model ?? 'gpt-4o-mini',
+    temperature: 0.2,
+    messages: [
+      { role: 'system', content: body.systemPrompt },
+      {
+        role: 'user',
+        content: [
+          '## User intent',
+          body.prompt,
+          '## Function',
+          '`' + body.functionId + '`',
+          '## Receiver',
+          body.instanceData ?? 'null',
+          '## Named arguments',
+          argLines || '(none)',
+        ].join('\n'),
+      },
+    ],
+  });
+  const text = completion.choices[0]?.message?.content ?? '';
+  return Response.json({ result: tryJson(text) });
+}
+
+function tryJson(s) {
+  try {
+    return JSON.parse(s);
+  } catch {
+    return s;
+  }
+}
+```
+
+The full payload schema is documented in [Custom proxy contract](/guides/proxy-contract/).
+A drop-in implementation ships in the `neuro-js-proxy` package.
+
+## Option B: `tokenProvider` (ephemeral tokens)
+
+If you have a backend that can mint short-lived OpenAI session keys (or
+any OpenAI-compatible token), point the SDK at that endpoint with
+`tokenProvider`. The SDK calls OpenAI directly. Your long-lived key never
+touches the browser.
+
+```ts
+import { configureClient, neuro } from 'neuro-js';
+
+configureClient({
+  tokenProvider: async () => {
+    const r = await fetch('/api/neuro-token', { credentials: 'include' });
+    if (!r.ok) throw new Error('cannot mint token');
+    return (await r.json()).token;
+  },
+});
+
+await neuro.json.stringify({ value: { a: 1 }, space: 2, prompt: 'pretty print' });
+```
+
+`tokenProvider` is invoked once per request. Cache and refresh inside
+your implementation.
+
+## Comparison
+
+| Property                      | `proxyUrl`           | `tokenProvider`            |
+| ----------------------------- | -------------------- | -------------------------- |
+| Long-lived key on the server  | yes                  | yes                        |
+| Works on a static frontend    | needs a tiny backend | needs a tiny backend       |
+| Direct calls to OpenAI        | no (via your proxy)  | yes                        |
+| You control the system prompt | yes (server-side)    | yes (client-side, default) |
+| Easiest auditing              | yes (one server hop) | requires token tooling     |
+
+Start with `proxyUrl`. It is auditable, has obvious failure modes, and
+the round-trip cost is one extra hop.

@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "astro-build.astro-vscode",
+    "EditorConfig.EditorConfig",
+    "vivaxy.vscode-conventional-commits"
+  ]
+}

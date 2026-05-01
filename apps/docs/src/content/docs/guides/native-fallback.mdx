@@ -1,0 +1,39 @@
+---
+title: Native fallback
+description: What neuro-js does when no prompt is supplied.
+---
+
+Every `neuro.*` method has two modes, decided at the call site by the
+presence of a `prompt` key on the input object:
+
+| `prompt` field    | Behaviour                                                |
+| ----------------- | -------------------------------------------------------- |
+| Missing           | Calls the native built-in directly.                      |
+| Empty string `''` | Treated as missing - calls the native built-in directly. |
+| Non-empty string  | Routes to the configured LLM.                            |
+
+The native fallback is not a fallback in the "the LLM failed, fall back"
+sense. It is the default. The LLM is opt-in per call.
+
+```ts
+import { neuro } from 'neuro-js';
+
+await neuro.array.map({ array: [1, 2, 3], callbackfn: (n) => n * 2 });
+// [2, 4, 6]   <- native call, no client needed
+
+await neuro.string.split({ string: 'a,b,c', separator: ',' });
+// ['a', 'b', 'c']   <- native
+
+await neuro.object.keys({ o: { a: 1, b: 2 } });
+// ['a', 'b']   <- native
+```
+
+## Why both?
+
+The native path keeps `neuro-js` a strict superset of the standard library.
+You can wire `neuro` into existing code, ship it without breaking anything,
+then sprinkle prompts in only where they help.
+
+It also means `neuro-js` works with no `OPENAI_API_KEY` configured: as long
+as the input lacks a `prompt` field, the library is just a typed Promise
+wrapper over the original built-ins.

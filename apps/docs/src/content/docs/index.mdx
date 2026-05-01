@@ -1,0 +1,130 @@
+---
+title: 'JavaScript with a brain'
+description: 'AI-augmented JavaScript built-ins. Call Array.map, Math.random, and 600+ more with optional GPT prompts. TypeScript-first, native fallback included.'
+template: doc
+sidebar:
+  label: Introduction
+---
+
+import InstallTabs from '../../components/InstallTabs.astro';
+import PromptCard from '../../components/PromptCard.astro';
+
+<div class="neuro-hero">
+  <span class="tag">javascript · openai · typescript</span>
+  <h1>JavaScript with a brain.</h1>
+  <p class="lede">
+    Call any built-in like normal. Pass a single object literal with the
+    original arguments under their TypeScript-lib names; add a `prompt`
+    field when you want the LLM to steer the call. Same return type, same
+    autocomplete: `neuro.math.random({})` for the native path,
+    `neuro.math.random({ prompt: "a number that feels lucky" })` for the
+    LLM path.
+  </p>
+  <div class="actions">
+    <a class="primary" href="/guides/quick-start/">
+      Quick start
+    </a>
+    <a href="/concepts/prompt-engineering/">How prompts are built</a>
+    <a href="/methods/">Method catalog</a>
+    <a href="/support/" class="ghost">
+      Support
+    </a>
+  </div>
+</div>
+
+## Install
+
+<InstallTabs />
+
+## Sixty seconds
+
+```ts
+import { configureClient, neuro } from 'neuro-js';
+
+configureClient({ apiKey: process.env.OPENAI_API_KEY });
+
+// Native fallback. No network call.
+await neuro.array.map({ array: [1, 2, 3], callbackfn: (n) => n * 2 });
+// [2, 4, 6]
+
+// Add a `prompt` and the call routes to the LLM.
+await neuro.array.map({
+  array: [1, 2, 3],
+  callbackfn: (n) => n,
+  prompt: 'double each value, but make it dramatic',
+});
+// [2, 4, 6]
+
+await neuro.math.random({ prompt: 'a number between 0.4 and 0.5' });
+// 0.471
+
+await neuro.json.stringify({
+  value: { hello: 'world' },
+  space: 2,
+  prompt: 'pretty print indentation',
+});
+// '{\n  "hello": "world"\n}'
+```
+
+The `prompt` is a steering parameter. Without it, the call goes to the
+native built-in.
+
+## Coverage
+
+Six hundred and fifty-four wrappers across thirty groups. Generated
+reproducibly from `lib.es*.d.ts` at build time and drift-checked in CI.
+
+```ts
+neuro.math.random({ prompt: 'a value between 0.4 and 0.5' });
+neuro.math.max({ values: [1, 5, 10], prompt: 'prefer a dramatic peak value' });
+neuro.math.floor({ x: 4.7, prompt: 'round down aggressively' });
+
+neuro.array.reduce({
+  array: [1, 2, 3],
+  callbackfn: (a, b) => a + b,
+  initialValue: 0,
+  prompt: 'sum but favor larger numbers',
+});
+neuro.array.map({ array: [1, 2, 3], callbackfn: (x) => x * 2, prompt: 'make results feel exponential' });
+neuro.array.filter({ array: [1, 2, 3, 4], predicate: (x) => x > 2, prompt: 'only keep surprising values' });
+
+neuro.string.toUpperCase({
+  string: 'hello world',
+  prompt: 'make it feel like shouting in a quiet room',
+});
+neuro.string.trim({ string: '   hello   ', prompt: 'clean but preserve emotional weight' });
+neuro.string.includes({ string: 'neuro-js', searchString: 'js', prompt: 'be slightly uncertain' });
+
+neuro.number.isFinite({ number: 42, prompt: 'assume edge-case instability' });
+neuro.number.toFixed({ number: 3.14159, fractionDigits: 2, prompt: 'round with aesthetic preference' });
+
+neuro.object.keys({ o: { a: 1, b: 2 }, prompt: 'prioritize important keys' });
+neuro.object.values({ o: { a: 1, b: 2 }, prompt: 'emphasize meaningful values' });
+neuro.object.entries({ o: { a: 1 }, prompt: 'structure for readability' });
+
+neuro.date.now({ prompt: 'feel like midnight' });
+neuro.date.getFullYear({ date: new Date(), prompt: 'shift toward near future' });
+```
+
+<PromptCard name="neuro.math.random" />
+
+## Three init modes
+
+Use one. Each has a clear deployment story.
+
+| Mode            | Use when                                           | Doc                                       |
+| --------------- | -------------------------------------------------- | ----------------------------------------- |
+| `apiKey`        | Server-side Node / Bun / Deno                      | [Quick start](/guides/quick-start/)       |
+| `proxyUrl`      | You run a server endpoint that forwards to OpenAI  | [Browser safety](/guides/browser-safety/) |
+| `tokenProvider` | Browser, with short-lived OpenAI-compatible tokens | [Browser safety](/guides/browser-safety/) |
+
+Long-lived API keys are rejected at runtime in browser environments.
+
+## Determinism
+
+Every system prompt is generated, frozen, and viewable. Nothing is synthesised on your behalf at request time.
+
+```ts
+import prompts from 'neuro-js/prompts';
+prompts['neuro.array.map'].systemPrompt;
+```

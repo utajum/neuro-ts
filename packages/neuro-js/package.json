@@ -1,0 +1,77 @@
+{
+  "name": "neuro-js",
+  "version": "0.1.0",
+  "description": "AI-enhanced JavaScript builtins. Call any method with an object literal that may include a `prompt` field to route through your LLM.",
+  "keywords": [
+    "ai",
+    "openai",
+    "javascript",
+    "typescript",
+    "polyfill",
+    "llm",
+    "neuro",
+    "neuro-js"
+  ],
+  "author": "Vladimir Tasik <https://github.com/utajum>",
+  "license": "MIT",
+  "homepage": "https://neuro-js.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/utajum/neuro-js.git",
+    "directory": "packages/neuro-js"
+  },
+  "bugs": {
+    "url": "https://github.com/utajum/neuro-js/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "unpkg": "./dist/neuro-js.iife.js",
+  "jsdelivr": "./dist/neuro-js.iife.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    },
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.js",
+      "default": "./dist/browser.js"
+    },
+    "./prompts": "./dist/prompts.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "scripts": {
+    "generate": "tsx scripts/generate-wrappers.ts",
+    "generate:tests": "tsx scripts/generate-tests.ts",
+    "prebuild": "pnpm generate",
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "pretest": "pnpm build && pnpm generate:tests",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "openai": "6.35.0"
+  },
+  "devDependencies": {
+    "@types/node": "25.6.0",
+    "tsdown": "0.21.10",
+    "tsx": "4.21.0",
+    "typescript": "6.0.3",
+    "vitest": "4.1.5"
+  }
+}

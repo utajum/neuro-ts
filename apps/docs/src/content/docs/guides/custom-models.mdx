@@ -1,0 +1,66 @@
+---
+title: Custom models
+description: Configure a different default model or use an OpenAI-compatible endpoint.
+---
+
+`neuro-js` defaults to `gpt-4o-mini` because it is cheap and fast enough
+for one-shot built-in simulation. You can change this globally or per call.
+
+## Change the default model
+
+```ts
+import { configureClient } from 'neuro-js';
+
+configureClient({
+  apiKey: process.env.OPENAI_API_KEY,
+  model: 'gpt-4o',
+  temperature: 0.1,
+  maxTokens: 2048,
+});
+```
+
+## Per-call override (low level)
+
+The generated wrappers do not yet accept a per-call model parameter (kept
+intentionally tight to mirror the original signatures). To override per
+call, drop down to the client:
+
+```ts
+import { getClient } from 'neuro-js';
+
+const result = await getClient().executeFunction({
+  functionId: 'Array.prototype.map',
+  prompt: 'classify each item as fruit or vegetable',
+  instance: ['apple', 'carrot', 'banana'],
+  args: { callbackfn: undefined },
+  signatureHint: [],
+  systemPrompt:
+    'You are simulating Array.prototype.map. Output a JSON array of the same length.',
+  model: 'gpt-4o',
+});
+```
+
+## OpenAI-compatible endpoints
+
+Anything OpenAI-Chat-Completions-compatible works (vLLM, Ollama with the
+OpenAI shim, Azure OpenAI, OpenRouter, Together). Pass `baseURL`:
+
+```ts
+configureClient({
+  apiKey: process.env.OPENROUTER_API_KEY,
+  baseURL: 'https://openrouter.ai/api/v1',
+  model: 'meta-llama/llama-3.3-70b-instruct',
+});
+```
+
+```ts
+configureClient({
+  apiKey: process.env.OLLAMA_KEY ?? 'ollama',
+  baseURL: 'http://localhost:11434/v1',
+  model: 'llama3.3',
+});
+```
+
+Smaller or weaker models will struggle to follow the JSON-only output
+contract embedded in every system prompt. If you see prose coming back,
+raise `maxTokens`, lower `temperature`, or use a stronger model.

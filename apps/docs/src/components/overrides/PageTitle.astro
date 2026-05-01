@@ -1,0 +1,31 @@
+---
+/**
+ * Override of Starlight's stock `PageTitle` component.
+ *
+ * Goal: suppress the auto-emitted `<h1>` on the homepage (where our
+ * custom hero already provides one - a duplicate `<h1>neuro-js</h1>`
+ * stacked on top of the hero would be both bad SEO and visually
+ * redundant).
+ *
+ * On every other page, render the standard h1 exactly as upstream.
+ */
+// Constant inlined: Starlight's `constants` module is not exposed via
+// the package `exports` map.
+const PAGE_TITLE_ID = '_top';
+
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
+---
+
+{!isHome && <h1 id={PAGE_TITLE_ID}>{Astro.locals.starlightRoute.entry.data.title}</h1>}
+
+<style>
+  @layer starlight.core {
+    h1 {
+      margin-top: 1rem;
+      font-size: var(--sl-text-h1);
+      line-height: var(--sl-line-height-headings);
+      font-weight: 600;
+      color: var(--sl-color-white);
+    }
+  }
+</style>

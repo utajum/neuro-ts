@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40" fill="none" aria-label="neuro-js" role="img">
+  <defs>
+    <linearGradient id="ember" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffd189"/>
+      <stop offset="0.35" stop-color="#ff8f1a"/>
+      <stop offset="0.7" stop-color="#f56b07"/>
+      <stop offset="1" stop-color="#7a2f0d"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ff8f1a" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#ff8f1a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <g transform="translate(2 2)">
+    <!-- soft halo behind central node -->
+    <circle cx="18" cy="18" r="16" fill="url(#halo)"/>
+
+    <!-- nodes (12 dendrites + 4 mid + central) -->
+    <g stroke="url(#ember)" stroke-width="0.9" stroke-linecap="round" opacity="0.85">
+      <!-- ring 1 (close) -->
+      <line x1="18" y1="18" x2="9"  y2="3"/>
+      <line x1="18" y1="18" x2="18" y2="2"/>
+      <line x1="18" y1="18" x2="27" y2="3"/>
+      <line x1="18" y1="18" x2="34" y2="9"/>
+      <line x1="18" y1="18" x2="34" y2="18"/>
+      <line x1="18" y1="18" x2="34" y2="27"/>
+      <line x1="18" y1="18" x2="27" y2="33"/>
+      <line x1="18" y1="18" x2="18" y2="34"/>
+      <line x1="18" y1="18" x2="9"  y2="33"/>
+      <line x1="18" y1="18" x2="2"  y2="27"/>
+      <line x1="18" y1="18" x2="2"  y2="18"/>
+      <line x1="18" y1="18" x2="2"  y2="9"/>
+    </g>
+
+    <!-- mid satellites connecting outer nodes (extra texture) -->
+    <g stroke="url(#ember)" stroke-width="0.6" stroke-linecap="round" opacity="0.45">
+      <line x1="9"  y1="3"  x2="2"  y2="9"/>
+      <line x1="27" y1="3"  x2="34" y2="9"/>
+      <line x1="34" y1="27" x2="27" y2="33"/>
+      <line x1="9"  y1="33" x2="2"  y2="27"/>
+    </g>
+
+    <!-- outer node dots -->
+    <g fill="url(#ember)">
+      <circle cx="9"  cy="3"  r="1.4"/>
+      <circle cx="18" cy="2"  r="1.6"/>
+      <circle cx="27" cy="3"  r="1.4"/>
+      <circle cx="34" cy="9"  r="1.4"/>
+      <circle cx="34" cy="18" r="1.6"/>
+      <circle cx="34" cy="27" r="1.4"/>
+      <circle cx="27" cy="33" r="1.4"/>
+      <circle cx="18" cy="34" r="1.6"/>
+      <circle cx="9"  cy="33" r="1.4"/>
+      <circle cx="2"  cy="27" r="1.4"/>
+      <circle cx="2"  cy="18" r="1.6"/>
+      <circle cx="2"  cy="9"  r="1.4"/>
+    </g>
+
+    <!-- central node with ring -->
+    <circle cx="18" cy="18" r="6.2" fill="url(#ember)"/>
+    <circle cx="18" cy="18" r="2.4" fill="#08070a"/>
+  </g>
+
+  <!-- wordmark -->
+  <text
+    x="50"
+    y="26"
+    font-family='"Geist", system-ui, sans-serif'
+    font-weight="700"
+    font-size="20"
+    letter-spacing="-0.03em"
+    fill="#f6efe2"
+  >neuro<tspan fill="#ff8f1a">.js</tspan></text>
+</svg>

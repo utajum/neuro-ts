@@ -1,0 +1,79 @@
+---
+title: How prompts are built
+description: Anatomy of an auto-generated neuro-js system prompt.
+---
+
+import PromptCard from '../../../components/PromptCard.astro';
+
+Every wrapper has a deterministic, code-generated system prompt.
+Generation happens at build time from the TypeScript Compiler API
+walking `lib.*.d.ts`.
+
+## Anatomy of a prompt
+
+For each method we collect:
+
+1. The fully-qualified `functionId`, e.g. `Array.prototype.map`.
+2. Every overload signature exposed by TypeScript.
+3. The original JSDoc summary attached to the most expressive overload.
+4. The expected return type (used to instruct the LLM on output shape).
+
+We then assemble a system prompt with this rough structure:
+
+```text
+You are simulating the JavaScript built-in `Array.prototype.map`.
+
+## Original signature(s)
+  Overload 1: (callbackfn?: (value: T, index: number, array: T[]) => U, thisArg?: any) => U[]
+
+## JSDoc
+Calls a defined callback function on each element of an array, and returns
+an array that contains the results.
+
+## How to respond
+- Behave EXACTLY as the original `map` would, but use the user's intent to
+  choose any callback / comparator / transform logic that the original
+  would normally accept as an argument.
+- Strictly preserve the original return type and shape.
+- Output ONLY the JSON-encoded return value of the function call.
+- Do NOT include explanations, prose, comments, or markdown fences.
+- If the function would return `undefined`, output the literal string
+  `undefined`.
+- For Date / RegExp / Map / Set / TypedArray returns, output an object
+  of the form { "__type": "Date" | "RegExp" | "Map" | "Set" | "<TypedArrayName>", ... }
+  so the SDK can rehydrate it.
+```
+
+## Live examples
+
+<PromptCard name="neuro.array.map" />
+<PromptCard name="neuro.math.random" />
+<PromptCard name="neuro.json.stringify" />
+<PromptCard name="neuro.string.split" />
+<PromptCard name="neuro.object.keys" />
+
+## The contract principle
+
+Each prompt anchors the model to a specific method's contract — its
+signatures, return type, and JSDoc — instead of leaving it to interpret
+a free-form request. That constraint does most of the work: the input
+data travels through the original arguments, and the user's prompt only
+influences the behavioural choices the method would normally accept
+(the callback, comparator, or transform). The output shape is fixed
+before the model ever runs.
+
+The result is that `neuro.array.map([1,2,3], (n) => n, 'multiply by 3')`
+reliably returns an array of length 3, regardless of whether the
+underlying model has any awareness of JavaScript semantics.
+
+## Auditing
+
+Every prompt is shipped in `prompts.json`. To audit before deploy:
+
+```ts
+import prompts from 'neuro-js/prompts';
+
+for (const [name, entry] of Object.entries(prompts)) {
+  // entry.systemPrompt, entry.functionId, entry.overloads, entry.kind
+}
+```

@@ -1,0 +1,364 @@
+---
+/**
+ * Override of Starlight's default `SocialIcons.astro`. Renders the
+ * configured social links (GitHub) followed by a single, prominent
+ * "support" affordance that points at buymeacoffee.com.
+ *
+ * Design notes (impeccable-checked):
+ *   - The icon is a stroked spark / ember mark, NOT a coffee cup. The first
+ *     reflex for "buy me a coffee" is the BMC yellow cup; we deliberately
+ *     avoid it. The spark mirrors the project's logo network and stays
+ *     inside the Hot Iron palette (amber stroke on coal).
+ *   - Sized to read as the loudest element in the upper-right. Gets a
+ *     subtle hairline ring + pulse on hover, scoped tightly so it does
+ *     not noise up the rest of the chrome.
+ *   - Lives BEFORE the GitHub icon in source order so it occupies the
+ *     left-most position of the social cluster (the optical lead-in for
+ *     LTR readers scanning the header right-to-left).
+ */
+import config from 'virtual:starlight/user-config';
+import { Icon } from '@astrojs/starlight/components';
+import promptsRaw from 'neuro-js/prompts';
+
+const links = config.social || [];
+const SUPPORT_URL = 'https://buymeacoffee.com/utajum';
+
+// Build the full list of method URLs at build time so the
+// "random method" button can pick one without any network call.
+// Mirrors the slug logic in `scripts/generate-api-docs.ts` (lowercase
+// folder + lowercase method name).
+const prompts = promptsRaw as Record<string, { group: string; methodName: string }>;
+const RANDOM_METHOD_URLS: string[] = Object.values(prompts).map(
+  (p) =>
+    `/methods/${p.group.toLowerCase()}/${p.methodName
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')}/`,
+);
+---
+
+{
+  /*
+   * Random method button. The full list of methods is embedded once at
+   * build time (constant per release, ~700 entries, ~25 KB minified
+   * after URL-array compression by the bundler). Click handler picks
+   * uniformly at random and navigates client-side.
+   */
+}
+<button
+  type="button"
+  class="neuro-random-link sl-flex"
+  data-random-methods={JSON.stringify(RANDOM_METHOD_URLS)}
+  aria-label="Open a random method"
+  title="Random method"
+>
+  <span class="sr-only">Random method</span>
+  {
+    /* Icon-only button. Brain SVG sized to match the support pill's
+       text-plus-icon footprint (we set the wrapper width in CSS). */
+  }
+  <svg
+    class="neuro-random-icon"
+    aria-hidden="true"
+    viewBox="0 0 24 24"
+    width="22"
+    height="22"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    {
+      /* Stylised brain mark: two lobes + a central spark. The spark
+         (filled dot) doubles as the "neuron" cue, matching the
+         project's logo language. */
+    }
+    <path
+      d="M9 4.2A3.2 3.2 0 0 0 5.8 7.4 3 3 0 0 0 4 10v3a3 3 0 0 0 1.7 2.7A3 3 0 0 0 9 19a2.8 2.8 0 0 0 2.8-2.6V5.8A1.6 1.6 0 0 0 10.2 4 1.5 1.5 0 0 0 9 4.2Z"
+    ></path>
+    <path
+      d="M15 4.2A3.2 3.2 0 0 1 18.2 7.4 3 3 0 0 1 20 10v3a3 3 0 0 1-1.7 2.7A3 3 0 0 1 15 19a2.8 2.8 0 0 1-2.8-2.6V5.8A1.6 1.6 0 0 1 13.8 4 1.5 1.5 0 0 1 15 4.2Z"
+    ></path>
+    <path d="M7 9.2c.7.4 1.4.4 2 0"></path>
+    <path d="M15 9.2c.7.4 1.4.4 2 0"></path>
+    <path d="M7 13.6c.7.4 1.4.4 2 0"></path>
+    <path d="M15 13.6c.7.4 1.4.4 2 0"></path>
+    <circle cx="12" cy="11.5" r="1.6" fill="currentColor" stroke="none"></circle>
+  </svg>
+</button>
+
+<a
+  class="neuro-support-link sl-flex"
+  href={SUPPORT_URL}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Support neuro-js development"
+  title="Support neuro-js"
+>
+  <span class="sr-only">Support neuro-js</span>
+  {
+    /* Heart icon: stroked outline with a soft fill that picks up the
+       accent colour. Reads as "support" without leaning on the BMC
+       coffee-cup motif. */
+  }
+  <svg
+    aria-hidden="true"
+    viewBox="0 0 24 24"
+    width="18"
+    height="18"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path
+      d="M12 20.4 L4.6 13.0 a4.4 4.4 0 0 1 6.2 -6.2 L12 7.9 l1.2 -1.1 a4.4 4.4 0 0 1 6.2 6.2 Z"
+      fill="currentColor"
+      fill-opacity="0.18"></path>
+  </svg>
+  <span class="label">Support</span>
+</a>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('button.neuro-random-link').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const raw = btn.dataset.randomMethods;
+      if (!raw) return;
+      try {
+        const urls = JSON.parse(raw) as string[];
+        if (!urls.length) return;
+        const next = urls[Math.floor(Math.random() * urls.length)];
+        // Re-roll once if we landed on the page we're already on so
+        // a user can hammer the button without it feeling stuck.
+        const target =
+          urls.length > 1 && next === window.location.pathname
+            ? urls[(urls.indexOf(next) + 1) % urls.length]
+            : next;
+        window.location.assign(target);
+      } catch {
+        /* ignore malformed JSON */
+      }
+    });
+  });
+</script>
+
+{
+  links.length > 0 && (
+    <>
+      {links.map(({ label, href, icon }) => (
+        <a {href} rel="me" class="sl-flex">
+          <span class="sr-only">{label}</span>
+          <Icon name={icon} />
+        </a>
+      ))}
+    </>
+  )
+}
+
+<style>
+  @layer starlight.core {
+    a:not(.neuro-support-link) {
+      color: var(--sl-color-text-accent);
+      padding: 0.5em;
+      margin: -0.5em;
+    }
+    a:not(.neuro-support-link):hover {
+      opacity: 0.66;
+    }
+  }
+
+  /*
+   * Support pill colour strategy: pull from the theme-aware
+   * `--neuro-accent-strong` token (= `--neuro-400` in dark, `--neuro-700`
+   * in light) so the pill stays legible on both canvases.
+   *
+   * In light mode `--neuro-400` (oklch 74%) on cream paper has barely
+   * 1.6:1 contrast - the pill becomes a ghost. `--neuro-accent-strong`
+   * resolves to `--neuro-700` (oklch 45%) in light and gives a solid
+   * iron-amber that reads cleanly on cream.
+   */
+  .neuro-support-link {
+    --support-amber: var(--neuro-accent-strong, #ff8f1a);
+    --support-amber-text: var(--neuro-accent-strong, #ff8f1a);
+    --support-amber-text-hover: var(--neuro-link-hover, #ffd189);
+    --support-amber-bg: color-mix(in srgb, var(--neuro-accent-strong) 12%, transparent);
+    --support-amber-bg-hover: color-mix(in srgb, var(--neuro-accent-strong) 22%, transparent);
+    --support-amber-border: color-mix(in srgb, var(--neuro-accent-strong) 50%, transparent);
+
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.7rem;
+    margin: 0;
+    border-radius: 8px;
+    border: 1px solid var(--support-amber-border);
+    color: var(--support-amber-text);
+    background: var(--support-amber-bg);
+    font-family: var(--neuro-font-mono, ui-monospace, monospace);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition:
+      transform 160ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+      background 160ms cubic-bezier(0.16, 1, 0.3, 1),
+      color 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .neuro-support-link svg {
+    flex-shrink: 0;
+    transition:
+      transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+      filter 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .neuro-support-link:hover {
+    border-color: var(--support-amber);
+    background: var(--support-amber-bg-hover);
+    color: var(--support-amber-text-hover);
+    transform: translateY(-1px);
+  }
+  /* Heart pulses (no rotate - rotated heart looks broken). Subtle scale
+   * pump conveys "warm gratitude" without the saccharine beat-by-beat
+   * heartbeat animation that makes UIs feel like a fundraiser banner. */
+  .neuro-support-link:hover svg {
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--support-amber) 60%, transparent));
+  }
+  .neuro-support-link:active svg {
+    transform: scale(0.96);
+  }
+
+  .neuro-support-link:focus-visible {
+    outline: 2px solid var(--support-amber);
+    outline-offset: 3px;
+  }
+
+  /*
+   * Random method button. Icon-only and sized to occupy the same
+   * vertical footprint as the support pill - same height, same
+   * border-radius, same theme-aware colour tokens. Width is bumped via
+   * symmetric horizontal padding so the brain has visual breathing
+   * room without becoming a giant square. Hover wobble + scale signal
+   * "shuffle".
+   */
+  .neuro-random-link {
+    --random-text: var(--sl-color-text-accent, #ff8f1a);
+    --random-text-hover: var(--neuro-text-1, #f6efe2);
+    --random-bg: color-mix(in srgb, var(--sl-color-text-accent) 8%, transparent);
+    --random-bg-hover: color-mix(in srgb, var(--sl-color-text-accent) 18%, transparent);
+    --random-border: color-mix(in srgb, var(--sl-color-text-accent) 38%, transparent);
+
+    appearance: none;
+    align-items: center;
+    justify-content: center;
+    /* Height match: support pill = 0.4rem padding + 18px icon + line
+     * height. Mirror with 0.4rem vertical padding here so the two
+     * controls align on a 32-ish px shared baseline. Horizontal
+     * padding keeps the brain inset, total width sits ~38px which
+     * mirrors the visual mass of the support pill at typical zoom. */
+    padding: 0.4rem 0.55rem;
+    margin: 0;
+    border-radius: 8px;
+    border: 1px solid var(--random-border);
+    color: var(--random-text);
+    background: var(--random-bg);
+    cursor: pointer;
+    transition:
+      transform 160ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+      background 160ms cubic-bezier(0.16, 1, 0.3, 1),
+      color 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .neuro-random-link .neuro-random-icon {
+    flex-shrink: 0;
+    transition:
+      transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+      filter 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .neuro-random-link:hover {
+    border-color: var(--sl-color-text-accent);
+    background: var(--random-bg-hover);
+    color: var(--random-text-hover);
+    transform: translateY(-1px);
+  }
+  .neuro-random-link:hover .neuro-random-icon {
+    /* Tiny brain wobble + lift. Conveys the "shuffle" affordance. */
+    transform: rotate(-6deg) scale(1.08);
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--sl-color-text-accent) 55%, transparent));
+  }
+  .neuro-random-link:active .neuro-random-icon {
+    transform: rotate(6deg) scale(0.94);
+  }
+  .neuro-random-link:focus-visible {
+    outline: 2px solid var(--sl-color-text-accent);
+    outline-offset: 3px;
+  }
+
+  /* Hide verbal labels on narrow viewports (only support pill has one
+   * since random is already icon-only). */
+  @media (max-width: 50rem) {
+    .neuro-support-link .label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .neuro-support-link {
+      padding: 0.5em;
+    }
+  }
+  .neuro-random-link svg {
+    flex-shrink: 0;
+    transition:
+      transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+      filter 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .neuro-random-link:hover {
+    border-color: var(--sl-color-text-accent);
+    background: var(--random-bg-hover);
+    color: var(--random-text-hover);
+    transform: translateY(-1px);
+  }
+  .neuro-random-link:hover svg {
+    /* Tiny brain wobble. Conveys the "shuffle" action without
+     * over-animating chrome. */
+    transform: rotate(-6deg) scale(1.05);
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--sl-color-text-accent) 55%, transparent));
+  }
+  .neuro-random-link:active svg {
+    transform: rotate(6deg) scale(0.96);
+  }
+  .neuro-random-link:focus-visible {
+    outline: 2px solid var(--sl-color-text-accent);
+    outline-offset: 3px;
+  }
+
+  /* Hide verbal labels on narrow viewports; icons stay. */
+  @media (max-width: 50rem) {
+    .neuro-support-link .label,
+    .neuro-random-link .label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .neuro-support-link,
+    .neuro-random-link {
+      padding: 0.5em;
+    }
+  }
+</style>

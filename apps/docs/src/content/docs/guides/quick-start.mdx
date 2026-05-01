@@ -1,0 +1,95 @@
+---
+title: Quick start
+description: Initialize neuro-js and call a few wrapped methods.
+---
+
+import InstallTabs from '../../../components/InstallTabs.astro';
+import PromptCard from '../../../components/PromptCard.astro';
+
+## 1. Install
+
+<InstallTabs />
+
+## 2. Configure the client (Node.js)
+
+```ts
+import { configureClient } from 'neuro-js';
+
+configureClient({
+  apiKey: process.env.OPENAI_API_KEY,
+  model: 'gpt-4o-mini', // optional, this is the default
+});
+```
+
+`apiKey` mode is rejected at runtime in browser environments. See
+[Browser safety](/guides/browser-safety/) for the safe alternatives.
+
+## 3. Call something
+
+Every method takes a single object literal. Keys mirror the original
+JavaScript built-in's parameters; instance methods get a contextual
+receiver key (`array`, `string`, `set`, etc). Add an optional
+`prompt: string` to route the call through the LLM.
+
+```ts
+import { neuro } from 'neuro-js';
+
+// Native fallback. No prompt, no network call.
+await neuro.math.random({});
+// 0.7062
+
+// LLM-routed. Prompt steers the result.
+await neuro.math.random({ prompt: 'a value between 0.7 and 0.71' });
+// 0.7044
+
+// Array map: receiver is the `array` key, the callback is `callbackfn`,
+// the optional prompt is the only difference between native and LLM dispatch.
+await neuro.array.map({ array: [1, 2, 3], callbackfn: (n) => n * 2 });
+// [2, 4, 6]
+
+await neuro.array.map({
+  array: [1, 2, 3],
+  callbackfn: (n) => n,
+  prompt: 'square each value',
+});
+// [1, 4, 9]
+
+// Variadic methods take their items under a single named array key.
+await neuro.array.of({ items: ['a', 'b', 'c'] });
+// ['a', 'b', 'c']
+
+await neuro.math.max({ values: [1, 5, 10], prompt: 'pick the loudest' });
+// 10
+
+// String / Object / JSON / Date all follow the same shape.
+await neuro.string.split({ string: 'the quick brown fox', separator: ' ' });
+// ['the', 'quick', 'brown', 'fox']
+
+await neuro.object.keys({ o: { id: 1, name: 'vlad' } });
+// ['id', 'name']
+
+await neuro.json.stringify({ value: { a: 1 }, space: 0, prompt: 'compact JSON, single line' });
+// '{"a":1}'
+
+await neuro.date.getFullYear({ date: new Date() });
+// 2026
+```
+
+## 4. Inspect what is sent
+
+Every wrapper has a deterministic, generated system prompt. Nothing is
+synthesised at request time.
+
+```ts
+import prompts from 'neuro-js/prompts';
+console.log(prompts['neuro.array.map'].systemPrompt);
+```
+
+<PromptCard name="neuro.array.map" />
+
+## Where next
+
+- [Native fallback](/guides/native-fallback/) - what `neuro-js` does without a prompt.
+- [Browser safety](/guides/browser-safety/) - `proxyUrl` and `tokenProvider`.
+- [Custom models](/guides/custom-models/) - change defaults or use OpenAI-compatible endpoints.
+- [Catalog](/concepts/catalog/) - every wrapper grouped by built-in.

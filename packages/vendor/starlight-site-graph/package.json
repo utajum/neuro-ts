@@ -1,0 +1,49 @@
+{
+  "name": "starlight-site-graph",
+  "author": "Fevol",
+  "version": "0.5.0-vendored",
+  "license": "MIT",
+  "description": "Vendored fork of Fevol/starlight-site-graph (post-0.5.0 main). Patched for Astro 6 + Zod 4.",
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./overrides/PageSidebar.astro": "./overrides/PageSidebar.astro",
+    "./components": "./components/index.ts",
+    "./styles/layers.css": "./styles/layers.css",
+    "./styles/common.css": "./styles/common.css",
+    "./styles/starlight.css": "./styles/starlight.css",
+    "./styles/variables.css": "./styles/variables.css",
+    "./schema": "./schema.ts",
+    "./config": "./config/index.ts",
+    "./integration": "./integration.ts"
+  },
+  "dependencies": {
+    "astro-integration-kit": "0.20.0",
+    "chalk": "^5.6.2",
+    "chroma-js": "^3.2.0",
+    "d3": "^7.9.0",
+    "github-slugger": "^2.0.0",
+    "gray-matter": "^4.0.3",
+    "htmlparser2": "^10.1.0",
+    "picomatch": "^4.0.3",
+    "pixi-spatial-hash": "^1.1.0",
+    "pixi.js": "^8.6.6"
+  },
+  "devDependencies": {
+    "@types/chroma-js": "^3.1.2",
+    "@types/d3": "^7.4.3"
+  },
+  "peerDependencies": {
+    "@astrojs/starlight": ">=0.38.0",
+    "astro": ">=6.0.0",
+    "pixi-stats": "^5.1.7"
+  },
+  "peerDependenciesMeta": {
+    "@astrojs/starlight": {
+      "optional": true
+    },
+    "pixi-stats": {
+      "optional": true
+    }
+  }
+}

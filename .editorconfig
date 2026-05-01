@@ -1,0 +1,21 @@
+# EditorConfig: per-file low-level defaults that all editors honour.
+# Prettier handles richer formatting (quotes, trailing commas, line wrap)
+# via .prettierrc.json. We keep the two consistent on the dimensions
+# they overlap (indent style, indent size, end of line, charset).
+# Keep this in sync with .prettierrc.json.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.md]
+trim_trailing_whitespace = false
+
+[Makefile]
+indent_style = tab

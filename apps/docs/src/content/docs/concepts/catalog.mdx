@@ -1,0 +1,43 @@
+---
+title: Method catalog
+description: Every neuro-js wrapper, grouped by built-in.
+---
+
+import PromptCard from '../../../components/PromptCard.astro';
+import prompts from 'neuro-js/prompts';
+
+export const grouped = Object.entries(prompts).reduce((acc, [name, entry]) => {
+  const g = entry?.group ?? 'misc';
+  acc[g] = acc[g] || [];
+  acc[g].push(name);
+  return acc;
+}, {});
+
+The full catalog is generated from `prompts.json`. Every wrapper exposed
+by `neuro-js` is listed below, grouped by built-in. Click through to the
+[full method catalog](/methods/) for full type signatures.
+
+<div class="neuro-catalog not-content">
+  {Object.entries(grouped)
+    .sort()
+    .map(([group, names]) => (
+      <section>
+        <h2>
+          {group} <small>({names.length})</small>
+        </h2>
+        <ul>
+          {names.sort().map((n) => (
+            <li>
+              <code>{n}</code>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+</div>
+
+## Sample prompts
+
+<PromptCard name="neuro.math.floor" />
+<PromptCard name="neuro.array.filter" />
+<PromptCard name="neuro.json.parse" />
