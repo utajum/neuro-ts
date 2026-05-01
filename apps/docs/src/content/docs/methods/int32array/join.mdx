@@ -1,0 +1,46 @@
+---
+title: join
+description: neuro.int32Array.join wraps Int32Array.prototype.join for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: join
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.int32Array.join`
+
+Instance method on `Int32Array.prototype`.
+
+> Adds all the elements of an array separated by the specified separator string.
+
+## Signatures
+
+```ts
+join(input: { int32Array: <receiver>; separator?: string; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Int32Array.prototype.join` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW50MzJBcnJheSBqb2luOyBOYU4gYW5kIEluZmluaXR5IHByaW50IHZlcmJhdGltLgphd2FpdCBuZXVyby5pbnQzMkFycmF5LmpvaW4oeyBpbnQzMkFycmF5OiB2aWV3LCBzZXBhcmF0b3I6ICcsJywgcHJvbXB0OiAnY29uY2F0ZW5hdGUgZXZlcnkgSW50MzJBcnJheSBlbGVtZW50IHRvIGl0cyBkZWNpbWFsIHN0cmluZyBmb3JtIGpvaW5lZCBieSBzZXBhcmF0b3IsIHRyZWF0aW5nIE5hTiBhbmQgSW5maW5pdHkgYXMgdGhlaXIgcHJpbnRlZCBmb3JtcyBldmVuIHdoZW4gdGhlIHJlY2VpdmluZyBDU1YgY2Fubm90IHBhcnNlIHRoZW0gYmFjaycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.int32Array.join" />

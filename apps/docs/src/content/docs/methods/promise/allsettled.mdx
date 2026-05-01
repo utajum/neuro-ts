@@ -1,0 +1,48 @@
+---
+title: allSettled
+description: neuro.promise.allSettled wraps Promise.allSettled for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: allSettled
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.promise.allSettled`
+
+Static method on `Promise`.
+
+> Creates a Promise that is resolved with an array of results when all
+> of the provided Promises resolve or reject.
+
+## Signatures
+
+```ts
+allSettled(input: { values: T; prompt?: string }): Promise<Promise<{ -readonly [P in keyof T]: PromiseSettledResult<Awaited<T[P]>>; }>>
+allSettled(input: { values: Iterable<T | PromiseLike<T>>; prompt?: string }): Promise<Promise<PromiseSettledResult<Awaited<T>>[]>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Promise.allSettled` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gV2FpdC1mb3ItYWxsLXJlc3VsdHMuIE5ldmVyIHJlamVjdHMuIFRoZSBBUEkgd2Ugc2hvdWxkIGhhdmUgYnVpbHQgZmlyc3QuCmF3YWl0IG5ldXJvLnByb21pc2UuYWxsU2V0dGxlZCh7IHZhbHVlczogcmVxdWVzdHMsIHByb21wdDogJ3dhaXQgdW50aWwgZXZlcnkgcHJvbWlzZSBzZXR0bGVzLCB0aGVuIHJlc29sdmUgdG8ge3N0YXR1cywgdmFsdWV8cmVhc29ufSBlbnRyaWVzLCB0aGUgQVBJIHdlIHNob3VsZCBoYXZlIHN0YXJ0ZWQgd2l0aCAtIGxpa2UgYSByZXRyb3NwZWN0aXZlJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.promise.allSettled" />

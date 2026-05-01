@@ -21,11 +21,11 @@ jobs:
           registry-url: https://registry.npmjs.org
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter neuro-js generate
-      - run: pnpm --filter neuro-js typecheck
-      - run: pnpm --filter neuro-js test
-      - run: pnpm --filter neuro-js build
-      - name: Publish neuro-js
-        run: pnpm --filter neuro-js publish --no-git-checks --access public --provenance
+      - run: pnpm --filter neuro-ts generate
+      - run: pnpm --filter neuro-ts typecheck
+      - run: pnpm --filter neuro-ts test
+      - run: pnpm --filter neuro-ts build
+      - name: Publish neuro-ts
+        run: pnpm --filter neuro-ts publish --no-git-checks --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

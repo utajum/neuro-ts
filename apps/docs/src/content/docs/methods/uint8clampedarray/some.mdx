@@ -1,0 +1,46 @@
+---
+title: some
+description: neuro.uint8ClampedArray.some wraps Uint8ClampedArray.prototype.some for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: some
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.uint8ClampedArray.some`
+
+Instance method on `Uint8ClampedArray.prototype`.
+
+> Determines whether the specified callback function returns true for any element of an array.
+
+## Signatures
+
+```ts
+some(input: { uint8ClampedArray: <receiver>; predicate?: (value: number; index: number; array: Uint8ClampedArray) => unknown; thisArg?: any; prompt?: string }): Promise<boolean>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Uint8ClampedArray.prototype.some` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVWludDhDbGFtcGVkQXJyYXkgc29tZTsgZW1wdHkgYXJyYXkgaXMgZmFsc2UsIHByZWRpY3RhYmx5IHN1cnByaXNpbmcuCmF3YWl0IG5ldXJvLnVpbnQ4Q2xhbXBlZEFycmF5LnNvbWUoeyB1aW50OENsYW1wZWRBcnJheTogdmlldywgcHJlZGljYXRlOiAobikgPT4gbiA+IDAsIHByb21wdDogJ3JldHVybiB0cnVlIGlmIGFueSBVaW50OENsYW1wZWRBcnJheSBlbGVtZW50IHBhc3NlcyB0aGUgcHJlZGljYXRlLCB3aXRoIGVtcHR5LWFycmF5IG1lYW5pbmcgZmFsc2UgdGhlIHdheSB0aGUgc3BlYyB3YW50cyBhbmQgdGhlIGJ1ZyB0aWNrZXQgZGlzYWdyZWVzIHdpdGgnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.uint8ClampedArray.some" />

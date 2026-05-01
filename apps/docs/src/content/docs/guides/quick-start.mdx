@@ -1,6 +1,6 @@
 ---
 title: Quick start
-description: Initialize neuro-js and call a few wrapped methods.
+description: Initialize neuro-ts and call a few AI-augmented JavaScript built-ins. TypeScript-first wrappers with optional GPT / OpenAI prompts and native fallback.
 ---
 
 import InstallTabs from '../../../components/InstallTabs.astro';
@@ -13,11 +13,11 @@ import PromptCard from '../../../components/PromptCard.astro';
 ## 2. Configure the client (Node.js)
 
 ```ts
-import { configureClient } from 'neuro-js';
+import { configureClient } from 'neuro-ts';
 
 configureClient({
   apiKey: process.env.OPENAI_API_KEY,
-  model: 'gpt-4o-mini', // optional, this is the default
+  model: 'gpt-4o', // optional, this is the default
 });
 ```
 
@@ -32,7 +32,7 @@ receiver key (`array`, `string`, `set`, etc). Add an optional
 `prompt: string` to route the call through the LLM.
 
 ```ts
-import { neuro } from 'neuro-js';
+import { neuro } from 'neuro-ts';
 
 // Native fallback. No prompt, no network call.
 await neuro.math.random({});
@@ -68,11 +68,33 @@ await neuro.string.split({ string: 'the quick brown fox', separator: ' ' });
 await neuro.object.keys({ o: { id: 1, name: 'vlad' } });
 // ['id', 'name']
 
-await neuro.json.stringify({ value: { a: 1 }, space: 0, prompt: 'compact JSON, single line' });
+await neuro.json.stringify({
+  value: { a: 1 },
+  space: 0,
+  prompt: 'compact JSON, single line',
+});
 // '{"a":1}'
 
 await neuro.date.getFullYear({ date: new Date() });
 // 2026
+
+// Broken JSON that native JSON.parse would throw on.
+// The LLM silently repairs it and returns the object you obviously wanted.
+const broken = `{
+  name: "Alice",
+  "age": 30,
+  "scores": [98, 87, 102,
+  "joined": '2021-03-15',
+}`;
+
+await neuro.json.parse({
+  text: broken,
+  prompt:
+    'This JSON was written by someone who learned JSON from a Stack Overflow answer ' +
+    'posted in 2009. Fix every syntax error silently and return a valid parsed object. ' +
+    'Do not lecture me about the errors. I know. We all know.',
+});
+// { name: 'Alice', age: 30, scores: [98, 87, 102], joined: '2021-03-15' }
 ```
 
 ## 4. Inspect what is sent
@@ -81,7 +103,7 @@ Every wrapper has a deterministic, generated system prompt. Nothing is
 synthesised at request time.
 
 ```ts
-import prompts from 'neuro-js/prompts';
+import prompts from 'neuro-ts/prompts';
 console.log(prompts['neuro.array.map'].systemPrompt);
 ```
 
@@ -89,7 +111,10 @@ console.log(prompts['neuro.array.map'].systemPrompt);
 
 ## Where next
 
-- [Native fallback](/guides/native-fallback/) - what `neuro-js` does without a prompt.
+- [Native fallback](/guides/native-fallback/) - what `neuro-ts` does without a prompt.
 - [Browser safety](/guides/browser-safety/) - `proxyUrl` and `tokenProvider`.
 - [Custom models](/guides/custom-models/) - change defaults or use OpenAI-compatible endpoints.
 - [Catalog](/concepts/catalog/) - every wrapper grouped by built-in.
+- [Migrate from native](/guides/migrate/) - drop `neuro-ts` into an existing codebase.
+- [Error reference](/guides/errors/) - the three error classes and their `cause` shape.
+- [Troubleshooting](/guides/troubleshooting/) - symptom-to-fix map for the common failures.

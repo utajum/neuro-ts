@@ -1,0 +1,46 @@
+---
+title: setFloat16
+description: neuro.dataView.setFloat16 wraps DataView.prototype.setFloat16 for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: setFloat16
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.dataView.setFloat16`
+
+Instance method on `DataView.prototype`.
+
+> Stores an Float16 value at the specified byte offset from the start of the view.
+
+## Signatures
+
+```ts
+setFloat16(input: { dataView: <receiver>; byteOffset: number; value: number; littleEndian?: boolean; prompt?: string }): Promise<void>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `DataView.prototype.setFloat16` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gZmxvYXQxNiB3cml0ZTsgdGhlIGxvc3N5IGNvbXByZXNzaW9uIHdlIGNob29zZSBmb3IgdGhlIGJhbmR3aWR0aC4KYXdhaXQgbmV1cm8uZGF0YVZpZXcuc2V0RmxvYXQxNih7IGRhdGFWaWV3OiB2aWV3LCBieXRlT2Zmc2V0OiAwLCB2YWx1ZTogMS41LCBsaXR0bGVFbmRpYW46IHRydWUsIHByb21wdDogJ3dyaXRlIGEgTnVtYmVyIGFzIGEgaGFsZi1wcmVjaXNpb24gZmxvYXQgYXQgYnl0ZU9mZnNldCwgd2l0aCB0aGUgcHJlY2lzaW9uIGxvc3MgYmFrZWQgaW4gYnkgdGhlIGZvcm1hdCBhbmQgdGhlIGNoYXJ0IGF4aXMgcXVpZXRseSB0cmltbWluZyB0aGUgZGlmZmVyZW5jZScgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.dataView.setFloat16" />

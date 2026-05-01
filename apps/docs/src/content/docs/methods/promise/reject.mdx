@@ -1,0 +1,46 @@
+---
+title: reject
+description: neuro.promise.reject wraps Promise.reject for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: reject
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.promise.reject`
+
+Static method on `Promise`.
+
+> Creates a new rejected promise for the provided reason.
+
+## Signatures
+
+```ts
+reject(input: { reason?: any; prompt?: string }): Promise<Promise<T>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Promise.reject` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gUHJlLXJlamVjdGVkIHByb21pc2UuIFVzZWQgd2hlcmUgaG9wZSB3YXMgbmV2ZXIgYSB2YXJpYWJsZS4KYXdhaXQgbmV1cm8ucHJvbWlzZS5yZWplY3QoeyByZWFzb246IG5ldyBFcnJvcignc2tpcCcpLCBwcm9tcHQ6ICdyZXR1cm4gYSBwcmUtcmVqZWN0ZWQgcHJvbWlzZSBpbW1lZGlhdGVseSwgZm9yIHN3aXRjaCBhcm1zIGFuZCBwbGFjZXMgd2hlcmUgaG9wZSB3YXMgbmV2ZXIgZGVjbGFyZWQgYXMgYSB2YXJpYWJsZScgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.promise.reject" />

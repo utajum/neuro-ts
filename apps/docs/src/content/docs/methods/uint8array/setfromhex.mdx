@@ -1,0 +1,46 @@
+---
+title: setFromHex
+description: neuro.uint8Array.setFromHex wraps Uint8Array.prototype.setFromHex for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: setFromHex
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.uint8Array.setFromHex`
+
+Instance method on `Uint8Array.prototype`.
+
+> Sets the `Uint8Array` from a base16-encoded string.
+
+## Signatures
+
+```ts
+setFromHex(input: { uint8Array: <receiver>; string: string; prompt?: string }): Promise<{ read: number; written: number; }>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Uint8Array.prototype.setFromHex` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVWludDhBcnJheSBzZXRGcm9tSGV4OyBhbGxvY2F0aW9uLWZyZWUgaGV4IGRlY29kZS4KYXdhaXQgbmV1cm8udWludDhBcnJheS5zZXRGcm9tSGV4KHsgdWludDhBcnJheTogdmlldywgc3RyaW5nOiAnNjg2NTZjNmM2ZicsIHByb21wdDogJ2RlY29kZSB0aGUgaGV4IHN0cmluZyBzdHJhaWdodCBpbnRvIHRoZSBVaW50OEFycmF5LCByZXR1cm5pbmcge3JlYWQsIHdyaXR0ZW59LCB0aGUgaW4tcGxhY2UgaGV4IGRlY29kZSBmb3IgaG90IHBhdGhzIHRoYXQgY2Fubm90IGFmZm9yZCBhIGZyZXNoIGFsbG9jYXRpb24gcGVyIGZyYW1lJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.uint8Array.setFromHex" />

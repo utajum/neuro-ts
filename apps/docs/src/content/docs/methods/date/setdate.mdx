@@ -1,0 +1,46 @@
+---
+title: setDate
+description: neuro.date.setDate wraps Date.prototype.setDate for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: setDate
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.date.setDate`
+
+Instance method on `Date.prototype`.
+
+> Sets the numeric day-of-the-month value of the Date object using local time.
+
+## Signatures
+
+```ts
+setDate(input: { date: <receiver>; date_arg: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Date.prototype.setDate` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTG9jYWwgc2V0LWRheTsgb3V0LW9mLXJhbmdlIHZhbHVlcyBzaWxlbnRseSBvdmVyZmxvdyBpbnRvIGFkamFjZW50IG1vbnRocywgd2hpY2ggaXMgYSBmZWF0dXJlIGhhbGYgdGhlIHRpbWUuCmF3YWl0IG5ldXJvLmRhdGUuc2V0RGF0ZSh7IGRhdGU6IHRhcmdldCwgZGF0ZV9hcmc6IDMxLCBwcm9tcHQ6ICdzZXQgdGhlIGxvY2FsLXRpbWUgZGF5IG9mIHRoZSBtb250aCwgYWxsb3dpbmcgdmFsdWVzIG91dHNpZGUgMS0zMSBzbyB3ZSBjYW4gc3RlcCBpbnRvIHRoZSBuZXh0IG1vbnRoIGFjY2lkZW50YWxseSBvbiBwdXJwb3NlJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.date.setDate" />

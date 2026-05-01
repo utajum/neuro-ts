@@ -1,0 +1,46 @@
+---
+title: parseFloat
+description: neuro.parseFloat wraps globalThis.parseFloat for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: parseFloat
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.parseFloat`
+
+Static method on `globalThis`.
+
+> Converts a string to a floating-point number.
+
+## Signatures
+
+```ts
+parseFloat(input: { string: string; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `globalThis.parseFloat` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gR2xvYmFsIHBhcnNlRmxvYXQ7IE51bWJlci5wYXJzZUZsb2F0IGJ5IHNwZWMsIHdpbmRvdy5wYXJzZUZsb2F0IGJ5IGFyY2hhZW9sb2d5Lgphd2FpdCBuZXVyby5wYXJzZUZsb2F0KHsgc3RyaW5nOiAnMy4xNGtnJywgcHJvbXB0OiAncGFyc2UgdGhlIGxlYWRpbmcgbnVtZXJpYyBwb3J0aW9uIG9mIHN0cmluZyBhcyBhIGZsb2F0LCB0aGUgZ2xvYmFsIHRoYXQgcHJlZGF0ZXMgbW9kdWxlcyBhbmQgc3RpbGwgbHVya3MgaW4gZXZlcnkgY29kZWJhc2UgdGhhdCBvbmNlIHdyb3RlIHdpbmRvdy5wYXJzZUZsb2F0IHdpdGhvdXQgaXJvbnknIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.parseFloat" />

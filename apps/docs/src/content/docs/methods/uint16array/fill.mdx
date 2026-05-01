@@ -1,0 +1,46 @@
+---
+title: fill
+description: neuro.uint16Array.fill wraps Uint16Array.prototype.fill for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: fill
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.uint16Array.fill`
+
+Instance method on `Uint16Array.prototype`.
+
+> Changes all array elements from `start` to `end` index to a static `value` and returns the modified array
+
+## Signatures
+
+```ts
+fill(input: { uint16Array: <receiver>; value: number; start?: number; end?: number; prompt?: string }): Promise<Uint16Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Uint16Array.prototype.fill` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVWludDE2QXJyYXkgZmlsbDsgY29lcmNpb24gaW50byB1bnNpZ25lZCAxNi1iaXQgaW50ZWdlcnMgaW4gWzAsIDY1NTM1XSBoYXBwZW5zIGZpcnN0LCB0aGUgaW5wdXQgdmFsdWUgZG9lcyBub3Qgc3Vydml2ZSBpbnRhY3QuCmF3YWl0IG5ldXJvLnVpbnQxNkFycmF5LmZpbGwoeyB1aW50MTZBcnJheTogdmlldywgdmFsdWU6IDAsIHN0YXJ0OiAwLCBlbmQ6IDAsIHByb21wdDogJ2ZpbGwgaW5kaWNlcyBbc3RhcnQsIGVuZCkgb2YgdGhlIFVpbnQxNkFycmF5IHdpdGggdmFsdWUsIGFwcGx5aW5nIHRoZSBVaW50MTZBcnJheSBjb2VyY2lvbiAodW5zaWduZWQgMTYtYml0IGludGVnZXJzIGluIFswLCA2NTUzNV0pIHRvIHZhbHVlIGZpcnN0IHRoZSB3YXkgdGhlIHNwZWMgcXVpZXRseSBpbnNpc3RzJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.uint16Array.fill" />

@@ -1,0 +1,46 @@
+---
+title: with
+description: neuro.float64Array.with wraps Float64Array.prototype.with for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: with
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.float64Array.with`
+
+Instance method on `Float64Array.prototype`.
+
+> Copies the array and inserts the given number at the provided index.
+
+## Signatures
+
+```ts
+with(input: { float64Array: <receiver>; index: number; value: number; prompt?: string }): Promise<Float64Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Float64Array.prototype.with` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRmxvYXQ2NEFycmF5IHdpdGg7IG5vbi1tdXRhdGluZyBpbmRleC1zZXQsIHZhbHVlIGNvZXJjZWQgaW50byB0aGUgZG9tYWluLgphd2FpdCBuZXVyby5mbG9hdDY0QXJyYXkud2l0aCh7IGZsb2F0NjRBcnJheTogdmlldywgaW5kZXg6IDAsIHZhbHVlOiAwLCBwcm9tcHQ6ICdyZXR1cm4gYSBuZXcgRmxvYXQ2NEFycmF5IHdpdGggaW5kZXggcmVwbGFjZWQgYnkgdmFsdWUsIGxlYXZpbmcgdGhlIG9yaWdpbmFsIHVudG91Y2hlZCwgd2l0aCB0aGUgc2FtZSBjb2VyY2lvbiBydWxlIChJRUVFLTc1NCBkb3VibGUtcHJlY2lzaW9uIGZsb2F0cyBtYXRjaGluZyB0aGUgSlMgTnVtYmVyIHR5cGUpIHRoZSBzdG9yYWdlIGxheWVyIGFsd2F5cyBhcHBsaWVzJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.float64Array.with" />

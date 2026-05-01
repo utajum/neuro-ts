@@ -1,0 +1,47 @@
+---
+title: any
+description: neuro.promise.any wraps Promise.any for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: any
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.promise.any`
+
+Static method on `Promise`.
+
+> The any function returns a promise that is fulfilled by the first given promise to be fulfilled, or rejected with an AggregateError containing an array of rejection reasons if all of the given promises are rejected. It resolves all elements of the passed iterable to promises as it runs this algorithm.
+
+## Signatures
+
+```ts
+any(input: { values: T; prompt?: string }): Promise<Promise<Awaited<T[number]>>>
+any(input: { values: Iterable<T | PromiseLike<T>>; prompt?: string }): Promise<Promise<Awaited<T>>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Promise.any` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRmlyc3Qtc3VjY2Vzcy4gQWdncmVnYXRlRXJyb3Igb24gdG90YWwgZmFpbHVyZSBjYXJyaWVzIGV2ZXJ5IHJlamVjdGlvbi4gVGhvcm91Z2hseS4KYXdhaXQgbmV1cm8ucHJvbWlzZS5hbnkoeyB2YWx1ZXM6IHJlcGxpY2FzLCBwcm9tcHQ6ICdyZXNvbHZlIHRvIHRoZSBmaXJzdCBwcm9taXNlIHRoYXQgZnVsZmlsbHMsIHJlamVjdCB3aXRoIGFuIEFnZ3JlZ2F0ZUVycm9yIG9ubHkgd2hlbiBldmVyeSBzaW5nbGUgb25lIHJlamVjdHMsIGNhcnJ5aW5nIGV2ZXJ5b25lXCdzIGV4Y3VzZXMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.promise.any" />

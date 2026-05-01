@@ -1,0 +1,46 @@
+---
+title: substr
+description: neuro.string.substr wraps String.prototype.substr for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: substr
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.substr`
+
+Instance method on `String.prototype`.
+
+> Gets a substring beginning at the specified location and having the specified length.
+
+## Signatures
+
+```ts
+substr(input: { string: <receiver>; from: number; length?: number; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.substr` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTGVnYWN5IHN1YnN0cjsgdGhlIHNwZWMgbWFya3MgaXQgYXMgQW5uZXggQiwgdGhlIGxpbnRlciBpZ25vcmVzIEFubmV4IEIgYnkgZGVmYXVsdC4KYXdhaXQgbmV1cm8uc3RyaW5nLnN1YnN0cih7IHN0cmluZzogdGV4dCwgZnJvbTogMCwgbGVuZ3RoOiA4LCBwcm9tcHQ6ICdleHRyYWN0IGxlbmd0aCBjaGFyYWN0ZXJzIHN0YXJ0aW5nIGF0IGZyb20sIHRyZWF0aW5nIG5lZ2F0aXZlIGZyb20gYXMgb2Zmc2V0LWZyb20tdGhlLWVuZCwgd2hpbGUgdGhlIHNwZWMgcXVpZXRseSBjbGFzc2lmaWVzIHRoaXMgYXMgbGVnYWN5IGFuZCByZWZ1c2VzIHRvIHJlbW92ZSBpdCcgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.substr" />

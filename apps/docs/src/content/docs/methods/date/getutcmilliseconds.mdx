@@ -1,0 +1,46 @@
+---
+title: getUTCMilliseconds
+description: neuro.date.getUTCMilliseconds wraps Date.prototype.getUTCMilliseconds for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: getUTCMilliseconds
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.date.getUTCMilliseconds`
+
+Instance method on `Date.prototype`.
+
+> Gets the milliseconds of a Date object using Universal Coordinated Time (UTC).
+
+## Signatures
+
+```ts
+getUTCMilliseconds(input: { date: <receiver>; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Date.prototype.getUTCMilliseconds` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVVRDIG1pbGxpc2Vjb25kOyBudW1lcmljYWxseSBlcXVhbCB0byBsb2NhbCwgdGhlIG9ubHkgZmllbGQgd2hlcmUgVVRDIHZzIGxvY2FsIGRvZXMgbm90IG1hdHRlci4KYXdhaXQgbmV1cm8uZGF0ZS5nZXRVVENNaWxsaXNlY29uZHMoeyBkYXRlOiBuZXcgRGF0ZSgpLCBwcm9tcHQ6ICdyZXR1cm4gdGhlIFVUQyBtaWxsaXNlY29uZCAwLTk5OSwgaWRlbnRpY2FsIG51bWVyaWNhbGx5IHRvIGxvY2FsIG1pbGxpc2Vjb25kcyBzaW5jZSB0aGUgbWlsbGlzZWNvbmQgZG9lcyBub3QgY2FyZSBhYm91dCB0aW1lem9uZXMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.date.getUTCMilliseconds" />

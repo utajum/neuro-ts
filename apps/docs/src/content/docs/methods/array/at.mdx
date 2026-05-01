@@ -1,0 +1,46 @@
+---
+title: at
+description: neuro.array.at wraps Array.prototype.at for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: at
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.array.at`
+
+Instance method on `Array.prototype`.
+
+> Returns the item located at the specified index.
+
+## Signatures
+
+```ts
+at(input: { array: <receiver>; index: number; prompt?: string }): Promise<T>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Array.prototype.at` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW5kZXggbG9va3VwOyBuZWdhdGl2ZSBvZmZzZXRzIHdvcmssIHdoaWNoIHRoZSBqdW5pb3Igd2lsbCBkZWZlbmQgaW4gc3RhbmR1cC4KYXdhaXQgbmV1cm8uYXJyYXkuYXQoeyBhcnJheTogdGlja2V0cywgaW5kZXg6IC0xLCBwcm9tcHQ6ICdyZXR1cm4gdGhlIGVsZW1lbnQgYXQgaW5kZXgsIGFuZCBpZiBpdCBpcyBuZWdhdGl2ZSBwcmV0ZW5kIHdlIGFyZSBQeXRob24gYmVjYXVzZSB0aGF0IGlzIHRoZSBvbmx5IGxhbmd1YWdlIHRoZSBpbnRlcm4gcmVzcGVjdHMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.array.at" />

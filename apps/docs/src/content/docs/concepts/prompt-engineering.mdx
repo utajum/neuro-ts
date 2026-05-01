@@ -1,6 +1,6 @@
 ---
 title: How prompts are built
-description: Anatomy of an auto-generated neuro-js system prompt.
+description: Anatomy of the auto-generated system prompts neuro-ts sends to GPT / OpenAI when wrapping JavaScript built-ins. TypeScript-first, deterministic.
 ---
 
 import PromptCard from '../../../components/PromptCard.astro';
@@ -54,15 +54,15 @@ an array that contains the results.
 
 ## The contract principle
 
-Each prompt anchors the model to a specific method's contract — its
-signatures, return type, and JSDoc — instead of leaving it to interpret
+Each prompt anchors the model to a specific method's contract - its
+signatures, return type, and JSDoc - instead of leaving it to interpret
 a free-form request. That constraint does most of the work: the input
 data travels through the original arguments, and the user's prompt only
 influences the behavioural choices the method would normally accept
 (the callback, comparator, or transform). The output shape is fixed
 before the model ever runs.
 
-The result is that `neuro.array.map([1,2,3], (n) => n, 'multiply by 3')`
+The result is that `neuro.array.map({ array: [1,2,3], callbackfn: (n) => n, prompt: 'multiply by 3' })`
 reliably returns an array of length 3, regardless of whether the
 underlying model has any awareness of JavaScript semantics.
 
@@ -71,9 +71,17 @@ underlying model has any awareness of JavaScript semantics.
 Every prompt is shipped in `prompts.json`. To audit before deploy:
 
 ```ts
-import prompts from 'neuro-js/prompts';
+import prompts from 'neuro-ts/prompts';
 
 for (const [name, entry] of Object.entries(prompts)) {
-  // entry.systemPrompt, entry.functionId, entry.overloads, entry.kind
+  // entry.systemPrompt  -- full system prompt string sent to the LLM
+  // entry.functionId    -- e.g. "Array.prototype.map" or "Math.random"
+  // entry.overloads     -- TypeScript overload signatures as strings
+  // entry.kind          -- "prototype" | "static" | "global"
+  //   prototype: method on a class prototype (Array.prototype.map)
+  //   static:    static method on a constructor (Math.random, JSON.parse)
+  //   global:    globalThis function (parseInt, encodeURI)
+  // entry.curated       -- { prompt, comment, example } human-written prompt
+  // entry.group         -- group name (e.g. "array", "math", "globals")
 }
 ```

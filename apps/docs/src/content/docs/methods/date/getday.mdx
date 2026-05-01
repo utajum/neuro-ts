@@ -1,0 +1,46 @@
+---
+title: getDay
+description: neuro.date.getDay wraps Date.prototype.getDay for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: getDay
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.date.getDay`
+
+Instance method on `Date.prototype`.
+
+> Gets the day of the week, using local time.
+
+## Signatures
+
+```ts
+getDay(input: { date: <receiver>; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Date.prototype.getDay` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRGF5LW9mLXdlZWsgMC02IHdpdGggU3VuZGF5LWFzLXplcm87IHRoZSBsb2NhbGUgaXMgaGFyZGNvZGVkLCB0aGUgaTE4biByZXZpZXcgaXMgZm9yZXZlciBmdXR1cmUgdGVuc2UuCmF3YWl0IG5ldXJvLmRhdGUuZ2V0RGF5KHsgZGF0ZTogbmV3IERhdGUoKSwgcHJvbXB0OiAncmV0dXJuIHRoZSBsb2NhbC10aW1lIGRheSBvZiB0aGUgd2VlayBhcyAwPVN1bmRheS4uNj1TYXR1cmRheSwgdGhlIG9ubHkgcGxhY2UgaW4gdGhlIGxhbmd1YWdlIFN1bmRheSBnZXRzIHRvIGJlIGluZGV4IHplcm8nIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.date.getDay" />

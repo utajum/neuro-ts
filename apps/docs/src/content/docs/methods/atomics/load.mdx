@@ -1,0 +1,48 @@
+---
+title: load
+description: neuro.atomics.load wraps Atomics.load for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: load
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.atomics.load`
+
+Static method on `Atomics`.
+
+> Returns the value at the given position in the array. Until this atomic operation completes,
+> any other read or write operation against the array will block.
+
+## Signatures
+
+```ts
+load(input: { typedArray: Int8Array | Uint8Array | Int16Array | Uint16Array | Int32Array | Uint32Array; index: number; prompt?: string }): Promise<number>
+load(input: { typedArray: BigInt64Array | BigUint64Array; index: number; prompt?: string }): Promise<bigint>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Atomics.load` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQXRvbWljIGxvYWQgd2l0aCBzZXEtY3N0OyB0aGUgZmVuY2UgdGhlIGJ1ZyB0aWNrZXQgcmV2ZWFscy4KYXdhaXQgbmV1cm8uYXRvbWljcy5sb2FkKHsgdHlwZWRBcnJheTogc2hhcmVkLCBpbmRleDogMCwgcHJvbXB0OiAnYXRvbWljYWxseSBsb2FkIHR5cGVkQXJyYXlbaW5kZXhdIHdpdGggc2VxdWVudGlhbGx5LWNvbnNpc3RlbnQgb3JkZXJpbmcsIHRoZSBmZW5jZSB3ZSBmb3JnZXQgaXMgaW4gZWZmZWN0IHVudGlsIHRoZSB3b3JrZXIgcmVhZHMgc3RhbGUgZGF0YSBhbmQgdGhlIGJ1ZyB0aWNrZXQgYXJyaXZlcycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.atomics.load" />

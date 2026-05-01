@@ -1,0 +1,46 @@
+---
+title: setFullYear
+description: neuro.date.setFullYear wraps Date.prototype.setFullYear for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: setFullYear
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.date.setFullYear`
+
+Instance method on `Date.prototype`.
+
+> Sets the year of the Date object using local time.
+
+## Signatures
+
+```ts
+setFullYear(input: { date: <receiver>; year: number; month?: number; date_arg?: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Date.prototype.setFullYear` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTXVsdGktZmllbGQgc2V0IG9uIHllYXI7IHRoZSBvcHRpb25hbCBtb250aC9kYXRlIHJvbGxzIHRvZ2V0aGVyLCBvZnRlbiBzdXJwcmlzaW5nLgphd2FpdCBuZXVyby5kYXRlLnNldEZ1bGxZZWFyKHsgZGF0ZTogdGFyZ2V0LCB5ZWFyOiAyMDI2LCBtb250aDogMCwgZGF0ZV9hcmc6IDEsIHByb21wdDogJ3NldCB0aGUgbG9jYWwtdGltZSB5ZWFyLCBhbGxvd2luZyB0aGUgb3B0aW9uYWwgbW9udGggYW5kIGRhdGUgdG8gcm9sbCB0aGUgY2FsZW5kYXIgaW4gdGhlIHNhbWUgY2FsbCwgdGhlIG11bHRpLWFyZyB0cmFwIHRoYXQgZHJvcHMgYWNjaWRlbnRhbGx5IG9uIHJldmlldycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.date.setFullYear" />

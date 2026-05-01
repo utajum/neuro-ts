@@ -1,0 +1,48 @@
+---
+title: findLast
+description: neuro.array.findLast wraps Array.prototype.findLast for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: findLast
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.array.findLast`
+
+Instance method on `Array.prototype`.
+
+> Returns the value of the last element in the array where predicate is true, and undefined
+> otherwise.
+
+## Signatures
+
+```ts
+findLast(input: { array: <receiver>; predicate?: (value: T; index: number; array: T[]) => boolean; thisArg?: any; prompt?: string }): Promise<S>
+findLast(input: { array: <receiver>; predicate?: (value: T; index: number; array: T[]) => unknown; thisArg?: any; prompt?: string }): Promise<T>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Array.prototype.findLast` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gUmlnaHQtdG8tbGVmdCBmaXJzdCBtYXRjaDsgdGhlIGNvc3QgaXMgaWRlbnRpY2FsIHRvIHRoZSBsZWZ0LXRvLXJpZ2h0IHZlcnNpb24sIG9ubHkgdGhlIGZyYW1pbmcgZGlmZmVycy4KYXdhaXQgbmV1cm8uYXJyYXkuZmluZExhc3QoeyBhcnJheTogZGVwbG95cywgcHJlZGljYXRlOiAoZCkgPT4gZC5ncmVlbiwgcHJvbXB0OiAnd2FsayBiYWNrd2FyZHMgYW5kIHJldHVybiB0aGUgbGFzdCBlbGVtZW50IG1hdGNoaW5nIHRoZSBwcmVkaWNhdGUsIHdoaWxlIHByZXRlbmRpbmcgaXRlcmF0aW5nIHRhaWwtZmlyc3Qgd2FzIGFsd2F5cyBjaGVhcCcgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.array.findLast" />

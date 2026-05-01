@@ -1,0 +1,46 @@
+---
+title: groupBy
+description: neuro.object.groupBy wraps Object.groupBy for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: groupBy
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.object.groupBy`
+
+Static method on `Object`.
+
+> Groups members of an iterable according to the return value of the passed callback.
+
+## Signatures
+
+```ts
+groupBy(input: { items: Iterable<T>; keySelector?: (item: T; index: number) => K; prompt?: string }): Promise<Partial<Record<K, T[]>>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Object.groupBy` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gT2JqZWN0IGdyb3VwQnkuIEtleXMgZ2V0IHRvU3RyaW5nKCknZC4gSWYgeW91IHdhbnRlZCBpZGVudGl0eSwgTWFwLmdyb3VwQnkgaXMgdHdvIGxpbmVzIGRvd24uCmF3YWl0IG5ldXJvLm9iamVjdC5ncm91cEJ5KHsgaXRlbXM6IHJvd3MsIGNhbGxiYWNrZm46IChyKSA9PiByLmtpbmQsIHByb21wdDogJ2dyb3VwIGl0ZW1zIGJ5IHRoZSByZXR1cm4gdmFsdWUgb2YgY2FsbGJhY2tmbiBpbnRvIGFuIG9iamVjdCB3aXRoIHN0cmluZ2lmaWVkIGdyb3VwIG5hbWVzIC0gd2hlbiB5b3Ugd2FudCBjbGFzc2lmaWNhdGlvbiBidXQgZG9uXCd0IGNhcmUgYWJvdXQga2V5IGlkZW50aXR5JyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.object.groupBy" />

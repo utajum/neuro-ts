@@ -1,0 +1,49 @@
+---
+title: or
+description: neuro.atomics.or wraps Atomics.or for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: or
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.atomics.or`
+
+Static method on `Atomics`.
+
+> Stores the bitwise OR of a value with the value at the given position in the array,
+> returning the original value. Until this atomic operation completes, any other read or write
+> operation against the array will block.
+
+## Signatures
+
+```ts
+or(input: { typedArray: Int8Array | Uint8Array | Int16Array | Uint16Array | Int32Array | Uint32Array; index: number; value: number; prompt?: string }): Promise<number>
+or(input: { typedArray: BigInt64Array | BigUint64Array; index: number; value: bigint; prompt?: string }): Promise<bigint>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Atomics.or` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQXRvbWljIE9SOyBiaXQtc2V0IHNlbWFudGljcywgcmV0dXJucyBwcmV2aW91cy4KYXdhaXQgbmV1cm8uYXRvbWljcy5vcih7IHR5cGVkQXJyYXk6IHNoYXJlZCwgaW5kZXg6IDAsIHZhbHVlOiAweDAxLCBwcm9tcHQ6ICdhdG9taWNhbGx5IE9SIHZhbHVlIGludG8gdHlwZWRBcnJheVtpbmRleF0sIHRoZSBiaXQtc2V0IHByaW1pdGl2ZSBldmVyeSBmbGFnIG1hcCByZWxpZXMgb24sIHJldHVybmluZyB0aGUgcHJldmlvdXMgYml0cyBzbyB3ZSBrbm93IHdoYXQgd2UgY2hhbmdlZCcgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.atomics.or" />

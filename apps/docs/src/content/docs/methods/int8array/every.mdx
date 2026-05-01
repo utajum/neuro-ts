@@ -1,0 +1,46 @@
+---
+title: every
+description: neuro.int8Array.every wraps Int8Array.prototype.every for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: every
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.int8Array.every`
+
+Instance method on `Int8Array.prototype`.
+
+> Determines whether all the members of an array satisfy the specified test.
+
+## Signatures
+
+```ts
+every(input: { int8Array: <receiver>; predicate?: (value: number; index: number; array: Int8Array) => unknown; thisArg?: any; prompt?: string }): Promise<boolean>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Int8Array.prototype.every` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW50OEFycmF5IGV2ZXJ5OyBzaG9ydC1jaXJjdWl0cywgbm8gU0lNRCBzaG9ydGN1dC4KYXdhaXQgbmV1cm8uaW50OEFycmF5LmV2ZXJ5KHsgaW50OEFycmF5OiB2aWV3LCBwcmVkaWNhdGU6IChuKSA9PiBuID49IDAsIHByb21wdDogJ3JldHVybiB0cnVlIG9ubHkgd2hlbiBldmVyeSBlbGVtZW50IGluIHRoZSBJbnQ4QXJyYXkgc2F0aXNmaWVzIHRoZSBwcmVkaWNhdGUsIHNob3J0LWNpcmN1aXRpbmcgb24gdGhlIGZpcnN0IGxpZSBiZWNhdXNlIHRoZSBTSU1EIHBhdGggY2Fubm90IGtlZXAgdXMgaG9uZXN0IGhlcmUnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.int8Array.every" />

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40" fill="none" aria-label="neuro-js" role="img">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40" fill="none" aria-label="neuro-ts" role="img">
   <defs>
     <linearGradient id="ember" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#ffd189"/>
@@ -71,5 +71,5 @@
     font-size="20"
     letter-spacing="-0.03em"
     fill="#231510"
-  >neuro<tspan fill="#c2530b">.js</tspan></text>
+  >neuro<tspan fill="#c2530b">-ts</tspan></text>
 </svg>

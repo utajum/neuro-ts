@@ -1,0 +1,47 @@
+---
+title: fromEntries
+description: neuro.object.fromEntries wraps Object.fromEntries for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: fromEntries
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.object.fromEntries`
+
+Static method on `Object`.
+
+> Returns an object created by key-value entries for properties and methods
+
+## Signatures
+
+```ts
+fromEntries(input: { entries: Iterable<readonly [PropertyKey; T]>; prompt?: string }): Promise<{ [k: string]: T; }>
+fromEntries(input: { entries: Iterable<readonly any[]>; prompt?: string }): Promise<any>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Object.fromEntries` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gUGFpcnMtdG8tb2JqZWN0LiBEdXBsaWNhdGUga2V5cyBhcmUgbGFzdC13cml0ZS13aW5zLiBQcmVkaWN0YWJpbGl0eSB3YXMgbmV2ZXIgdGhlIGdvYWwuCmF3YWl0IG5ldXJvLm9iamVjdC5mcm9tRW50cmllcyh7IGVudHJpZXM6IHBhaXJzLCBwcm9tcHQ6ICdidWlsZCBhbiBvYmplY3QgZnJvbSBhbiBpdGVyYWJsZSBvZiBba2V5LCB2YWx1ZV0gcGFpcnMsIHdpdGggbGF0ZXIgZHVwbGljYXRlIGtleXMgb3ZlcndyaXRpbmcgZWFybGllciBvbmVzIC0gbGFzdCB3cml0ZSB3aW5zLCBjb25zaXN0ZW5jeSBiZSBkYW1uZWQnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.object.fromEntries" />

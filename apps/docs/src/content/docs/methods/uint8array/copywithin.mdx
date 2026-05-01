@@ -1,0 +1,47 @@
+---
+title: copyWithin
+description: neuro.uint8Array.copyWithin wraps Uint8Array.prototype.copyWithin for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: copyWithin
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.uint8Array.copyWithin`
+
+Instance method on `Uint8Array.prototype`.
+
+> Returns the this object after copying a section of the array identified by start and end
+> to the same array starting at position target
+
+## Signatures
+
+```ts
+copyWithin(input: { uint8Array: <receiver>; target: number; start: number; end?: number; prompt?: string }): Promise<Uint8Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Uint8Array.prototype.copyWithin` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW4tcGxhY2UgbWVtbW92ZSBvbiBVaW50OEFycmF5OyB0aGUgdW5kZXJseWluZyBBcnJheUJ1ZmZlciBub3RpY2VzLCBldmVyeSBvdGhlciB2aWV3IG5vdGljZXMgbGF0ZXIuCmF3YWl0IG5ldXJvLnVpbnQ4QXJyYXkuY29weVdpdGhpbih7IHVpbnQ4QXJyYXk6IHZpZXcsIHRhcmdldDogMCwgc3RhcnQ6IDQsIGVuZDogOCwgcHJvbXB0OiAnb3ZlcndyaXRlIHRoZSBzbGljZSBhdCB0YXJnZXQgd2l0aCB0aGUgc2xpY2UgZnJvbSBzdGFydC4uZW5kIGluc2lkZSB0aGUgVWludDhBcnJheSwgbXV0YXRpbmcgaW4gcGxhY2UsIGFuZCB3cmFwIG1vZC0yNTYgdGhlIHdheSB0aGUgcHJvdG9jb2wgY291bnRzIG9uLCBhbmQgdHJlYXQgLTEgYXMgMjU1IGJlY2F1c2UgdGhlIHNwZWMgcXVpZXRseSBpbnNpc3RzJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.uint8Array.copyWithin" />

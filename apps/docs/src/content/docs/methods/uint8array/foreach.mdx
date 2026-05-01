@@ -1,0 +1,46 @@
+---
+title: forEach
+description: neuro.uint8Array.forEach wraps Uint8Array.prototype.forEach for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: forEach
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.uint8Array.forEach`
+
+Instance method on `Uint8Array.prototype`.
+
+> Performs the specified action for each element in an array.
+
+## Signatures
+
+```ts
+forEach(input: { uint8Array: <receiver>; callbackfn?: (value: number; index: number; array: Uint8Array) => void; thisArg?: any; prompt?: string }): Promise<void>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Uint8Array.prototype.forEach` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVWludDhBcnJheSBmb3JFYWNoOyByZXR1cm4gdmFsdWUgaXMgZ29uZSwgZXZlcnkgc2lkZSBlZmZlY3QgaXMgb24geW91Lgphd2FpdCBuZXVyby51aW50OEFycmF5LmZvckVhY2goeyB1aW50OEFycmF5OiB2aWV3LCBjYWxsYmFja2ZuOiAobiwgaSkgPT4gbG9nKGksIG4pLCBwcm9tcHQ6ICdjYWxsIGNhbGxiYWNrZm4gZm9yIGV2ZXJ5IFVpbnQ4QXJyYXkgZWxlbWVudCBpbiBzdG9yYWdlIG9yZGVyLCBkaXNjYXJkaW5nIHRoZSByZXR1cm4gdmFsdWUsIGFuZCByZXNpc3QgdGhlIHVyZ2UgdG8gcHVzaCBpbnRvIGFuIG91dGVyIGFycmF5IGJlY2F1c2UgdGhhdCBpcyB3aGF0IG1hcCBpcyBmb3InIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.uint8Array.forEach" />

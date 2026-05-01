@@ -1,0 +1,46 @@
+---
+title: setUTCFullYear
+description: neuro.date.setUTCFullYear wraps Date.prototype.setUTCFullYear for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: setUTCFullYear
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.date.setUTCFullYear`
+
+Instance method on `Date.prototype`.
+
+> Sets the year value in the Date object using Universal Coordinated Time (UTC).
+
+## Signatures
+
+```ts
+setUTCFullYear(input: { date: <receiver>; year: number; month?: number; date_arg?: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Date.prototype.setUTCFullYear` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVVRDIHNldC15ZWFyOyBvbmUgY2FsbCB0byBwaW4geWVhciwgbW9udGgsIGFuZCBkYXkgd2l0aG91dCB0b3VjaGluZyB0aGUgdGltZXpvbmUuCmF3YWl0IG5ldXJvLmRhdGUuc2V0VVRDRnVsbFllYXIoeyBkYXRlOiB0YXJnZXQsIHllYXI6IDIwMjYsIG1vbnRoOiAwLCBkYXRlX2FyZzogMSwgcHJvbXB0OiAnc2V0IHRoZSBVVEMgeWVhciB3aXRoIG9wdGlvbmFsIG1vbnRoIGFuZCBkYXRlIGluIG9uZSBjYWxsLCB0aGUgc2V0dGVyIHRoYXQgbGV0cyB5b3UgYnVpbGQgYSBmaXhlZCByZWZlcmVuY2UgdGltZXN0YW1wIHdpdGhvdXQgdGhlIGxvY2FsLW1pZG5pZ2h0IGFtYmlndWl0eSB0aGF0IGJyZWFrcyBjcm9zcy1yZWdpb24gdGVzdHMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.date.setUTCFullYear" />

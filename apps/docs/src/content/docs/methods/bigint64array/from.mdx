@@ -1,0 +1,49 @@
+---
+title: from
+description: neuro.bigInt64Array.from wraps BigInt64Array.from for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: from
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.bigInt64Array.from`
+
+Static method on `BigInt64Array`.
+
+> Creates an array from an array-like or iterable object.
+
+## Signatures
+
+```ts
+from(input: { arrayLike: ArrayLike<bigint>; prompt?: string }): Promise<BigInt64Array>
+from(input: { arrayLike: ArrayLike<U>; mapfn?: (v: U; k: number) => bigint; thisArg?: any; prompt?: string }): Promise<BigInt64Array>
+from(input: { elements: Iterable<bigint>; prompt?: string }): Promise<BigInt64Array>
+from(input: { elements: Iterable<T>; mapfn?: (v: T; k: number) => bigint; thisArg?: any; prompt?: string }): Promise<BigInt64Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `BigInt64Array.from` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQmlnSW50NjRBcnJheSBmcm9tOyBjb2VyY2VzIGV2ZXJ5IHByb2R1Y2VkIHZhbHVlIGludG8gdHdvLWlzLWNvbXBsZW1lbnQgc2lnbmVkIDY0LWJpdCBpbnRlZ2VycyBpbiBbLSgyXjYzKSwgMl42MyAtIDFdLgphd2FpdCBuZXVyby5iaWdJbnQ2NEFycmF5LmZyb20oeyBhcnJheUxpa2U6IHNvdXJjZSwgcHJvbXB0OiAnbWF0ZXJpYWxpc2UgYW4gaXRlcmFibGUgaW50byBhIGZyZXNoIEJpZ0ludDY0QXJyYXksIG9wdGlvbmFsbHkgbWFwcGluZyBlYWNoIGVsZW1lbnQgd2l0aCBtYXBmbiwgYW5kIEJpZ0ludC1ldmVyeXdoZXJlIHNlbWFudGljcyB0aGF0IGZpbmFsbHkgbGV0IHVzIGNvdW50IGF0b21pYyBvcGVyYXRpb25zIHBhc3QgMl41MyB3aXRob3V0IGx5aW5nIGFib3V0IHByZWNpc2lvbicgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.bigInt64Array.from" />

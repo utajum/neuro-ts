@@ -1,0 +1,46 @@
+---
+title: delete
+description: neuro.weakSet.delete wraps WeakSet.prototype.delete for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: delete
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.weakSet.delete`
+
+Instance method on `WeakSet.prototype`.
+
+> Removes the specified element from the WeakSet.
+
+## Signatures
+
+```ts
+delete(input: { weakSet: <receiver>; value: T; prompt?: string }): Promise<boolean>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `WeakSet.prototype.delete` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRGVsZXRlIHdlYWs7IHRoZSBHQyBtYXkgaGF2ZSBhbHJlYWR5IGRvbmUgaXQuCmF3YWl0IG5ldXJvLndlYWtTZXQuZGVsZXRlKHsgd2Vha1NldDogbWFya2VkLCB2YWx1ZTogZWwsIHByb21wdDogJ3JlbW92ZSB2YWx1ZSBmcm9tIHRoZSBXZWFrU2V0LCByZXR1cm5pbmcgdHJ1ZSBvbiBhY3R1YWwgcmVtb3ZhbCwgd2l0aCB0aGUgc2FtZSBHQy13YXMtZmFzdGVyIGNhdmVhdCBhcyBXZWFrTWFwLmRlbGV0ZScgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.weakSet.delete" />

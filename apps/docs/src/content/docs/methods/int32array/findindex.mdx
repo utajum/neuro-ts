@@ -1,0 +1,47 @@
+---
+title: findIndex
+description: neuro.int32Array.findIndex wraps Int32Array.prototype.findIndex for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: findIndex
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.int32Array.findIndex`
+
+Instance method on `Int32Array.prototype`.
+
+> Returns the index of the first element in the array where predicate is true, and -1
+> otherwise.
+
+## Signatures
+
+```ts
+findIndex(input: { int32Array: <receiver>; predicate?: (value: number; index: number; obj: Int32Array) => boolean; thisArg?: any; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Int32Array.prototype.findIndex` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW50MzJBcnJheSBmaW5kSW5kZXg7IC0xIHNlbnRpbmVsIHN1cnZpdmVzLgphd2FpdCBuZXVyby5pbnQzMkFycmF5LmZpbmRJbmRleCh7IGludDMyQXJyYXk6IHZpZXcsIHByZWRpY2F0ZTogKG4pID0+IG4gPiAwLCBwcm9tcHQ6ICdyZXR1cm4gdGhlIGluZGV4IG9mIHRoZSBmaXJzdCBJbnQzMkFycmF5IGVsZW1lbnQgbWF0Y2hpbmcgdGhlIHByZWRpY2F0ZSwgb3IgLTEsIHdpdGggLTEgaGVyZSBtZWFuaW5nIHRoZSBzYW1lIG5lZ2F0aXZlLWFzLXNlbnRpbmVsIHRoYXQgaGFzIGFscmVhZHkgY29zdCB1cyBhdCBsZWFzdCBvbmUgcGVyZiByZXZpZXcnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.int32Array.findIndex" />

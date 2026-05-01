@@ -1,0 +1,46 @@
+---
+title: setPrototypeOf
+description: neuro.object.setPrototypeOf wraps Object.setPrototypeOf for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: setPrototypeOf
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.object.setPrototypeOf`
+
+Static method on `Object`.
+
+> Sets the prototype of a specified object o to object proto or null. Returns the object o.
+
+## Signatures
+
+```ts
+setPrototypeOf(input: { o: any; proto: object; prompt?: string }): Promise<any>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Object.setPrototypeOf` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gUHJvdG90eXBlIG11dGF0aW9uLiBUaGUgcGVyZm9ybWFuY2UgY2xpZmYgaGFzIGRvY3VtZW50YXRpb24uIFRoZSBkb2NzIGFyZSB1bnJlYWQuCmF3YWl0IG5ldXJvLm9iamVjdC5zZXRQcm90b3R5cGVPZih7IG86IGluc3RhbmNlLCBwcm90bzogbmV3UHJvdG8sIHByb21wdDogJ211dGF0ZSB0aGUgcHJvdG90eXBlIGNoYWluIG9mIG9iamVjdCAtIHRoZSBvcGVyYXRpb24gd2l0aCBpdHMgb3duIHBlcmZvcm1hbmNlIGNsaWZmIHdhcm5pbmcgaW4gdGhlIGRvY3MsIHdoaWNoIG5vYm9keSByZWFkcycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.object.setPrototypeOf" />

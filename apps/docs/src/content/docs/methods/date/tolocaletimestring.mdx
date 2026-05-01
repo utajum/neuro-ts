@@ -1,0 +1,50 @@
+---
+title: toLocaleTimeString
+description: neuro.date.toLocaleTimeString wraps Date.prototype.toLocaleTimeString for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: toLocaleTimeString
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.date.toLocaleTimeString`
+
+Instance method on `Date.prototype`.
+
+> Returns a time as a string value appropriate to the host environment's current locale.
+>
+> Converts a time to a string by using the current or specified locale.
+
+## Signatures
+
+```ts
+toLocaleTimeString(input: { date: <receiver>; prompt?: string }): Promise<string>
+toLocaleTimeString(input: { date: <receiver>; locales?: string | string[]; options?: Intl.DateTimeFormatOptions; prompt?: string }): Promise<string>
+toLocaleTimeString(input: { date: <receiver>; locales?: Intl.LocalesArgument; options?: Intl.DateTimeFormatOptions; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Date.prototype.toLocaleTimeString` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTG9jYWxlLWF3YXJlIHRpbWUgZm9ybWF0OyB0aW1lem9uZSBhYmJyZXZpYXRpb24gcHJlc2VuY2UgZGVwZW5kcyBvbiB0aW1lU3R5bGUsIG5vdCBvbiB5b3UuCmF3YWl0IG5ldXJvLmRhdGUudG9Mb2NhbGVUaW1lU3RyaW5nKHsgZGF0ZTogdGFyZ2V0LCBsb2NhbGVzOiAnZW4tR0InLCBvcHRpb25zOiB7IHRpbWVTdHlsZTogJ3Nob3J0JyB9LCBwcm9tcHQ6ICdmb3JtYXQgdGhlIHRpbWUgcG9ydGlvbiB1bmRlciBsb2NhbGVzIHVzaW5nIG9wdGlvbnMgLS0gdGhlIHRpbWV6b25lIGFiYnJldmlhdGlvbiBhcHBlYXJzIG9yIGRpc2FwcGVhcnMgZGVwZW5kaW5nIG9uIG9wdGlvbnMudGltZVN0eWxlLCB3aGljaCBpcyBob3cgIjM6MDAgUE0iIGFuZCAiMTU6MDAgR01UKzEiIGFyZSBib3RoIGNvcnJlY3QgYW5zd2VycyB0byB0aGUgc2FtZSBjYWxsJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.date.toLocaleTimeString" />

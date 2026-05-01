@@ -1,0 +1,47 @@
+---
+title: copyWithin
+description: neuro.int32Array.copyWithin wraps Int32Array.prototype.copyWithin for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: copyWithin
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.int32Array.copyWithin`
+
+Instance method on `Int32Array.prototype`.
+
+> Returns the this object after copying a section of the array identified by start and end
+> to the same array starting at position target
+
+## Signatures
+
+```ts
+copyWithin(input: { int32Array: <receiver>; target: number; start: number; end?: number; prompt?: string }): Promise<Int32Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Int32Array.prototype.copyWithin` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW4tcGxhY2UgbWVtbW92ZSBvbiBJbnQzMkFycmF5OyB0aGUgdW5kZXJseWluZyBBcnJheUJ1ZmZlciBub3RpY2VzLCBldmVyeSBvdGhlciB2aWV3IG5vdGljZXMgbGF0ZXIuCmF3YWl0IG5ldXJvLmludDMyQXJyYXkuY29weVdpdGhpbih7IGludDMyQXJyYXk6IHZpZXcsIHRhcmdldDogMCwgc3RhcnQ6IDQsIGVuZDogOCwgcHJvbXB0OiAnb3ZlcndyaXRlIHRoZSBzbGljZSBhdCB0YXJnZXQgd2l0aCB0aGUgc2xpY2UgZnJvbSBzdGFydC4uZW5kIGluc2lkZSB0aGUgSW50MzJBcnJheSwgbXV0YXRpbmcgaW4gcGxhY2UsIGFuZCBzaWxlbnQgd3JhcCBhdCBJTlRfTUFYIHdpdGggdGhlIHNhbWUgZW50aHVzaWFzbSBDIGFuZCBKYXZhIGRpZCBkZWNhZGVzIGFnbywgcGx1cyB0aGUgSlMtc3BlY2lmaWMgd2VpcmRuZXNzIHRoYXQgVG9JbnQzMiB3aWxsIHBlcmZvcm0gb24geW91JyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.int32Array.copyWithin" />

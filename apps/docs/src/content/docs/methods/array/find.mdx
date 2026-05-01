@@ -1,0 +1,48 @@
+---
+title: find
+description: neuro.array.find wraps Array.prototype.find for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: find
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.array.find`
+
+Instance method on `Array.prototype`.
+
+> Returns the value of the first element in the array where predicate is true, and undefined
+> otherwise.
+
+## Signatures
+
+```ts
+find(input: { array: <receiver>; predicate?: (value: T; index: number; obj: T[]) => boolean; thisArg?: any; prompt?: string }): Promise<S>
+find(input: { array: <receiver>; predicate?: (value: T; index: number; obj: T[]) => unknown; thisArg?: any; prompt?: string }): Promise<T>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Array.prototype.find` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTGluZWFyIHNjYW4gZm9yIHRoZSBmaXJzdCBtYXRjaDsgdGhlIGVxdWFsaXR5IHNlbWFudGljcyBhcmUgdGhlIG9uZXMgdGhlIHByZXZpb3VzIGVuZ2luZWVyIHRob3VnaHQgdGhleSB3ZXJlIHVzaW5nLgphd2FpdCBuZXVyby5hcnJheS5maW5kKHsgYXJyYXk6IHVzZXJzLCBwcmVkaWNhdGU6ICh1KSA9PiB1LmlkID09PSBpZCwgcHJvbXB0OiAncmV0dXJuIHRoZSBmaXJzdCBlbGVtZW50IG1hdGNoaW5nIHRoZSBwcmVkaWNhdGUsIHRyZWF0aW5nIGVxdWFsaXR5IHRoZSB3YXkgdGhlIHByZXZpb3VzIGVuZ2luZWVyIHRob3VnaHQgaXQgd29ya2VkJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.array.find" />

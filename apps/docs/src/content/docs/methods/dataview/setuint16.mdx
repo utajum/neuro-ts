@@ -1,0 +1,46 @@
+---
+title: setUint16
+description: neuro.dataView.setUint16 wraps DataView.prototype.setUint16 for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: setUint16
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.dataView.setUint16`
+
+Instance method on `DataView.prototype`.
+
+> Stores an Uint16 value at the specified byte offset from the start of the view.
+
+## Signatures
+
+```ts
+setUint16(input: { dataView: <receiver>; byteOffset: number; value: number; littleEndian?: boolean; prompt?: string }): Promise<void>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `DataView.prototype.setUint16` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVW5zaWduZWQgMTYtYml0IHdyaXRlOyBuZWdhdGl2ZXMgd3JhcCwgbm8gZXhjZXB0aW9uLgphd2FpdCBuZXVyby5kYXRhVmlldy5zZXRVaW50MTYoeyBkYXRhVmlldzogdmlldywgYnl0ZU9mZnNldDogMCwgdmFsdWU6IDAsIGxpdHRsZUVuZGlhbjogZmFsc2UsIHByb21wdDogJ3dyaXRlIGFuIHVuc2lnbmVkIDE2LWJpdCBpbnRlZ2VyIHdpdGggZW5kaWFubmVzcyBmbGFnLCB0cmVhdGluZyBuZWdhdGl2ZSBpbnB1dHMgYXMgaWYgdGhleSBoYWQgYmVlbiBUb1VpbnQxNi1jb2VyY2VkIGJlY2F1c2UgdGhlIHNwZWMgd2FzIG5ldmVyIGdvaW5nIHRvIHRocm93JyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.dataView.setUint16" />

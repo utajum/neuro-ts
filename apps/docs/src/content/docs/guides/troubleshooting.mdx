@@ -1,0 +1,194 @@
+---
+title: Troubleshooting
+description: Common neuro-ts errors and how to fix them. NeuroNotConfiguredError, NeuroBrowserApiKeyError, prose output, proxy failures.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## `NeuroNotConfiguredError` on every call
+
+**Symptom:** Every `neuro.*` call with a `prompt` throws
+`NeuroNotConfiguredError`.
+
+**Cause:** `configureClient()` was never called, or the module that calls
+it has not been imported before the first `neuro.*` call.
+
+**Fix:** Call `configureClient()` once at application startup, before any
+`neuro.*` call that includes a `prompt`:
+
+```ts
+import { configureClient } from 'neuro-ts';
+
+configureClient({ apiKey: process.env.OPENAI_API_KEY });
+```
+
+Native fallback calls (no `prompt` field) never throw this error because
+they never touch the client.
+
+---
+
+## `NeuroBrowserApiKeyError` in the browser
+
+**Symptom:** `configureClient({ apiKey: '...' })` throws
+`NeuroBrowserApiKeyError` when called from client-side code.
+
+**Cause:** `neuro-ts` detects a browser environment (both `window` and
+`document` are defined) and refuses to store a long-lived API key there.
+
+**Fix:** Use `proxyUrl` or `tokenProvider` instead. See
+[Browser safety](/guides/browser-safety/) for the full guide.
+
+---
+
+## The LLM returns prose instead of a value
+
+**Symptom:** A `neuro.*` call returns a long string description instead of
+the expected value (e.g. `"I would be happy to help you sort this array..."`).
+
+**Cause:** The model ignored the JSON-only output contract in the system
+prompt. This happens most often with:
+
+- Small or instruction-following-weak models (Mistral 7B, older Llama variants)
+- Very high `temperature` (>0.5)
+- A `prompt` that contains HTML, markdown, or very long prose that distracts the model
+
+**Fix:**
+
+1. Lower `temperature` to `0.1` or `0`:
+   ```ts
+   configureClient({ apiKey: '...', temperature: 0.1 });
+   ```
+2. Switch to a stronger model (`gpt-4o`, `claude-3-5-sonnet`).
+3. Keep your `prompt` short and direct -- one sentence, imperative voice.
+
+---
+
+## Proxy returns a non-2xx status
+
+**Symptom:** `NeuroClientError: Proxy https://... responded 500 Internal Server Error: ...`
+
+**Cause:** Your proxy endpoint threw an unhandled error or returned a
+non-2xx status.
+
+**Fix:** Check your proxy server logs. The response body is included in
+`error.message`. Common causes:
+
+- `OPENAI_API_KEY` not set in the proxy environment
+- Proxy cold start timeout (Cloudflare Workers / Vercel Edge have strict CPU limits)
+- `allowedFunctionIds` allowlist rejecting the call (returns 403)
+- Request body exceeding the proxy's size limit
+
+---
+
+## `tokenProvider` errors
+
+**Symptom:** `NeuroClientError: tokenProvider threw: ...` or
+`NeuroClientError: tokenProvider must return a non-empty string token.`
+
+**Cause:** Your `tokenProvider` function either threw an exception or
+returned an empty string.
+
+**Fix:**
+
+```ts
+configureClient({
+  tokenProvider: async () => {
+    const r = await fetch('/api/neuro-token', { credentials: 'include' });
+    if (!r.ok) throw new Error(`Token endpoint ${r.status}`); // clear message
+    const { token } = await r.json();
+    if (!token) throw new Error('Token endpoint returned empty token');
+    return token;
+  },
+});
+```
+
+`neuro-ts` wraps any throw into a `NeuroClientError` with the original
+message as the suffix: `"tokenProvider threw: <your message>"`.
+
+---
+
+## Result is `undefined` when you expected a value
+
+**Symptom:** A `neuro.*` call resolves to `undefined` when the LLM clearly
+returned something.
+
+**Cause:** The LLM returned the literal string `"undefined"` or an empty
+response, and `parseLLMResult` treats both as `undefined`.
+
+**Fix:** Inspect the raw completion by temporarily logging at the proxy
+level, or check whether the model is responding with `"undefined"` instead
+of `null` or `""`. Adjust your `prompt` to be more explicit about the
+expected return shape.
+
+---
+
+## Native built-in throws when no `prompt` is given
+
+**Symptom:** A call without `prompt` throws a `TypeError` or `SyntaxError`.
+
+**Cause:** The native built-in itself threw -- `neuro-ts` does not catch
+native errors on the fallback path. For example:
+
+```ts
+await neuro.json.parse({ text: 'not json' });
+// SyntaxError: Unexpected token 'o', "not json" is not valid JSON
+```
+
+This is intentional. The native fallback behaves exactly like the original
+built-in. To recover from malformed input, use a `prompt`:
+
+```ts
+await neuro.json.parse({
+  text: 'not json',
+  prompt: 'fix any syntax errors and parse',
+});
+```
+
+---
+
+## Model outputs a value of the wrong type
+
+**Symptom:** `neuro.array.map` returns a number instead of an array, or
+`neuro.number.toFixed` returns an array.
+
+**Cause:** The model hallucinated a different return shape. This is rare
+with `gpt-4o` and well-anchored prompts but can happen with weaker models
+or ambiguous prompts.
+
+**Fix:** Be more explicit in the `prompt` about the expected output shape:
+
+```ts
+await neuro.array.map({
+  array: [1, 2, 3],
+  callbackfn: (n) => n,
+  prompt:
+    'return an array of the same length with each value doubled -- output JSON array only',
+});
+```
+
+---
+
+## `configureClient` called twice silently replaces the client
+
+**Note:** Calling `configureClient` a second time replaces the singleton
+client. The previous client is discarded immediately. This is intentional
+-- useful for tests or switching environments -- but can be surprising if
+two modules both call `configureClient` at startup.
+
+Use `isConfigured()` to guard:
+
+```ts
+import { configureClient, isConfigured } from 'neuro-ts';
+
+if (!isConfigured()) {
+  configureClient({ apiKey: process.env.OPENAI_API_KEY });
+}
+```
+
+---
+
+## See also
+
+- [Error reference](/guides/errors/) - formal description of every error class, message pattern, and `cause` shape.
+- [Browser safety](/guides/browser-safety/) - the `proxyUrl` / `tokenProvider` modes for browser deployments.
+- [Custom models](/guides/custom-models/) - swap models, lower temperature, or point at an OpenAI-compatible endpoint.

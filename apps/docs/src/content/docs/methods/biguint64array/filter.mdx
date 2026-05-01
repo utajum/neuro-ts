@@ -1,0 +1,46 @@
+---
+title: filter
+description: neuro.bigUint64Array.filter wraps BigUint64Array.prototype.filter for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: filter
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.bigUint64Array.filter`
+
+Instance method on `BigUint64Array.prototype`.
+
+> Returns the elements of an array that meet the condition specified in a callback function.
+
+## Signatures
+
+```ts
+filter(input: { bigUint64Array: <receiver>; predicate?: (value: bigint; index: number; array: BigUint64Array) => any; thisArg?: any; prompt?: string }): Promise<BigUint64Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `BigUint64Array.prototype.filter` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQmlnVWludDY0QXJyYXkgZmlsdGVyOyBmcmVzaCBhbGxvY2F0aW9uIHNpemVkIHRvIHJlc3VsdCwgdGhlIG9uZSB0aGUgcHJvZmlsZXIgZmxhZ3MgaW4gd2VlayB0aHJlZS4KYXdhaXQgbmV1cm8uYmlnVWludDY0QXJyYXkuZmlsdGVyKHsgYmlnVWludDY0QXJyYXk6IHZpZXcsIHByZWRpY2F0ZTogKG4pID0+IG4gIT09IDBuLCBwcm9tcHQ6ICdyZXR1cm4gYSBuZXcgQmlnVWludDY0QXJyYXkga2VlcGluZyBvbmx5IGVsZW1lbnRzIHRoYXQgc2F0aXNmeSB0aGUgcHJlZGljYXRlLCBhbGxvY2F0aW5nIGEgZnJlc2ggYnVmZmVyIGJlY2F1c2UgZmlsdGVyIGNhbm5vdCBpbi1wbGFjZSBuYXJyb3cgd2l0aG91dCBseWluZyBhYm91dCBsZW5ndGgnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.bigUint64Array.filter" />

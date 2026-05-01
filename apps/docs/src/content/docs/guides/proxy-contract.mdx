@@ -1,6 +1,6 @@
 ---
 title: Custom proxy contract
-description: Wire format between the neuro-js SDK and your proxy endpoint.
+description: Wire format between the neuro-ts SDK and your proxy endpoint. AI-augmented JavaScript wrappers, TypeScript-first, OpenAI-compatible JSON envelope.
 ---
 
 When you call `configureClient({ proxyUrl })`, the SDK serialises every
@@ -42,7 +42,7 @@ interface NeuroProxyRequest {
 
   /**
    * Frozen, generated system prompt for this method. Forwarding it
-   * verbatim is recommended. `neuro-js` ships the same string in
+   * verbatim is recommended. `neuro-ts` ships the same string in
    * `prompts.json` so consumers can audit.
    */
   systemPrompt: string;
@@ -51,6 +51,36 @@ interface NeuroProxyRequest {
   model: string;
 }
 ```
+
+### What `instanceData` looks like
+
+`instanceData` is the receiver value (`this`), serialised by the SDK
+before transport. The serialiser handles `Date`, `Map`, `Set`, `RegExp`,
+`BigInt`, every TypedArray, and circular references; the result is always
+a string the model can read.
+
+```ts
+// neuro.array.map({ array: [1, 2, 3], callbackfn: (n) => n * 2, prompt: '...' })
+//   functionId    -> "Array.prototype.map"
+//   instanceData  -> "[1,2,3]"
+
+// neuro.string.toUpperCase({ string: 'hi mum', prompt: '...' })
+//   functionId    -> "String.prototype.toUpperCase"
+//   instanceData  -> "\"hi mum\""
+
+// neuro.map.get({ map: new Map([['a', 1]]), key: 'a', prompt: '...' })
+//   functionId    -> "Map.prototype.get"
+//   instanceData  -> "{\"__type\":\"Map\",\"entries\":[[\"a\",1]]}"
+
+// neuro.math.random({ prompt: '...' })
+//   functionId    -> "Math.random"
+//   instanceData  -> null    (static methods have no receiver)
+```
+
+For prototype methods the receiver is whatever the caller passed under
+the receiver-named key (`array`, `string`, `map`, etc.). For static
+methods (`Math.*`, `JSON.*`, `Promise.*`) and globals (`parseInt`,
+`encodeURI`) the value is always `null`.
 
 ## Response
 
@@ -91,7 +121,7 @@ export async function POST(req) {
         content:
           `## User intent\n${body.prompt}\n\n` +
           `## Function\n\`${body.functionId}\`\n\n` +
-          `## Receiver\n${body.instanceData ?? 'null'}\n\n` +
+          `## Receiver / \`this\` value\n${body.instanceData ?? 'null'}\n\n` +
           `## Named arguments\n${argLines || '(none)'}`,
       },
     ],
@@ -109,19 +139,49 @@ export async function POST(req) {
 
 ## Drop-in package
 
-`neuro-js-proxy` ships a Web-standard `(req: Request) => Response`
+`neuro-ts-proxy` ships a Web-standard `(req: Request) => Response`
 handler that implements this contract:
 
 ```ts
-import { createNeuroProxy } from 'neuro-js-proxy/proxy';
+import { createNeuroProxy } from 'neuro-ts-proxy/proxy';
 
 export default {
   fetch: createNeuroProxy({
     apiKey: process.env.OPENAI_API_KEY,
-    defaultModel: 'gpt-4o-mini',
+    defaultModel: 'gpt-4o',
     allowedFunctionIds: ['Array.prototype.map', 'Math.random'],
   }),
 };
+```
+
+### `allowedFunctionIds` -- required for production
+
+`allowedFunctionIds` is an explicit allowlist of the `functionId` values
+your proxy will serve. **If omitted, every function id is accepted.**
+
+That means a caller could send `functionId: "eval"` or any other string
+and your proxy would forward it to the LLM with your API key. In
+production, always set an explicit allowlist:
+
+```ts
+createNeuroProxy({
+  apiKey: process.env.OPENAI_API_KEY,
+  allowedFunctionIds: [
+    'Array.prototype.map',
+    'Array.prototype.filter',
+    'JSON.parse',
+    'Math.random',
+  ],
+});
+```
+
+Requests for unlisted function ids receive a `403` response. The full
+list of valid `functionId` values is the set of keys in `prompts.json`,
+available at runtime via:
+
+```ts
+import prompts from 'neuro-ts/prompts';
+const valid = Object.values(prompts).map((e) => e.functionId);
 ```
 
 ## Rate-limiting and abuse mitigations

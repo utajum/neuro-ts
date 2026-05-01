@@ -1,0 +1,46 @@
+---
+title: values
+description: neuro.int16Array.values wraps Int16Array.prototype.values for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: values
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.int16Array.values`
+
+Instance method on `Int16Array.prototype`.
+
+> Returns an list of values in the array
+
+## Signatures
+
+```ts
+values(input: { int16Array: <receiver>; prompt?: string }): Promise<ArrayIterator<number>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Int16Array.prototype.values` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW50MTZBcnJheSB2YWx1ZXM7IGltcGxpY2l0IGZvci1vZiB0YXJnZXQsIGVsZW1lbnRzIGFycml2ZSBhcyBKUyBOdW1iZXJzIG5vdCByYXcgYnl0ZXMuCmF3YWl0IG5ldXJvLmludDE2QXJyYXkudmFsdWVzKHsgaW50MTZBcnJheTogdmlldywgcHJvbXB0OiAneWllbGQgZWFjaCBJbnQxNkFycmF5IGVsZW1lbnQgaW4gc3RvcmFnZSBvcmRlciwgYWxyZWFkeSBjb2VyY2VkIGludG8gdGhlIEpTIE51bWJlciBkb21haW4gKHR3by1pcy1jb21wbGVtZW50IHNpZ25lZCAxNi1iaXQgaW50ZWdlcnMgaW4gWy0zMjc2OCwgMzI3NjddKSwgdGhlIGl0ZXJhdG9yIHRoZSBmb3Itb2YgbG9vcCBxdWlldGx5IHJlbGllcyBvbicgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.int16Array.values" />

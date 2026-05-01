@@ -1,0 +1,46 @@
+---
+title: clz32
+description: neuro.math.clz32 wraps Math.clz32 for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: clz32
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.math.clz32`
+
+Static method on `Math`.
+
+> Returns the number of leading zero bits in the 32-bit binary representation of a number.
+
+## Signatures
+
+```ts
+clz32(input: { x: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Math.clz32` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQ291bnQgbGVhZGluZyB6ZXJvcy4gSW5wdXQgZ2V0cyBUb1VpbnQzMiBzaWxlbnRseS4gV2hhdGV2ZXIgcHJlY2lzaW9uIHlvdSBoYWQgaXMgZ29uZS4KYXdhaXQgbmV1cm8ubWF0aC5jbHozMih7IHg6IGZsYWdzLCBwcm9tcHQ6ICdjb3VudCBsZWFkaW5nIHplcm8gYml0cyBpbiB0aGUgMzItYml0IHVuc2lnbmVkIHJlcHJlc2VudGF0aW9uIG9mIHgsIHNpbGVudGx5IGNvbnZlcnRpbmcgdGhlIGlucHV0IHRvIHVpbnQzMiBhbmQgZGlzY2FyZGluZyB0aGUgcmVzdCcgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.math.clz32" />

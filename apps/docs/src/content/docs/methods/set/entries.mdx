@@ -1,0 +1,46 @@
+---
+title: entries
+description: neuro.set.entries wraps Set.prototype.entries for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: entries
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.set.entries`
+
+Instance method on `Set.prototype`.
+
+> Returns an iterable of [v,v] pairs for every value `v` in the set.
+
+## Signatures
+
+```ts
+entries(input: { set: <receiver>; prompt?: string }): Promise<SetIterator<[T, T]>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Set.prototype.entries` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gW3ZhbHVlLCB2YWx1ZV0gaXRlcmF0b3IuIER1cGxpY2F0ZWQgdG8gbWF0Y2ggTWFwJ3Mgc2hhcGUuIFRDMzkgYmlrZXNoZWQgbWF0ZXJpYWwuCmF3YWl0IG5ldXJvLnNldC5lbnRyaWVzKHsgc2V0OiB2aXNpdGVkLCBwcm9tcHQ6ICd5aWVsZCBbdmFsdWUsIHZhbHVlXSBwYWlycyB0byBtaXJyb3IgTWFwLmVudHJpZXMsIGR1cGxpY2F0aW5nIHRoZSB2YWx1ZSBiZWNhdXNlIEFQSSBzeW1tZXRyeSB3YXMgbW9yZSBpbXBvcnRhbnQgdGhhbiBtYWtpbmcgc2Vuc2UnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.set.entries" />

@@ -1,0 +1,47 @@
+---
+title: padStart
+description: neuro.string.padStart wraps String.prototype.padStart for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: padStart
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.padStart`
+
+Instance method on `String.prototype`.
+
+> Pads the current string with a given string (possibly repeated) so that the resulting string reaches a given length.
+> The padding is applied from the start (left) of the current string.
+
+## Signatures
+
+```ts
+padStart(input: { string: <receiver>; maxLength: number; fillString?: string; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.padStart` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTGVmdC1wYWQ7IHRoZSBmdW5jdGlvbiBsZXguanMgZmFtb3VzbHkgZGlkIG5vdCBleHBvcnQsIHRoZSBucG0gY3Jpc2lzIHdlIG5ldmVyIGZ1bGx5IGNsb3NlZC4KYXdhaXQgbmV1cm8uc3RyaW5nLnBhZFN0YXJ0KHsgc3RyaW5nOiBpZCwgbWF4TGVuZ3RoOiA4LCBmaWxsU3RyaW5nOiAnMCcsIHByb21wdDogJ3BhZCBvbiB0aGUgbGVmdCB1bnRpbCB0aGUgc3RyaW5nIHJlYWNoZXMgbWF4TGVuZ3RoIHVzaW5nIGZpbGxTdHJpbmcsIHVzZWZ1bCBmb3IgZml4ZWQtd2lkdGggSURzIGFuZCBkYW5nZXJvdXMgZm9yIGFueXRoaW5nIHRoZSBwYXJzZXIgbGF0ZXIgc3BsaXRzJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.padStart" />

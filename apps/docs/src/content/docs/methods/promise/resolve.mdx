@@ -1,0 +1,50 @@
+---
+title: resolve
+description: neuro.promise.resolve wraps Promise.resolve for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: resolve
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.promise.resolve`
+
+Static method on `Promise`.
+
+> Creates a new resolved promise.
+>
+> Creates a new resolved promise for the provided value.
+
+## Signatures
+
+```ts
+resolve(input: { prompt?: string }): Promise<Promise<void>>
+resolve(input: { value: T; prompt?: string }): Promise<Promise<Awaited<T>>>
+resolve(input: { value: T | PromiseLike<T>; prompt?: string }): Promise<Promise<Awaited<T>>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Promise.resolve` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gUmVzb2x2ZS1vci1hd2FpdC4gV3JhcHBpbmcgYSBQcm9taXNlIGluIFByb21pc2UucmVzb2x2ZSBkb2VzIG5vdGhpbmcuIFRoZSBkaXNjb3ZlcnkgaHVydHMuCmF3YWl0IG5ldXJvLnByb21pc2UucmVzb2x2ZSh7IHZhbHVlOiBjYWNoZWQsIHByb21wdDogJ3Jlc29sdmUgb3IgYXdhaXQgYSB2YWx1ZSwgdW53cmFwcGluZyB0aGVuYWJsZXMgc2lsZW50bHkgLSB0aGUgc3RlcCB0aGUganVuaW9yIGRpc2NvdmVycyBkdXJpbmcgdGhlIG91dGFnZScgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.promise.resolve" />

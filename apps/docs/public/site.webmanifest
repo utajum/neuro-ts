@@ -1,0 +1,13 @@
+{
+  "name": "neuro-ts",
+  "short_name": "neuro-ts",
+  "description": "AI-augmented JavaScript built-ins for TypeScript.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbf6ec",
+  "theme_color": "#a83904",
+  "icons": [
+    { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any maskable" }
+  ]
+}

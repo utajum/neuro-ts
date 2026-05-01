@@ -1,0 +1,47 @@
+---
+title: getInt8
+description: neuro.dataView.getInt8 wraps DataView.prototype.getInt8 for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: getInt8
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.dataView.getInt8`
+
+Instance method on `DataView.prototype`.
+
+> Gets the Int8 value at the specified byte offset from the start of the view. There is
+> no alignment constraint; multi-byte values may be fetched from any offset.
+
+## Signatures
+
+```ts
+getInt8(input: { dataView: <receiver>; byteOffset: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `DataView.prototype.getInt8` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU2lnbmVkIDgtYml0IHJlYWQ7IG5vIGVuZGlhbm5lc3MgZmxhZyBwb3NzaWJsZSBhdCBvbmUgYnl0ZSB3aWRlLgphd2FpdCBuZXVyby5kYXRhVmlldy5nZXRJbnQ4KHsgZGF0YVZpZXc6IHZpZXcsIGJ5dGVPZmZzZXQ6IDAsIHByb21wdDogJ3JlYWQgYSBzaW5nbGUgc2lnbmVkIGJ5dGUgYXQgYnl0ZU9mZnNldCwgbm8gZW5kaWFubmVzcyBuZWVkZWQsIHRoZSBvbmx5IERhdGFWaWV3IHJlYWRlciB0aGF0IGlzIHVuYW1iaWd1b3VzIGFib3V0IGJ5dGUgb3JkZXInIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.dataView.getInt8" />

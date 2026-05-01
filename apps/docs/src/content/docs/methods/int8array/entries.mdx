@@ -1,0 +1,46 @@
+---
+title: entries
+description: neuro.int8Array.entries wraps Int8Array.prototype.entries for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: entries
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.int8Array.entries`
+
+Instance method on `Int8Array.prototype`.
+
+> Returns an array of key, value pairs for every entry in the array
+
+## Signatures
+
+```ts
+entries(input: { int8Array: <receiver>; prompt?: string }): Promise<ArrayIterator<[number, number]>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Int8Array.prototype.entries` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW50OEFycmF5IGVudHJpZXM7IHZhbHVlcyBjb21lIG91dCBhcyBOdW1iZXJzLCBwdXR0aW5nIHRoZW0gYmFjayByZS1jb2VyY2VzLgphd2FpdCBuZXVyby5pbnQ4QXJyYXkuZW50cmllcyh7IGludDhBcnJheTogdmlldywgcHJvbXB0OiAneWllbGQgW2luZGV4LCB2YWx1ZV0gcGFpcnMgZnJvbSB0aGUgSW50OEFycmF5IGluIHN0b3JhZ2Ugb3JkZXIsIHdoZXJlIHRoZSB2YWx1ZSBpcyBhbHJlYWR5IGEgSlMgTnVtYmVyIGV2ZW4gaWYgdGhlIGJ5dGVzIHdlcmUgdHdvLWlzLWNvbXBsZW1lbnQgc2lnbmVkIDgtYml0IGludGVnZXJzIGluIFstMTI4LCAxMjddIC0tIHRoZSBjb2VyY2lvbiB0aGF0IGJpdGVzIHdoZW4geW91IHdyaXRlIHRoZSB2YWx1ZSBiYWNrJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.int8Array.entries" />

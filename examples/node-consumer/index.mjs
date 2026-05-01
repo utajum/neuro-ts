@@ -5,7 +5,7 @@
  * Run with:
  *   OPENAI_API_KEY=sk-... node index.mjs
  */
-import { configureClient, neuro } from 'neuro-js';
+import { configureClient, neuro } from 'neuro-ts';
 
 const apiKey = process.env.OPENAI_API_KEY;
 if (!apiKey) {
@@ -13,7 +13,7 @@ if (!apiKey) {
   process.exit(2);
 }
 
-configureClient({ apiKey, model: process.env.NEURO_MODEL ?? 'gpt-4o-mini' });
+configureClient({ apiKey, model: process.env.NEURO_MODEL ?? 'gpt-4o' });
 
 console.log(
   '1.',

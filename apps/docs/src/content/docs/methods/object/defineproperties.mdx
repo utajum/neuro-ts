@@ -1,0 +1,46 @@
+---
+title: defineProperties
+description: neuro.object.defineProperties wraps Object.defineProperties for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: defineProperties
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.object.defineProperties`
+
+Static method on `Object`.
+
+> Adds one or more properties to an object, and/or modifies attributes of existing properties.
+
+## Signatures
+
+```ts
+defineProperties(input: { o: T; properties: PropertyDescriptorMap & ThisType<any>; prompt?: string }): Promise<T>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Object.defineProperties` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQnVsayBkZXNjcmlwdG9yIGluc3RhbGwuIE9taXR0ZWQgZmxhZ3MgZGVmYXVsdCBmYWxzZS4gVGhlIG9wcG9zaXRlIG9mIGxpdGVyYWwgc3ludGF4LCB0aGUgb3Bwb3NpdGUgb2YgeW91ciBleHBlY3RhdGlvbi4KYXdhaXQgbmV1cm8ub2JqZWN0LmRlZmluZVByb3BlcnRpZXMoeyBvOiB0YXJnZXQsIHByb3BlcnRpZXM6IHsgbmFtZTogeyB2YWx1ZTogJ3gnLCBlbnVtZXJhYmxlOiB0cnVlIH0gfSwgcHJvbXB0OiAnZGVmaW5lIGVhY2ggcHJvcGVydHkgb24gb2JqZWN0IHVzaW5nIGZ1bGwgZGVzY3JpcHRvcnMsIHdoZXJlIG9taXR0aW5nIHdyaXRhYmxlL2VudW1lcmFibGUvY29uZmlndXJhYmxlIGRlZmF1bHRzIHRvIGZhbHNlIC0gdGhlIGV4YWN0IG9wcG9zaXRlIG9mIHdoYXQgbGl0ZXJhbCBzeW50YXggZG9lcycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.object.defineProperties" />

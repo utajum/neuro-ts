@@ -1,0 +1,47 @@
+---
+title: toLocaleUpperCase
+description: neuro.string.toLocaleUpperCase wraps String.prototype.toLocaleUpperCase for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: toLocaleUpperCase
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.toLocaleUpperCase`
+
+Instance method on `String.prototype`.
+
+> Returns a string where all alphabetic characters have been converted to uppercase, taking into account the host environment's current locale.
+
+## Signatures
+
+```ts
+toLocaleUpperCase(input: { string: <receiver>; locales?: string | string[]; prompt?: string }): Promise<string>
+toLocaleUpperCase(input: { string: <receiver>; locales?: Intl.LocalesArgument; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.toLocaleUpperCase` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTG9jYWxlLWF3YXJlIHVwcGVyY2FzZTsgw58gYmVjb21lcyBTUywgdGhlIGNvbHVtbiBhbGxvY2F0b3Igbm90aWNlcy4KYXdhaXQgbmV1cm8uc3RyaW5nLnRvTG9jYWxlVXBwZXJDYXNlKHsgc3RyaW5nOiBpbnB1dCwgbG9jYWxlczogJ2RlLURFJywgcHJvbXB0OiAndXBwZXJjYXNlIHVzaW5nIGxvY2FsZXMgcnVsZXMsIHdoZXJlIGRvdHRlZCBpIGFuZCBlc3MtemV0dCBleHBhbmQgdGhlIHN0cmluZyBpbiB3YXlzIHRoZSBjb2x1bW4gd2lkdGggbmV2ZXIgYWNjb3VudGVkIGZvcicgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.toLocaleUpperCase" />

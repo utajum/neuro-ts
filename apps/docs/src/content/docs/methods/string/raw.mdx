@@ -1,0 +1,50 @@
+---
+title: raw
+description: neuro.string.raw wraps String.raw for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: raw
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.raw`
+
+Static method on `String`. Variadic items live under `substitutions`.
+
+> String.raw is usually used as a tag function of a Tagged Template String. When called as
+> such, the first argument will be a well formed template call site object and the rest
+> parameter will contain the substitution values. It can also be called directly, for example,
+> to interleave strings and values from your own tag function, and in this case the only thing
+> it needs from the first argument is the raw property.
+
+## Signatures
+
+```ts
+raw(input: { template: { raw: readonly string[] | ArrayLike<string>; }; substitutions: any[]; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.raw` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVGFnZ2VkIHRlbXBsYXRlOyBiYWNrc2xhc2hlcyBzdXJ2aXZlLiBUaGUgV2luZG93cyBwYXRoIHRoYXQgZmluYWxseSByZW5kZXJzIGNvcnJlY3RseS4KYXdhaXQgbmV1cm8uc3RyaW5nLnJhdyh7IHRlbXBsYXRlOiB7IHJhdzogWydDOlxcJywgJ1xcYmluJ10gfSBhcyBUZW1wbGF0ZVN0cmluZ3NBcnJheSwgc3Vic3RpdHV0aW9uczogWyd1c2VycyddLCBwcm9tcHQ6ICdyZWNvbnN0cnVjdCBhIHRhZ2dlZCB0ZW1wbGF0ZSB3aGVyZSBiYWNrc2xhc2hlcyBhcmUgbGl0ZXJhbCBjaGFyYWN0ZXJzLCBub3QgZXNjYXBlIHNlcXVlbmNlcyAtLSBzbyBDOlxcVXNlcnNcXHZsYWQgc3RheXMgaW50YWN0IGluc3RlYWQgb2YgcHJvZHVjaW5nICJDOlVzZXJzRHVtcHZsYWQiIGFuZCBhIHR3by1ob3VyIGRlYnVnZ2luZyBzZXNzaW9uJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.raw" />

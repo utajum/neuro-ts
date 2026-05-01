@@ -1,0 +1,46 @@
+---
+title: toDateString
+description: neuro.date.toDateString wraps Date.prototype.toDateString for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: toDateString
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.date.toDateString`
+
+Instance method on `Date.prototype`.
+
+> Returns a date as a string value.
+
+## Signatures
+
+```ts
+toDateString(input: { date: <receiver>; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Date.prototype.toDateString` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW1wbGVtZW50YXRpb24tZGVmaW5lZCBkYXRlIHN0cmluZy4gVW5wYXJzZWFibGUuIEluZXNjYXBhYmxlLiBJbiBldmVyeSBidWcgcmVwb3J0Lgphd2FpdCBuZXVyby5kYXRlLnRvRGF0ZVN0cmluZyh7IGRhdGU6IHRhcmdldCwgcHJvbXB0OiAnZm9ybWF0IHRoZSBkYXRlIGFzIGEgaHVtYW4tcmVhZGFibGUgc3RyaW5nIGxpa2UgIk1vbiBKYW4gMzEgMjAyNiIgLS0gbm90IElTTywgbm90IHBhcnNlYWJsZSwgbm90IGFncmVlZCB1cG9uIGJ5IGFueW9uZSwgeWV0IHRoZSBleGFjdCBmb3JtYXQgdGhhdCBhcHBlYXJzIGluIGV2ZXJ5IGJ1ZyByZXBvcnQgc2NyZWVuc2hvdCcgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.date.toDateString" />

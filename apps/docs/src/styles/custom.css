@@ -1,5 +1,5 @@
 /*
- * neuro-js Starlight theme. Minimal dark, single warm accent.
+ * neuro-ts Starlight theme. Minimal dark, single warm accent.
  *
  * Kept tight: tinted near-black canvas, amber-to-ember accent, no gradient
  * text, no glassmorphism, no nested cards, no big visual ornaments. The
@@ -219,6 +219,44 @@ header.header {
   border-bottom: 1px solid var(--sl-color-hairline);
 }
 
+/* ---- Mobile sidebar: pin the preferences footer to the bottom -------- */
+/*
+ * .sidebar-content has min-height: max-content so the footer starts BELOW
+ * the viewport when nav items are expanded. sticky won't pull it into view.
+ * Fix: when the sidebar is open (body[data-mobile-menu-expanded]), use
+ * position: fixed to anchor the footer to the bottom of the viewport at
+ * all times. Add matching padding-bottom to the sidebar content so the
+ * last nav item is never hidden behind the fixed bar.
+ */
+@media (max-width: 50rem) {
+  /* Natural (in-flow) position: hide label, tighten layout */
+  .mobile-preferences {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+  }
+
+  /* When sidebar is open: lift footer out of the scroll stream */
+  [data-mobile-menu-expanded] .mobile-preferences {
+    position: fixed;
+    bottom: 0;
+    inset-inline-start: 0;
+    width: 100%;
+    /* Sit above the sidebar-pane z-index so it's never obscured */
+    z-index: calc(var(--sl-z-index-menu, 20) + 1);
+    background: var(--sl-color-bg-sidebar, var(--sl-color-bg));
+    border-top: 1px solid var(--sl-color-gray-6);
+  }
+
+  /* Push sidebar content up so the last nav item clears the fixed bar.
+   * 32px (controls) + 2 * 0.5rem (padding) = ~48px; use 56px for breathing room. */
+  [data-mobile-menu-expanded] .sidebar-content {
+    padding-bottom: 56px !important;
+  }
+}
+
 .site-title {
   font-family: var(--neuro-font-mono);
   font-weight: 600;
@@ -429,14 +467,14 @@ nav.sidebar a[aria-current='page']:focus {
  * specificity equal while ordering wins via cascade.
  */
 /*
- * Tables — clean, modern, framework-docs style.
+ * Tables - clean, modern, framework-docs style.
  *
  * - Auto width: tables size to their content, never stretch to fill the
  *   column unless they naturally need to.
  * - Subtle border + soft shadow lifts the table off the page without
  *   looking like a card.
  * - Header row uses a slightly elevated background with a clear bottom
- *   divider. No bold-all-caps — just weight + muted colour.
+ *   divider. No bold-all-caps - just weight + muted colour.
  * - Rows separated by hairline borders; no zebra stripe (too noisy with
  *   the dark canvas).
  */

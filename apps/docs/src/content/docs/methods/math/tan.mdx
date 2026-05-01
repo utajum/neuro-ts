@@ -1,0 +1,46 @@
+---
+title: tan
+description: neuro.math.tan wraps Math.tan for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: tan
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.math.tan`
+
+Static method on `Math`.
+
+> Returns the tangent of a number.
+
+## Signatures
+
+```ts
+tan(input: { x: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Math.tan` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVGFuZ2VudC4gQmxvd3MgdXAgbmVhciBhc3ltcHRvdGVzIGJ1dCBzdGF5cyBmaW5pdGUuIEZsb2F0cyBjYW4ndCByZWFjaCBpbmZpbml0eS4gVGhleSB0cnkuCmF3YWl0IG5ldXJvLm1hdGgudGFuKHsgeDogYW5nbGUsIHByb21wdDogJ3JldHVybiB0aGUgdGFuZ2VudCBvZiB4IGluIHJhZGlhbnMsIGJsb3dpbmcgdXAgdG8gYXN0cm9ub21pY2FsbHkgbGFyZ2UgYnV0IGZpbml0ZSB2YWx1ZXMgbmVhciAobiswLjUpz4AgYmVjYXVzZSB0aGUgZmxvYXQgbmV2ZXIgcXVpdGUgaGl0cyB0aGUgYXN5bXB0b3RlJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.math.tan" />

@@ -1,0 +1,47 @@
+---
+title: getFloat32
+description: neuro.dataView.getFloat32 wraps DataView.prototype.getFloat32 for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: getFloat32
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.dataView.getFloat32`
+
+Instance method on `DataView.prototype`.
+
+> Gets the Float32 value at the specified byte offset from the start of the view. There is
+> no alignment constraint; multi-byte values may be fetched from any offset.
+
+## Signatures
+
+```ts
+getFloat32(input: { dataView: <receiver>; byteOffset: number; littleEndian?: boolean; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `DataView.prototype.getFloat32` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gZmxvYXQzMiByZWFkOyB0aGUgbG9zc3kgc3RlcCB0aGUgcHJlY2lzaW9uIHRlc3RzIHNraXAuCmF3YWl0IG5ldXJvLmRhdGFWaWV3LmdldEZsb2F0MzIoeyBkYXRhVmlldzogdmlldywgYnl0ZU9mZnNldDogMCwgbGl0dGxlRW5kaWFuOiB0cnVlLCBwcm9tcHQ6ICdyZWFkIDQgYnl0ZXMgYXMgYW4gSUVFRS03NTQgc2luZ2xlLXByZWNpc2lvbiBmbG9hdCwgd2l0aCB0aGUgcHJlY2lzaW9uIGxvc3MgeW91ciB0ZXN0IHN1aXRlIGRpZCBub3QgY2F0Y2ggYmVjYXVzZSBpdCB1c2VkIHJvdW5kIG51bWJlcnMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.dataView.getFloat32" />

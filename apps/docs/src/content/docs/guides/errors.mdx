@@ -1,0 +1,149 @@
+---
+title: Error reference
+description: Every error class neuro-ts can throw, when it is thrown, and how to catch it. NeuroClientError, NeuroNotConfiguredError, NeuroBrowserApiKeyError.
+---
+
+`neuro-ts` throws three typed error classes. All three extend the built-in
+`Error` so a plain `catch (e)` still works; import the classes to narrow
+by type.
+
+```ts
+import {
+  NeuroClientError,
+  NeuroNotConfiguredError,
+  NeuroBrowserApiKeyError,
+} from 'neuro-ts';
+```
+
+---
+
+## `NeuroNotConfiguredError`
+
+**Thrown by:** `getClient()`
+
+**When:** You call any `neuro.*` method with a `prompt` field before
+calling `configureClient()`.
+
+```ts
+import { getClient } from 'neuro-ts';
+
+getClient(); // throws NeuroNotConfiguredError
+```
+
+**How to catch:**
+
+```ts
+import { getClient, NeuroNotConfiguredError } from 'neuro-ts';
+
+try {
+  getClient();
+} catch (e) {
+  if (e instanceof NeuroNotConfiguredError) {
+    // configureClient() was never called
+  }
+}
+```
+
+**Note:** Native fallback calls (no `prompt` field) never reach `getClient()`
+and therefore never throw `NeuroNotConfiguredError`. You can use
+`neuro.*` without configuring a client as long as you omit the `prompt`.
+
+---
+
+## `NeuroBrowserApiKeyError`
+
+**Thrown by:** `configureClient({ apiKey })`
+
+**When:** `apiKey` mode is configured in a browser environment (where both
+`window` and `document` are defined). Long-lived API keys must not be
+exposed in client-side code.
+
+```ts
+// in a browser context
+configureClient({ apiKey: 'sk-...' }); // throws NeuroBrowserApiKeyError
+```
+
+**How to fix:**
+
+Use `proxyUrl` or `tokenProvider` instead. See
+[Browser safety](/guides/browser-safety/) for the full guide.
+
+If you genuinely need `apiKey` in a browser (e.g. a local dev tool or an
+Electron app), opt in explicitly:
+
+```ts
+configureClient({ apiKey: 'sk-...', dangerouslyAllowBrowser: true });
+```
+
+---
+
+## `NeuroClientError`
+
+**Thrown by:** `neuro.*` LLM calls, `configureClient()`, `tokenProvider`
+callbacks, proxy fetch.
+
+This is the general-purpose error. It always has a descriptive `message`
+and often has a `cause` pointing to the underlying error.
+
+### Message patterns
+
+| Situation                      | `error.message` pattern                                             |
+| ------------------------------ | ------------------------------------------------------------------- |
+| Options object missing         | `"configureClient() requires an options object."`                   |
+| No mode provided               | `"Provide one of: \`apiKey\`, \`proxyUrl\`, or \`tokenProvider\`."` |
+| Multiple modes provided        | `"Provide exactly one of: ..."`                                     |
+| Invalid `proxyUrl`             | `"Invalid proxyUrl: ..."`                                           |
+| `tokenProvider` threw          | `"tokenProvider threw: ..."`                                        |
+| `tokenProvider` returned empty | `"tokenProvider must return a non-empty string token."`             |
+| OpenAI request failed          | `"OpenAI request failed for neuro.array.map: ..."`                  |
+| Proxy fetch failed (network)   | `"Proxy fetch failed for neuro.array.map: ..."`                     |
+| Proxy non-2xx response         | `"Proxy https://... responded 500 Internal Server Error: ..."`      |
+
+### Accessing the cause
+
+```ts
+import { neuro, NeuroClientError } from 'neuro-ts';
+
+try {
+  await neuro.array.map({
+    array: [1, 2, 3],
+    callbackfn: (n) => n,
+    prompt: 'double each',
+  });
+} catch (e) {
+  if (e instanceof NeuroClientError) {
+    console.error(e.message); // human-readable description
+    console.error(e.cause); // original Error from OpenAI SDK or fetch
+  }
+}
+```
+
+### Distinguishing proxy errors from OpenAI errors
+
+```ts
+if (e instanceof NeuroClientError) {
+  if (e.message.startsWith('Proxy')) {
+    // network or HTTP error from your proxy endpoint
+  } else if (e.message.startsWith('OpenAI request failed')) {
+    // OpenAI SDK error (rate limit, invalid key, model not found, etc.)
+  } else if (e.message.startsWith('tokenProvider')) {
+    // your tokenProvider function threw or returned empty
+  }
+}
+```
+
+---
+
+## Quick reference
+
+| Error class               | Import path | Thrown when                                             |
+| ------------------------- | ----------- | ------------------------------------------------------- |
+| `NeuroNotConfiguredError` | `neuro-ts`  | `getClient()` before `configureClient()`                |
+| `NeuroBrowserApiKeyError` | `neuro-ts`  | `apiKey` used in a browser environment                  |
+| `NeuroClientError`        | `neuro-ts`  | Everything else -- config errors, network, LLM failures |
+
+## See also
+
+- [Troubleshooting](/guides/troubleshooting/) - symptom-to-fix map for the common failures.
+- [Browser safety](/guides/browser-safety/) - the `proxyUrl` / `tokenProvider` modes that avoid `NeuroBrowserApiKeyError`.
+- [Native fallback](/guides/native-fallback/) - the path that never throws `NeuroNotConfiguredError`.

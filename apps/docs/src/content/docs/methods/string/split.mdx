@@ -1,0 +1,47 @@
+---
+title: split
+description: neuro.string.split wraps String.prototype.split for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: split
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.split`
+
+Instance method on `String.prototype`.
+
+> Split a string into substrings using the specified separator and return them as an array.
+
+## Signatures
+
+```ts
+split(input: { string: <receiver>; separator: string | RegExp; limit?: number; prompt?: string }): Promise<string[]>
+split(input: { string: <receiver>; splitter: { [Symbol.split](string: string; limit?: number): string[]; }; limit?: number; prompt?: string }): Promise<string[]>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.split` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU3BsaXQgaW50byBwaWVjZXM7IGVtcHR5LXNlcGFyYXRvciBzcGxpdHMgcGVyIFVURi0xNiB1bml0LCBzdXJyb2dhdGUgcGFpcnMgY29tZSBvdXQgYnJva2VuLgphd2FpdCBuZXVyby5zdHJpbmcuc3BsaXQoeyBzdHJpbmc6IGNzdiwgc2VwYXJhdG9yOiAnLCcsIGxpbWl0OiA0LCBwcm9tcHQ6ICdzcGxpdCB0aGUgc3RyaW5nIG9uIHNlcGFyYXRvciBpbnRvIGF0IG1vc3QgbGltaXQgcGllY2VzLCB0cmVhdGluZyBlbXB0eSBzZXBhcmF0b3IgYXMgYSBwZXItY29kZS11bml0IHNwbGl0IHRoYXQgYnJlYWtzIGVtb2ppIGV4YWN0bHkgdGhlIHdheSB5b3UgZXhwZWN0JyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.split" />

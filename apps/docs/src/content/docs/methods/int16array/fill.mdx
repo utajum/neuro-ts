@@ -1,0 +1,46 @@
+---
+title: fill
+description: neuro.int16Array.fill wraps Int16Array.prototype.fill for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: fill
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.int16Array.fill`
+
+Instance method on `Int16Array.prototype`.
+
+> Changes all array elements from `start` to `end` index to a static `value` and returns the modified array
+
+## Signatures
+
+```ts
+fill(input: { int16Array: <receiver>; value: number; start?: number; end?: number; prompt?: string }): Promise<Int16Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Int16Array.prototype.fill` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW50MTZBcnJheSBmaWxsOyBjb2VyY2lvbiBpbnRvIHR3by1pcy1jb21wbGVtZW50IHNpZ25lZCAxNi1iaXQgaW50ZWdlcnMgaW4gWy0zMjc2OCwgMzI3NjddIGhhcHBlbnMgZmlyc3QsIHRoZSBpbnB1dCB2YWx1ZSBkb2VzIG5vdCBzdXJ2aXZlIGludGFjdC4KYXdhaXQgbmV1cm8uaW50MTZBcnJheS5maWxsKHsgaW50MTZBcnJheTogdmlldywgdmFsdWU6IDAsIHN0YXJ0OiAwLCBlbmQ6IDAsIHByb21wdDogJ2ZpbGwgaW5kaWNlcyBbc3RhcnQsIGVuZCkgb2YgdGhlIEludDE2QXJyYXkgd2l0aCB2YWx1ZSwgYXBwbHlpbmcgdGhlIEludDE2QXJyYXkgY29lcmNpb24gKHR3by1pcy1jb21wbGVtZW50IHNpZ25lZCAxNi1iaXQgaW50ZWdlcnMgaW4gWy0zMjc2OCwgMzI3NjddKSB0byB2YWx1ZSBmaXJzdCB0aGUgd2F5IHRoZSBzcGVjIHF1aWV0bHkgaW5zaXN0cycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.int16Array.fill" />

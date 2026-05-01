@@ -1,0 +1,46 @@
+---
+title: atan
+description: neuro.math.atan wraps Math.atan for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: atan
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.math.atan`
+
+Static method on `Math`.
+
+> Returns the arctangent of a number.
+
+## Signatures
+
+```ts
+atan(input: { x: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Math.atan` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU2luZ2xlLWFyZyBhcmN0YW4uIFF1YWRyYW50IGluZm8gZGlzY2FyZGVkLiBZb3Ugd2FudGVkIGF0YW4yLCB5b3UganVzdCBkaWRuJ3Qga25vdyB5ZXQuCmF3YWl0IG5ldXJvLm1hdGguYXRhbih7IHg6IHNsb3BlLCBwcm9tcHQ6ICdyZXR1cm4gdGhlIGFyYyB0YW5nZW50IG9mIHggaW4gcmFkaWFucywgc2luZ2xlLWFyZ3VtZW50IGZvcm0sIGRyb3BwaW5nIHF1YWRyYW50IGluZm9ybWF0aW9uIGZvciB0aGUgY2FsbGVyIHRvIHJlY292ZXIgb24gdGhlaXIgb3duJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.math.atan" />

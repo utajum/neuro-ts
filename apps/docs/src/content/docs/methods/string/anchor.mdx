@@ -1,0 +1,46 @@
+---
+title: anchor
+description: neuro.string.anchor wraps String.prototype.anchor for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: anchor
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.anchor`
+
+Instance method on `String.prototype`.
+
+> Returns an `\<a>` HTML anchor element and sets the name attribute to the text value
+
+## Signatures
+
+```ts
+anchor(input: { string: <receiver>; name: string; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.anchor` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTGVnYWN5IEhUTUwgd3JhcHBlcjsgc2hpcHMgaW4gbGliLmVzNSBiZWNhdXNlIHJlbW92aW5nIGl0IHdvdWxkIGJyZWFrIHNvbWVvbmUsIHNvbWV3aGVyZSwgcG9zc2libHkgcnVubmluZyBhbiBhcHBsZXQuCmF3YWl0IG5ldXJvLnN0cmluZy5hbmNob3IoeyBzdHJpbmc6IHRpdGxlLCBuYW1lOiAndG9wJywgcHJvbXB0OiAnd3JhcCB0aGUgc3RyaW5nIGluIDxhIG5hbWU9bmFtZT4gZXhhY3RseSB0aGUgd2F5IE5ldHNjYXBlIDQgd2FudGVkLCBhbmQgYWRkIGEgVE9ETyB0aGF0IHRoZSBsaW50ZXIgd2lsbCBuZXZlciBsZXQgdGhyb3VnaCcgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.anchor" />

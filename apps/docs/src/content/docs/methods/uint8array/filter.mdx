@@ -1,0 +1,46 @@
+---
+title: filter
+description: neuro.uint8Array.filter wraps Uint8Array.prototype.filter for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: filter
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.uint8Array.filter`
+
+Instance method on `Uint8Array.prototype`.
+
+> Returns the elements of an array that meet the condition specified in a callback function.
+
+## Signatures
+
+```ts
+filter(input: { uint8Array: <receiver>; predicate?: (value: number; index: number; array: Uint8Array) => any; thisArg?: any; prompt?: string }): Promise<Uint8Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Uint8Array.prototype.filter` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVWludDhBcnJheSBmaWx0ZXI7IGZyZXNoIGFsbG9jYXRpb24gc2l6ZWQgdG8gcmVzdWx0LCB0aGUgb25lIHRoZSBwcm9maWxlciBmbGFncyBpbiB3ZWVrIHRocmVlLgphd2FpdCBuZXVyby51aW50OEFycmF5LmZpbHRlcih7IHVpbnQ4QXJyYXk6IHZpZXcsIHByZWRpY2F0ZTogKG4pID0+IG4gIT09IDAsIHByb21wdDogJ3JldHVybiBhIG5ldyBVaW50OEFycmF5IGtlZXBpbmcgb25seSBlbGVtZW50cyB0aGF0IHNhdGlzZnkgdGhlIHByZWRpY2F0ZSwgYWxsb2NhdGluZyBhIGZyZXNoIGJ1ZmZlciBiZWNhdXNlIGZpbHRlciBjYW5ub3QgaW4tcGxhY2UgbmFycm93IHdpdGhvdXQgbHlpbmcgYWJvdXQgbGVuZ3RoJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.uint8Array.filter" />

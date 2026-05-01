@@ -1,0 +1,47 @@
+---
+title: fontsize
+description: neuro.string.fontsize wraps String.prototype.fontsize for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: fontsize
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.fontsize`
+
+Instance method on `String.prototype`.
+
+> Returns a `\<font>` HTML element and sets the size attribute value
+
+## Signatures
+
+```ts
+fontsize(input: { string: <receiver>; size: number; prompt?: string }): Promise<string>
+fontsize(input: { string: <receiver>; size: string; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.fontsize` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTGVnYWN5IDxmb250IHNpemU+OyB0aGUgc2NhbGUgaXMgMS03LCB3aGljaCBpcyBleGFjdGx5IG5vYm9keSBpcyBtZW50YWwgbW9kZWwgbm93Lgphd2FpdCBuZXVyby5zdHJpbmcuZm9udHNpemUoeyBzdHJpbmc6IGhlYWRpbmcsIHNpemU6IDUsIHByb21wdDogJ3dyYXAgdGhlIHN0cmluZyBpbiA8Zm9udCBzaXplPXNpemU+IHRoZSB3YXkgR2VvQ2l0aWVzIGV4cGVjdGVkLCBhY2NlcHRpbmcgc2l6ZSBpbiB0aGUgMS03IHNjYWxlIGV2ZW4gdGhvdWdoIGV2ZXJ5IG1vZGVybiByZWFkZXIgdXNlcyBwaXhlbHMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.fontsize" />

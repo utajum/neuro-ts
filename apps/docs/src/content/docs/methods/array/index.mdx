@@ -1,0 +1,60 @@
+---
+title: Array
+description: AI-augmented JavaScript wrappers for `Array`. 40 TypeScript-first built-ins with optional GPT / OpenAI prompts and native fallback. Part of neuro-ts.
+sidebar:
+  label: Array
+  order: 2
+---
+
+import { Code } from '@astrojs/starlight/components';
+
+
+# Array
+
+40 wrappers generated from
+`Array` and `Array.prototype`.
+Every entry takes a single object literal whose keys mirror the original
+parameter names, plus an optional `prompt: string` for the LLM path.
+
+| Method | First signature |
+| --- | --- |
+| [`at`](/methods/array/at/) | <Code lang="ts" code={atob("YXQoaW5wdXQ6IHsgYXJyYXk6IDxyZWNlaXZlcj47IGluZGV4OiBudW1iZXI7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxUPg==")} wrap /> |
+| [`concat`](/methods/array/concat/) | <Code lang="ts" code={atob("Y29uY2F0KGlucHV0OiB7IGFycmF5OiA8cmVjZWl2ZXI+OyBpdGVtczogQ29uY2F0QXJyYXk8VD5bXTsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPFRbXT4=")} wrap /> |
+| [`copyWithin`](/methods/array/copywithin/) | <Code lang="ts" code={atob("Y29weVdpdGhpbihpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgdGFyZ2V0OiBudW1iZXI7IHN0YXJ0OiBudW1iZXI7IGVuZD86IG51bWJlcjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPFRbXT4=")} wrap /> |
+| [`entries`](/methods/array/entries/) | <Code lang="ts" code={atob("ZW50cmllcyhpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPEFycmF5SXRlcmF0b3I8W251bWJlciwgVF0+Pg==")} wrap /> |
+| [`every`](/methods/array/every/) | <Code lang="ts" code={atob("ZXZlcnkoaW5wdXQ6IHsgYXJyYXk6IDxyZWNlaXZlcj47IHByZWRpY2F0ZT86ICh2YWx1ZTogVDsgaW5kZXg6IG51bWJlcjsgYXJyYXk6IFRbXSkgPT4gYm9vbGVhbjsgdGhpc0FyZz86IGFueTsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPGJvb2xlYW4+")} wrap /> |
+| [`fill`](/methods/array/fill/) | <Code lang="ts" code={atob("ZmlsbChpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgdmFsdWU6IFQ7IHN0YXJ0PzogbnVtYmVyOyBlbmQ/OiBudW1iZXI7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxUW10+")} wrap /> |
+| [`filter`](/methods/array/filter/) | <Code lang="ts" code={atob("ZmlsdGVyKGlucHV0OiB7IGFycmF5OiA8cmVjZWl2ZXI+OyBwcmVkaWNhdGU/OiAodmFsdWU6IFQ7IGluZGV4OiBudW1iZXI7IGFycmF5OiBUW10pID0+IGJvb2xlYW47IHRoaXNBcmc/OiBhbnk7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxTW10+")} wrap /> |
+| [`find`](/methods/array/find/) | <Code lang="ts" code={atob("ZmluZChpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgcHJlZGljYXRlPzogKHZhbHVlOiBUOyBpbmRleDogbnVtYmVyOyBvYmo6IFRbXSkgPT4gYm9vbGVhbjsgdGhpc0FyZz86IGFueTsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPFM+")} wrap /> |
+| [`findIndex`](/methods/array/findindex/) | <Code lang="ts" code={atob("ZmluZEluZGV4KGlucHV0OiB7IGFycmF5OiA8cmVjZWl2ZXI+OyBwcmVkaWNhdGU/OiAodmFsdWU6IFQ7IGluZGV4OiBudW1iZXI7IG9iajogVFtdKSA9PiB1bmtub3duOyB0aGlzQXJnPzogYW55OyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8bnVtYmVyPg==")} wrap /> |
+| [`findLast`](/methods/array/findlast/) | <Code lang="ts" code={atob("ZmluZExhc3QoaW5wdXQ6IHsgYXJyYXk6IDxyZWNlaXZlcj47IHByZWRpY2F0ZT86ICh2YWx1ZTogVDsgaW5kZXg6IG51bWJlcjsgYXJyYXk6IFRbXSkgPT4gYm9vbGVhbjsgdGhpc0FyZz86IGFueTsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPFM+")} wrap /> |
+| [`findLastIndex`](/methods/array/findlastindex/) | <Code lang="ts" code={atob("ZmluZExhc3RJbmRleChpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgcHJlZGljYXRlPzogKHZhbHVlOiBUOyBpbmRleDogbnVtYmVyOyBhcnJheTogVFtdKSA9PiB1bmtub3duOyB0aGlzQXJnPzogYW55OyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8bnVtYmVyPg==")} wrap /> |
+| [`flat`](/methods/array/flat/) | <Code lang="ts" code={atob("ZmxhdChpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgZGVwdGg/OiBEOyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8RmxhdEFycmF5PEEsIEQ+W10+")} wrap /> |
+| [`flatMap`](/methods/array/flatmap/) | <Code lang="ts" code={atob("ZmxhdE1hcChpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgY2FsbGJhY2s/OiAodGhpczogVGhpczsgdmFsdWU6IFQ7IGluZGV4OiBudW1iZXI7IGFycmF5OiBUW10pID0+IFUgfCByZWFkb25seSBVW107IHRoaXNBcmc/OiBUaGlzOyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8VVtdPg==")} wrap /> |
+| [`forEach`](/methods/array/foreach/) | <Code lang="ts" code={atob("Zm9yRWFjaChpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgY2FsbGJhY2tmbj86ICh2YWx1ZTogVDsgaW5kZXg6IG51bWJlcjsgYXJyYXk6IFRbXSkgPT4gdm9pZDsgdGhpc0FyZz86IGFueTsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPHZvaWQ+")} wrap /> |
+| [`from`](/methods/array/from/) | <Code lang="ts" code={atob("ZnJvbShpbnB1dDogeyBhcnJheUxpa2U6IEFycmF5TGlrZTxUPjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPFRbXT4=")} wrap /> |
+| [`fromAsync`](/methods/array/fromasync/) | <Code lang="ts" code={atob("ZnJvbUFzeW5jKGlucHV0OiB7IGl0ZXJhYmxlT3JBcnJheUxpa2U6IEFzeW5jSXRlcmFibGU8VD4gfCBJdGVyYWJsZTxUIHwgUHJvbWlzZUxpa2U8VD4+IHwgQXJyYXlMaWtlPFQgfCBQcm9taXNlTGlrZTxUPj47IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxQcm9taXNlPFRbXT4+")} wrap /> |
+| [`includes`](/methods/array/includes/) | <Code lang="ts" code={atob("aW5jbHVkZXMoaW5wdXQ6IHsgYXJyYXk6IDxyZWNlaXZlcj47IHNlYXJjaEVsZW1lbnQ6IFQ7IGZyb21JbmRleD86IG51bWJlcjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPGJvb2xlYW4+")} wrap /> |
+| [`indexOf`](/methods/array/indexof/) | <Code lang="ts" code={atob("aW5kZXhPZihpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgc2VhcmNoRWxlbWVudDogVDsgZnJvbUluZGV4PzogbnVtYmVyOyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8bnVtYmVyPg==")} wrap /> |
+| [`isArray`](/methods/array/isarray/) | <Code lang="ts" code={atob("aXNBcnJheShpbnB1dDogeyBhcmc6IGFueTsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPGJvb2xlYW4+")} wrap /> |
+| [`join`](/methods/array/join/) | <Code lang="ts" code={atob("am9pbihpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgc2VwYXJhdG9yPzogc3RyaW5nOyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8c3RyaW5nPg==")} wrap /> |
+| [`keys`](/methods/array/keys/) | <Code lang="ts" code={atob("a2V5cyhpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPEFycmF5SXRlcmF0b3I8bnVtYmVyPj4=")} wrap /> |
+| [`lastIndexOf`](/methods/array/lastindexof/) | <Code lang="ts" code={atob("bGFzdEluZGV4T2YoaW5wdXQ6IHsgYXJyYXk6IDxyZWNlaXZlcj47IHNlYXJjaEVsZW1lbnQ6IFQ7IGZyb21JbmRleD86IG51bWJlcjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPG51bWJlcj4=")} wrap /> |
+| [`map`](/methods/array/map/) | <Code lang="ts" code={atob("bWFwKGlucHV0OiB7IGFycmF5OiA8cmVjZWl2ZXI+OyBjYWxsYmFja2ZuPzogKHZhbHVlOiBUOyBpbmRleDogbnVtYmVyOyBhcnJheTogVFtdKSA9PiBVOyB0aGlzQXJnPzogYW55OyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8VVtdPg==")} wrap /> |
+| [`of`](/methods/array/of/) | <Code lang="ts" code={atob("b2YoaW5wdXQ6IHsgaXRlbXM6IFRbXTsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPFRbXT4=")} wrap /> |
+| [`pop`](/methods/array/pop/) | <Code lang="ts" code={atob("cG9wKGlucHV0OiB7IGFycmF5OiA8cmVjZWl2ZXI+OyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8VD4=")} wrap /> |
+| [`push`](/methods/array/push/) | <Code lang="ts" code={atob("cHVzaChpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgaXRlbXM6IFRbXTsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPG51bWJlcj4=")} wrap /> |
+| [`reduce`](/methods/array/reduce/) | <Code lang="ts" code={atob("cmVkdWNlKGlucHV0OiB7IGFycmF5OiA8cmVjZWl2ZXI+OyBjYWxsYmFja2ZuPzogKHByZXZpb3VzVmFsdWU6IFQ7IGN1cnJlbnRWYWx1ZTogVDsgY3VycmVudEluZGV4OiBudW1iZXI7IGFycmF5OiBUW10pID0+IFQ7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxUPg==")} wrap /> |
+| [`reduceRight`](/methods/array/reduceright/) | <Code lang="ts" code={atob("cmVkdWNlUmlnaHQoaW5wdXQ6IHsgYXJyYXk6IDxyZWNlaXZlcj47IGNhbGxiYWNrZm4/OiAocHJldmlvdXNWYWx1ZTogVDsgY3VycmVudFZhbHVlOiBUOyBjdXJyZW50SW5kZXg6IG51bWJlcjsgYXJyYXk6IFRbXSkgPT4gVDsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPFQ+")} wrap /> |
+| [`reverse`](/methods/array/reverse/) | <Code lang="ts" code={atob("cmV2ZXJzZShpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPFRbXT4=")} wrap /> |
+| [`shift`](/methods/array/shift/) | <Code lang="ts" code={atob("c2hpZnQoaW5wdXQ6IHsgYXJyYXk6IDxyZWNlaXZlcj47IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxUPg==")} wrap /> |
+| [`slice`](/methods/array/slice/) | <Code lang="ts" code={atob("c2xpY2UoaW5wdXQ6IHsgYXJyYXk6IDxyZWNlaXZlcj47IHN0YXJ0PzogbnVtYmVyOyBlbmQ/OiBudW1iZXI7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxUW10+")} wrap /> |
+| [`some`](/methods/array/some/) | <Code lang="ts" code={atob("c29tZShpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgcHJlZGljYXRlPzogKHZhbHVlOiBUOyBpbmRleDogbnVtYmVyOyBhcnJheTogVFtdKSA9PiB1bmtub3duOyB0aGlzQXJnPzogYW55OyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8Ym9vbGVhbj4=")} wrap /> |
+| [`sort`](/methods/array/sort/) | <Code lang="ts" code={atob("c29ydChpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgY29tcGFyZUZuPzogKGE6IFQ7IGI6IFQpID0+IG51bWJlcjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPFRbXT4=")} wrap /> |
+| [`splice`](/methods/array/splice/) | <Code lang="ts" code={atob("c3BsaWNlKGlucHV0OiB7IGFycmF5OiA8cmVjZWl2ZXI+OyBzdGFydDogbnVtYmVyOyBkZWxldGVDb3VudD86IG51bWJlcjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPFRbXT4=")} wrap /> |
+| [`toReversed`](/methods/array/toreversed/) | <Code lang="ts" code={atob("dG9SZXZlcnNlZChpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPFRbXT4=")} wrap /> |
+| [`toSorted`](/methods/array/tosorted/) | <Code lang="ts" code={atob("dG9Tb3J0ZWQoaW5wdXQ6IHsgYXJyYXk6IDxyZWNlaXZlcj47IGNvbXBhcmVGbj86IChhOiBUOyBiOiBUKSA9PiBudW1iZXI7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxUW10+")} wrap /> |
+| [`toSpliced`](/methods/array/tospliced/) | <Code lang="ts" code={atob("dG9TcGxpY2VkKGlucHV0OiB7IGFycmF5OiA8cmVjZWl2ZXI+OyBzdGFydDogbnVtYmVyOyBkZWxldGVDb3VudDogbnVtYmVyOyBpdGVtczogVFtdOyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8VFtdPg==")} wrap /> |
+| [`unshift`](/methods/array/unshift/) | <Code lang="ts" code={atob("dW5zaGlmdChpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgaXRlbXM6IFRbXTsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPG51bWJlcj4=")} wrap /> |
+| [`values`](/methods/array/values/) | <Code lang="ts" code={atob("dmFsdWVzKGlucHV0OiB7IGFycmF5OiA8cmVjZWl2ZXI+OyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8QXJyYXlJdGVyYXRvcjxUPj4=")} wrap /> |
+| [`with`](/methods/array/with/) | <Code lang="ts" code={atob("d2l0aChpbnB1dDogeyBhcnJheTogPHJlY2VpdmVyPjsgaW5kZXg6IG51bWJlcjsgdmFsdWU6IFQ7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxUW10+")} wrap /> |

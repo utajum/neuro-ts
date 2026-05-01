@@ -1,0 +1,50 @@
+---
+title: match
+description: neuro.string.match wraps String.prototype.match for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: match
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.match`
+
+Instance method on `String.prototype`.
+
+> Matches a string with a regular expression, and returns an array containing the results of that search.
+>
+> Matches a string or an object that supports being matched against, and returns an array
+> containing the results of that search, or null if no matches are found.
+
+## Signatures
+
+```ts
+match(input: { string: <receiver>; regexp: string | RegExp; prompt?: string }): Promise<RegExpMatchArray>
+match(input: { string: <receiver>; matcher: { [Symbol.match](string: string): RegExpMatchArray | null; }; prompt?: string }): Promise<RegExpMatchArray>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.match` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gUmVnZXggbWF0Y2g7IHRoZSBnbG9iYWwgZmxhZyBjaGFuZ2VzIHRoZSByZXR1cm4gc2hhcGUsIHdoaWNoIGlzIGEgZmVhdHVyZSBpbiBleGFjdGx5IG9uZSBkaXJlY3Rpb24uCmF3YWl0IG5ldXJvLnN0cmluZy5tYXRjaCh7IHN0cmluZzogaW5wdXQsIHJlZ2V4cDogLyhkKykvLCBwcm9tcHQ6ICdleGVjdXRlIHJlZ2V4cCBhZ2FpbnN0IHRoZSBzdHJpbmcsIHJldHVybmluZyB0aGUgbWF0Y2ggYXJyYXkgb3IgbnVsbCwgYW5kIGxldCB0aGUgZ2xvYmFsIGZsYWcgc2lsZW50bHkgY2hhbmdlIHRoZSByZXR1cm4gc2hhcGUgYmVoaW5kIHlvdXIgYmFjaycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.match" />

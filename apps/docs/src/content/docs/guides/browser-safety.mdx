@@ -1,9 +1,9 @@
 ---
 title: Browser safety
-description: Use neuro-js in a browser without leaking long-lived API keys.
+description: Use neuro-ts in a browser without leaking long-lived OpenAI API keys. AI-augmented JavaScript wrappers, TypeScript-first, proxy-friendly.
 ---
 
-Browsers cannot safely hold long-lived OpenAI API keys. `neuro-js`
+Browsers cannot safely hold long-lived OpenAI API keys. `neuro-ts`
 refuses to use `apiKey` in any environment where `window` and `document`
 exist (throws `NeuroBrowserApiKeyError`).
 
@@ -17,7 +17,7 @@ your real key, then returns the result.
 
 ```ts
 // browser
-import { configureClient, neuro } from 'neuro-js';
+import { configureClient, neuro } from 'neuro-ts';
 
 configureClient({
   proxyUrl: '/api/neuro',
@@ -42,7 +42,7 @@ export async function POST(req) {
     .map(([k, v]) => `- ${k} = ${JSON.stringify(v)}`)
     .join('\n');
   const completion = await client.chat.completions.create({
-    model: body.model ?? 'gpt-4o-mini',
+    model: body.model ?? 'gpt-4o',
     temperature: 0.2,
     messages: [
       { role: 'system', content: body.systemPrompt },
@@ -53,7 +53,7 @@ export async function POST(req) {
           body.prompt,
           '## Function',
           '`' + body.functionId + '`',
-          '## Receiver',
+          '## Receiver / `this` value',
           body.instanceData ?? 'null',
           '## Named arguments',
           argLines || '(none)',
@@ -75,7 +75,7 @@ function tryJson(s) {
 ```
 
 The full payload schema is documented in [Custom proxy contract](/guides/proxy-contract/).
-A drop-in implementation ships in the `neuro-js-proxy` package.
+A drop-in implementation ships in the `neuro-ts-proxy` package.
 
 ## Option B: `tokenProvider` (ephemeral tokens)
 
@@ -85,7 +85,7 @@ any OpenAI-compatible token), point the SDK at that endpoint with
 touches the browser.
 
 ```ts
-import { configureClient, neuro } from 'neuro-js';
+import { configureClient, neuro } from 'neuro-ts';
 
 configureClient({
   tokenProvider: async () => {
@@ -95,7 +95,11 @@ configureClient({
   },
 });
 
-await neuro.json.stringify({ value: { a: 1 }, space: 2, prompt: 'pretty print' });
+await neuro.json.stringify({
+  value: { a: 1 },
+  space: 2,
+  prompt: 'pretty print',
+});
 ```
 
 `tokenProvider` is invoked once per request. Cache and refresh inside
@@ -103,13 +107,14 @@ your implementation.
 
 ## Comparison
 
-| Property                      | `proxyUrl`           | `tokenProvider`            |
-| ----------------------------- | -------------------- | -------------------------- |
-| Long-lived key on the server  | yes                  | yes                        |
-| Works on a static frontend    | needs a tiny backend | needs a tiny backend       |
-| Direct calls to OpenAI        | no (via your proxy)  | yes                        |
-| You control the system prompt | yes (server-side)    | yes (client-side, default) |
-| Easiest auditing              | yes (one server hop) | requires token tooling     |
+| Property                     | `proxyUrl`            | `tokenProvider`        |
+| ---------------------------- | --------------------- | ---------------------- |
+| Long-lived key on the server | yes                   | yes                    |
+| Works on a static frontend   | needs a tiny backend  | needs a tiny backend   |
+| Direct calls to OpenAI       | no (via your proxy)   | yes                    |
+| System prompt source         | frozen `prompts.json` | frozen `prompts.json`  |
+| You can rewrite the prompt   | yes (server-side)     | no (client-side only)  |
+| Easiest auditing             | yes (one server hop)  | requires token tooling |
 
 Start with `proxyUrl`. It is auditable, has obvious failure modes, and
 the round-trip cost is one extra hop.

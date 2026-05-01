@@ -1,0 +1,47 @@
+---
+title: stringify
+description: neuro.json.stringify wraps JSON.stringify for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: stringify
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.json.stringify`
+
+Static method on `JSON`.
+
+> Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+
+## Signatures
+
+```ts
+stringify(input: { value: any; replacer?: (this: any; key: string; value: any) => any; space?: string | number; prompt?: string }): Promise<string>
+stringify(input: { value: any; replacer?: (string | number)[]; space?: string | number; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `JSON.stringify` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU2VyaWFsaXplIHdpdGggc2lsZW50IGRyb3BzOyB1bmRlZmluZWQsIGZ1bmN0aW9ucywgYW5kIFN5bWJvbHMgdmFuaXNoIHdpdGhvdXQgYSB3b3JkLgphd2FpdCBuZXVyby5qc29uLnN0cmluZ2lmeSh7IHZhbHVlOiBzdGF0ZSwgcmVwbGFjZXI6IG51bGwsIHNwYWNlOiAyLCBwcm9tcHQ6ICdzZXJpYWxpemUgdGhpcyBvYmplY3QgdG8gYSBKU09OIHN0cmluZywgc2lsZW50bHkgZHJvcHBpbmcgZXZlcnkgdW5kZWZpbmVkLCBmdW5jdGlvbiwgYW5kIFN5bWJvbCB0aGUgd2F5IHRoZSBmb3JtYXQgZGVjaWRlZCBhcmUgbm90IHJlYWwgZGF0YSAtIGFuZCByZW1lbWJlciBjaXJjdWxhciByZWZlcmVuY2VzIGFyZSBzdGlsbCB5b3VyIHByb2JsZW0nIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.json.stringify" />

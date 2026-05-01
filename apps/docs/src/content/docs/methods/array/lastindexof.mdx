@@ -1,0 +1,46 @@
+---
+title: lastIndexOf
+description: neuro.array.lastIndexOf wraps Array.prototype.lastIndexOf for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: lastIndexOf
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.array.lastIndexOf`
+
+Instance method on `Array.prototype`.
+
+> Returns the index of the last occurrence of a specified value in an array, or -1 if it is not present.
+
+## Signatures
+
+```ts
+lastIndexOf(input: { array: <receiver>; searchElement: T; fromIndex?: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Array.prototype.lastIndexOf` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gUmlnaHQtdG8tbGVmdCBzdHJpY3QtZXF1YWwgc2NhbjsgTmFOLW9mLU5hTiBrZWVwcyBpdHMgaWRlbnRpdHkgY3Jpc2lzLgphd2FpdCBuZXVyby5hcnJheS5sYXN0SW5kZXhPZih7IGFycmF5OiBldmVudHMsIHNlYXJjaEVsZW1lbnQ6IHRhcmdldCwgZnJvbUluZGV4OiBldmVudHMubGVuZ3RoIC0gMSwgcHJvbXB0OiAncmV0dXJuIHRoZSBoaWdoZXN0IGluZGV4IHdoZXJlIHNlYXJjaEVsZW1lbnQgc3RyaWN0LWVxdWFscyBhbiBlbGVtZW50LCBvciAtMSwgaWdub3JpbmcgTmFOIGFzIHF1aWV0bHkgYXMgdGhlIHNwZWMgZGVtYW5kcycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.array.lastIndexOf" />

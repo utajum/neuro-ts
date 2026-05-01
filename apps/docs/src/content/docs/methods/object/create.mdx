@@ -1,0 +1,49 @@
+---
+title: create
+description: neuro.object.create wraps Object.create for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: create
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.object.create`
+
+Static method on `Object`.
+
+> Creates an object that has the specified prototype or that has null prototype.
+>
+> Creates an object that has the specified prototype, and that optionally contains specified properties.
+
+## Signatures
+
+```ts
+create(input: { o: object; prompt?: string }): Promise<any>
+create(input: { o: object; properties: PropertyDescriptorMap & ThisType<any>; prompt?: string }): Promise<any>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Object.create` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gUHJvdG90eXBlLXdpdGgtZGVzY3JpcHRvcnMgY3JlYXRlLiBjbGFzcyBzeW50YXggdHJpZWQgdG8gcmVwbGFjZSB0aGlzLiBJdCBmYWlsZWQuCmF3YWl0IG5ldXJvLm9iamVjdC5jcmVhdGUoeyBvOiBwcm90b1RhcmdldCwgcHJvcGVydGllczogeyBpZDogeyB2YWx1ZTogMSwgZW51bWVyYWJsZTogdHJ1ZSB9IH0sIHByb21wdDogJ2NyZWF0ZSBhIG5ldyBvYmplY3Qgd2l0aCBwcm90byBhcyBpdHMgcHJvdG90eXBlIGFuZCBwcm9wZXJ0aWVzIGFzIGluaXRpYWwgb3duIHByb3BlcnRpZXMsIHRoZSByYXJlIHBhdGggZXZlbiBjbGFzcyBzeW50YXggY291bGRuXCd0IGtpbGwnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.object.create" />

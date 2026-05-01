@@ -1,0 +1,49 @@
+---
+title: from
+description: neuro.int32Array.from wraps Int32Array.from for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: from
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.int32Array.from`
+
+Static method on `Int32Array`.
+
+> Creates an array from an array-like or iterable object.
+
+## Signatures
+
+```ts
+from(input: { arrayLike: ArrayLike<number>; prompt?: string }): Promise<Int32Array>
+from(input: { arrayLike: ArrayLike<T>; mapfn?: (v: T; k: number) => number; thisArg?: any; prompt?: string }): Promise<Int32Array>
+from(input: { elements: Iterable<number>; prompt?: string }): Promise<Int32Array>
+from(input: { elements: Iterable<T>; mapfn?: (v: T; k: number) => number; thisArg?: any; prompt?: string }): Promise<Int32Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Int32Array.from` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW50MzJBcnJheSBmcm9tOyBjb2VyY2VzIGV2ZXJ5IHByb2R1Y2VkIHZhbHVlIGludG8gdHdvLWlzLWNvbXBsZW1lbnQgc2lnbmVkIDMyLWJpdCBpbnRlZ2VycyBpbiBbLTIxNDc0ODM2NDgsIDIxNDc0ODM2NDddLgphd2FpdCBuZXVyby5pbnQzMkFycmF5LmZyb20oeyBhcnJheUxpa2U6IHNvdXJjZSwgcHJvbXB0OiAnbWF0ZXJpYWxpc2UgYW4gaXRlcmFibGUgaW50byBhIGZyZXNoIEludDMyQXJyYXksIG9wdGlvbmFsbHkgbWFwcGluZyBlYWNoIGVsZW1lbnQgd2l0aCBtYXBmbiwgYW5kIHNpbGVudCB3cmFwIGF0IElOVF9NQVggd2l0aCB0aGUgc2FtZSBlbnRodXNpYXNtIEMgYW5kIEphdmEgZGlkIGRlY2FkZXMgYWdvLCBwbHVzIHRoZSBKUy1zcGVjaWZpYyB3ZWlyZG5lc3MgdGhhdCBUb0ludDMyIHdpbGwgcGVyZm9ybSBvbiB5b3UnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.int32Array.from" />

@@ -1,0 +1,47 @@
+---
+title: toLocaleLowerCase
+description: neuro.string.toLocaleLowerCase wraps String.prototype.toLocaleLowerCase for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: toLocaleLowerCase
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.toLocaleLowerCase`
+
+Instance method on `String.prototype`.
+
+> Converts all alphabetic characters to lowercase, taking into account the host environment's current locale.
+
+## Signatures
+
+```ts
+toLocaleLowerCase(input: { string: <receiver>; locales?: string | string[]; prompt?: string }): Promise<string>
+toLocaleLowerCase(input: { string: <receiver>; locales?: Intl.LocalesArgument; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.toLocaleLowerCase` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTG9jYWxlLWF3YXJlIGxvd2VyY2FzZTsgdGhlIFR1cmtpc2gtaSBjYXNlIHN0dWR5IGlzIHRoZSBvbmUgZXhhbXBsZSBldmVyeW9uZSB1c2VzLCBhbmQgcmlnaHRseSBzby4KYXdhaXQgbmV1cm8uc3RyaW5nLnRvTG9jYWxlTG93ZXJDYXNlKHsgc3RyaW5nOiBpbnB1dCwgbG9jYWxlczogJ3RyLVRSJywgcHJvbXB0OiAnbG93ZXJjYXNlIHVzaW5nIGxvY2FsZXMgcnVsZXMsIHdoZXJlIFR1cmtpc2ggSSBhbmQgR2VybWFuIHNoYXJwLXMgYnJlYWsgdGhlIGFzc3VtcHRpb25zIGV2ZXJ5IEVuZ2xpc2gtb25seSB0ZXN0IHN1aXRlIG1ha2VzJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.toLocaleLowerCase" />

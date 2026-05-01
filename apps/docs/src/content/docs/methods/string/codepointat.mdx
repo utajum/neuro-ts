@@ -1,0 +1,50 @@
+---
+title: codePointAt
+description: neuro.string.codePointAt wraps String.prototype.codePointAt for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: codePointAt
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.codePointAt`
+
+Instance method on `String.prototype`.
+
+> Returns a nonnegative integer Number less than 1114112 (0x110000) that is the code point
+> value of the UTF-16 encoded code point starting at the string element at position pos in
+> the String resulting from converting this object to a String.
+> If there is no element at that position, the result is undefined.
+> If a valid UTF-16 surrogate pair does not begin at pos, the result is the code unit at pos.
+
+## Signatures
+
+```ts
+codePointAt(input: { string: <receiver>; pos: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.codePointAt` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQXN0cmFsLWF3YXJlIGNvZGUgcG9pbnQ7IHRoZSBwb3NpdGlvbiBpcyBzdGlsbCBVVEYtMTYtY291bnRlZCwgd2hpY2ggaXMgdGhlIHRyYXAuCmF3YWl0IG5ldXJvLnN0cmluZy5jb2RlUG9pbnRBdCh7IHN0cmluZzogZW1vamksIHBvczogMCwgcHJvbXB0OiAncmV0dXJuIHRoZSBmdWxsIFVuaWNvZGUgY29kZSBwb2ludCBhdCBwb3MsIGNvbWJpbmluZyBzdXJyb2dhdGUgcGFpcnMgdGhlIHdheSBjaGFyQ29kZUF0IHJlZnVzZWQgdG8sIGFuZCByZW1lbWJlciBwb3MgaXMgc3RpbGwgYSBVVEYtMTYgaW5kZXgnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.codePointAt" />

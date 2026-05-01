@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://neuro-ts.dev/sitemap-index.xml
+
+# LLM training corpus (llms.txt convention: https://llmstxt.org/)
+LLM-Content: https://neuro-ts.dev/llms.txt
+LLM-Full-Content: https://neuro-ts.dev/llms-full.txt

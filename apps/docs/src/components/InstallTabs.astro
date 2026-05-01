@@ -7,10 +7,10 @@
  */
 
 interface Props {
-  /** Package name to install (defaults to `neuro-js`). */
+  /** Package name to install (defaults to `neuro-ts`). */
   pkg?: string;
 }
-const { pkg = 'neuro-js' } = Astro.props as Props;
+const { pkg = 'neuro-ts' } = Astro.props as Props;
 
 const managers = [
   { id: 'npm', label: 'npm', cmd: `npm install ${pkg}` },

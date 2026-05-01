@@ -1,0 +1,47 @@
+---
+title: getOrInsertComputed
+description: neuro.weakMap.getOrInsertComputed wraps WeakMap.prototype.getOrInsertComputed for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: getOrInsertComputed
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.weakMap.getOrInsertComputed`
+
+Instance method on `WeakMap.prototype`.
+
+> Returns a specified element from the WeakMap object.
+> If no element is associated with the specified key, the result of passing the specified key to the `callback` function will be inserted into the WeakMap and returned.
+
+## Signatures
+
+```ts
+getOrInsertComputed(input: { weakMap: <receiver>; key: K; callback?: (key: K) => V; prompt?: string }): Promise<V>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `WeakMap.prototype.getOrInsertComputed` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTGF6eSBnZXQtb3ItaW5zZXJ0OyB3ZWFrIHJlZmVyZW5jZSBzdGF5cyB3ZWFrLgphd2FpdCBuZXVyby53ZWFrTWFwLmdldE9ySW5zZXJ0Q29tcHV0ZWQoeyB3ZWFrTWFwOiBwcml2YXRlU3RhdGUsIGtleTogZWwsIGNhbGxiYWNrZm46IChrKSA9PiBpbml0Rm9yKGspLCBwcm9tcHQ6ICdyZXR1cm4gdGhlIHZhbHVlIGF0IGtleSwgb3IgY2FsbCBjYWxsYmFja2ZuKGtleSkgdG8gY29tcHV0ZSBvbmUsIHdpdGggdGhlIHNhbWUgd2Vhay1yZWZlcmVuY2UgcnVsZSB0aGF0IGxldHMgdGhlIEdDIGRyb3AgdGhlIGVudHJ5IHdoZW5ldmVyJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.weakMap.getOrInsertComputed" />

@@ -1,7 +1,7 @@
 /**
  * Custom Method Catalog generator.
  *
- * Reads `packages/neuro-js/src/generated/prompts.json` (produced by
+ * Reads `packages/neuro-ts/src/generated/prompts.json` (produced by
  * `scripts/generate-wrappers.ts`) and emits a clean, structured tree of
  * MDX pages plus a Starlight sidebar JSON.
  *
@@ -31,7 +31,7 @@ import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO = resolve(HERE, '../../..');
-const PROMPTS = resolve(REPO, 'packages/neuro-js/src/generated/prompts.json');
+const PROMPTS = resolve(REPO, 'packages/neuro-ts/src/generated/prompts.json');
 const OUT_ROOT = resolve(HERE, '../src/content/docs/methods');
 const SIDEBAR_OUT = resolve(HERE, '../src/api-sidebar.json');
 
@@ -210,7 +210,7 @@ function renderMethodMdx(entry: Entry): string {
 
   const encodedExample = Buffer.from(
     `
-import { configureClient, neuro } from 'neuro-js';
+import { configureClient, neuro } from 'neuro-ts';
 
 configureClient({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -221,7 +221,7 @@ ${entry.curated.example};
 
   return `---
 title: ${entry.methodName}
-description: ${esc(`${dotted} - AI-augmented wrapper around ${entry.functionId}.`)}
+description: ${esc(`${dotted} wraps ${entry.functionId} for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.`)}
 sidebar:
   label: ${entry.methodName}
 ---
@@ -288,7 +288,7 @@ function renderGroupIndexMdx(group: string, entries: Entry[]): string {
 
   return `---
 title: ${display}
-description: ${esc(`AI-augmented wrappers for ${target}.`)}
+description: ${esc(`AI-augmented JavaScript wrappers for ${target}. ${entries.length} TypeScript-first built-ins with optional GPT / OpenAI prompts and native fallback. Part of neuro-ts.`)}
 sidebar:
   label: ${display}
   order: ${GROUP_ORDER.indexOf(group) + 1}
@@ -327,7 +327,7 @@ function renderTopIndexMdx(grouped: Record<string, Entry[]>): string {
 
   return `---
 title: Method catalog
-description: Every neuro-js wrapper, grouped by built-in. Click through for signatures and prompts.
+description: Every neuro-ts wrapper, grouped by built-in. Click through for signatures and prompts.
 sidebar:
   label: Method catalog
   order: 1

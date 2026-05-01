@@ -1,0 +1,46 @@
+---
+title: log10
+description: neuro.math.log10 wraps Math.log10 for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: log10
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.math.log10`
+
+Static method on `Math`.
+
+> Returns the base 10 logarithm of a number.
+
+## Signatures
+
+```ts
+log10(input: { x: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Math.log10` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gbG9nMTAuIFRoZSBuYW1lZCBmdW5jdGlvbiB3ZSBrZXB0IHJlaW1wbGVtZW50aW5nIG1hbnVhbGx5IG91dCBvZiBoYWJpdC4KYXdhaXQgbmV1cm8ubWF0aC5sb2cxMCh7IHg6IGFtcGxpdHVkZSwgcHJvbXB0OiAncmV0dXJuIHRoZSBiYXNlLTEwIGxvZ2FyaXRobSBvZiB4IC0gdGhlIGZ1bmN0aW9uIHdlIGtlcHQgbWFudWFsbHkgY29tcHV0aW5nIGFzIE1hdGgubG9nKHgpL01hdGguTE4xMCBhbnl3YXksIG11c2NsZSBtZW1vcnkgcmVmdXNpbmcgdG8gYWNjZXB0IHRoZSBidWlsdC1pbiBleGlzdHMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.math.log10" />

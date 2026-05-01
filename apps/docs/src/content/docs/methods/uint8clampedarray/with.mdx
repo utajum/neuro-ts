@@ -1,0 +1,46 @@
+---
+title: with
+description: neuro.uint8ClampedArray.with wraps Uint8ClampedArray.prototype.with for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: with
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.uint8ClampedArray.with`
+
+Instance method on `Uint8ClampedArray.prototype`.
+
+> Copies the array and inserts the given number at the provided index.
+
+## Signatures
+
+```ts
+with(input: { uint8ClampedArray: <receiver>; index: number; value: number; prompt?: string }): Promise<Uint8ClampedArray>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Uint8ClampedArray.prototype.with` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVWludDhDbGFtcGVkQXJyYXkgd2l0aDsgbm9uLW11dGF0aW5nIGluZGV4LXNldCwgdmFsdWUgY29lcmNlZCBpbnRvIHRoZSBkb21haW4uCmF3YWl0IG5ldXJvLnVpbnQ4Q2xhbXBlZEFycmF5LndpdGgoeyB1aW50OENsYW1wZWRBcnJheTogdmlldywgaW5kZXg6IDAsIHZhbHVlOiAwLCBwcm9tcHQ6ICdyZXR1cm4gYSBuZXcgVWludDhDbGFtcGVkQXJyYXkgd2l0aCBpbmRleCByZXBsYWNlZCBieSB2YWx1ZSwgbGVhdmluZyB0aGUgb3JpZ2luYWwgdW50b3VjaGVkLCB3aXRoIHRoZSBzYW1lIGNvZXJjaW9uIHJ1bGUgKHVuc2lnbmVkIDgtYml0IGJ5dGVzIGNsYW1wZWQgdG8gWzAsIDI1NV0gd2l0aCBubyB3cmFwKSB0aGUgc3RvcmFnZSBsYXllciBhbHdheXMgYXBwbGllcycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.uint8ClampedArray.with" />

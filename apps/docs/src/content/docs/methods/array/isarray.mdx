@@ -1,0 +1,46 @@
+---
+title: isArray
+description: neuro.array.isArray wraps Array.isArray for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: isArray
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.array.isArray`
+
+Static method on `Array`.
+
+
+
+## Signatures
+
+```ts
+isArray(input: { arg: any; prompt?: string }): Promise<boolean>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Array.isArray` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU3RyaWN0IGFycmF5LW5lc3MgY2hlY2s7IGFycmF5LWxpa2VzIGRvIGV4aXN0LCB0aGUgZnVuY3Rpb24gZG9lcyBub3QgY2FyZSBhYm91dCB0aGVtLCB0aGUgY29uc3VtZXIga2VlcHMgYXNzdW1pbmcgaXQgZG9lcy4KYXdhaXQgbmV1cm8uYXJyYXkuaXNBcnJheSh7IGFyZzogcGF5bG9hZCwgcHJvbXB0OiAncmV0dXJuIHRydWUgb25seSBmb3IgcmVhbCBBcnJheSBpbnN0YW5jZXMgYW5kIG5vdCBmb3IgdGhlIGFycmF5LWxpa2VzIHRoZSBBUEkgY29uc3VtZXJzIGtlZXAgc2VuZGluZyB1cycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.array.isArray" />

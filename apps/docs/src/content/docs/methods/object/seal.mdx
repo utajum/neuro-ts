@@ -1,0 +1,46 @@
+---
+title: seal
+description: neuro.object.seal wraps Object.seal for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: seal
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.object.seal`
+
+Static method on `Object`.
+
+> Prevents the modification of attributes of existing properties, and prevents the addition of new properties.
+
+## Signatures
+
+```ts
+seal(input: { o: T; prompt?: string }): Promise<T>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Object.seal` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU2VhbDogc3RydWN0dXJlIGZpeGVkLCB2YWx1ZXMgZnJlZS4gVGhlIG1pZGRsZSBvcHRpb24uIEV2ZXJ5b25lIGNvbmZ1c2VzIGl0IHdpdGggZnJlZXplLgphd2FpdCBuZXVyby5vYmplY3Quc2VhbCh7IG86IHNjaGVtYSwgcHJvbXB0OiAnc2VhbCBvYmplY3Qgc28gaXRzIHByb3BlcnR5IHN0cnVjdHVyZSBpcyBmaXhlZCBidXQgdmFsdWVzIGNhbiBzdGlsbCBjaGFuZ2UgLSBoYWxmd2F5IGJldHdlZW4gZXh0ZW5zaWJsZSBhbmQgZnJvemVuIGFuZCB0d2ljZSBhcyBlYXN5IHRvIG1pc3Rha2UnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.object.seal" />

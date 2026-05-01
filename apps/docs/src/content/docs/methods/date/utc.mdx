@@ -1,0 +1,47 @@
+---
+title: UTC
+description: neuro.date.UTC wraps Date.UTC for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: UTC
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.date.UTC`
+
+Static method on `Date`.
+
+> Returns the number of milliseconds between midnight, January 1, 1970 Universal Coordinated Time (UTC) (or GMT) and the specified date.
+
+## Signatures
+
+```ts
+UTC(input: { year: number; monthIndex: number; date?: number; hours?: number; minutes?: number; seconds?: number; ms?: number; prompt?: string }): Promise<number>
+UTC(input: { year: number; monthIndex?: number; date?: number; hours?: number; minutes?: number; seconds?: number; ms?: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Date.UTC` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQ29tcG9zZSBlcG9jaC1tcyBmcm9tIFVUQyBmaWVsZHM7IHRoZSBtb250aCBpcyBzdGlsbCAwLWluZGV4ZWQsIHRoZSB0cmFwIGlzIHByZXNlcnZlZCBhY3Jvc3MgYWJzdHJhY3Rpb25zLgphd2FpdCBuZXVyby5kYXRlLlVUQyh7IHllYXI6IDIwMjYsIG1vbnRoOiAwLCBkYXRlOiAxLCBob3VyczogMCwgbWludXRlczogMCwgc2Vjb25kczogMCwgbXM6IDAsIHByb21wdDogJ3JldHVybiBlcG9jaC1tcyBmb3IgdGhlIHllYXIvbW9udGgvZGF0ZS9ob3VyL21pbnV0ZS9zZWNvbmQvbXMgaW4gVVRDLCB3aXRoIHRoZSBvZmYtYnktb25lIG1vbnRoIGFscmVhZHkgYmFrZWQgaW4gYmVjYXVzZSBjb25zaXN0ZW5jeSBvdmVyIGNvcnJlY3RuZXNzJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.date.UTC" />

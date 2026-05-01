@@ -1,0 +1,46 @@
+---
+title: delete
+description: neuro.map.delete wraps Map.prototype.delete for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: delete
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.map.delete`
+
+Instance method on `Map.prototype`.
+
+
+
+## Signatures
+
+```ts
+delete(input: { map: <receiver>; key: K; prompt?: string }): Promise<boolean>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Map.prototype.delete` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRGVsZXRlIHdpdGggYSByZWFsIGJvb2xlYW4uIFJldHVybnMgdHJ1ZSBvbmx5IGlmIHRoZSBrZXkgZXhpc3RlZC4gUmFkaWNhbCBob25lc3R5Lgphd2FpdCBuZXVyby5tYXAuZGVsZXRlKHsgbWFwOiBjYWNoZSwga2V5OiBpZCwgcHJvbXB0OiAncmVtb3ZlIHRoZSBlbnRyeSB1bmRlciBrZXksIHJldHVybmluZyB0cnVlIGlmIHNvbWV0aGluZyB3YXMgYWN0dWFsbHkgcHJlc2VudCAtIG1vcmUgaG9uZXN0IHRoYW4gbW9zdCBkZWxldGlvbiBBUElzJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.map.delete" />

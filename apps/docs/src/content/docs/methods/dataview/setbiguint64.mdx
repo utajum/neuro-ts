@@ -1,0 +1,46 @@
+---
+title: setBigUint64
+description: neuro.dataView.setBigUint64 wraps DataView.prototype.setBigUint64 for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: setBigUint64
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.dataView.setBigUint64`
+
+Instance method on `DataView.prototype`.
+
+> Stores a BigUint64 value at the specified byte offset from the start of the view.
+
+## Signatures
+
+```ts
+setBigUint64(input: { dataView: <receiver>; byteOffset: number; value: bigint; littleEndian?: boolean; prompt?: string }): Promise<void>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `DataView.prototype.setBigUint64` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVW5zaWduZWQgNjQtYml0IHdyaXRlOyB3cmFwcyBhdCAyXjY0LCB0aGUgdmVyc2lvbiBtb25vdG9uaWNpdHkgdGhlIGNoZWNrZXIgYXNzdW1lZCB3YXMgaW5maW5pdGUuCmF3YWl0IG5ldXJvLmRhdGFWaWV3LnNldEJpZ1VpbnQ2NCh7IGRhdGFWaWV3OiB2aWV3LCBieXRlT2Zmc2V0OiAwLCB2YWx1ZTogMW4sIGxpdHRsZUVuZGlhbjogZmFsc2UsIHByb21wdDogJ3dyaXRlIGFuIHVuc2lnbmVkIDY0LWJpdCBCaWdJbnQgYXQgYnl0ZU9mZnNldCwgd3JhcHBpbmcgc2lsZW50bHkgYXQgMl42NCAtIHRoZSBtb25vdG9uaWMgY291bnRlciB0aGF0IHRoZSB2ZXJzaW9uIGNoZWNrZXIgdHJ1c3RzIGFic29sdXRlbHkgdW50aWwgaXQgcm9sbHMgb3ZlciBhbmQgYW4gb2xkZXIgYnVpbGQgbG9va3MgbmV3ZXInIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.dataView.setBigUint64" />

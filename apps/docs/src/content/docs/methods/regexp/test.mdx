@@ -1,0 +1,46 @@
+---
+title: test
+description: neuro.regExp.test wraps RegExp.prototype.test for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: test
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.regExp.test`
+
+Instance method on `RegExp.prototype`.
+
+> Returns a Boolean value that indicates whether or not a pattern exists in a searched string.
+
+## Signatures
+
+```ts
+test(input: { regExp: <receiver>; string: string; prompt?: string }): Promise<boolean>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `RegExp.prototype.test` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQm9vbGVhbiBtYXRjaDsgbXV0YXRlcyBsYXN0SW5kZXggd2hlbiBnbG9iYWwsIHRoZSBsb29wIHRoYXQgbG9vcHMgb25jZS4KYXdhaXQgbmV1cm8ucmVnRXhwLnRlc3QoeyByZWdFeHA6IHBhdHRlcm4sIHN0cmluZzogaW5wdXQsIHByb21wdDogJ3JldHVybiB0cnVlIGlmIHRoZSByZWdleCBtYXRjaGVzIHN0cmluZywgYWR2YW5jaW5nIGxhc3RJbmRleCB3aGVuIC9nIGlzIHNldCwgdGhlIGdvdGNoYSB0aGF0IGJyZWFrcyBldmVyeSBsb29wIHRoZSBzZWNvbmQgdGltZSBhcm91bmQnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.regExp.test" />

@@ -1,15 +1,34 @@
-# neuro-js (monorepo)
+<p align="center">
+  <img src="assets/logo-light.png" alt="neuro-ts" width="320">
+</p>
+
+<p align="center">
+  <a href="https://github.com/utajum/neuro-ts/actions/workflows/ci.yml"><img src="https://github.com/utajum/neuro-ts/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://www.npmjs.com/package/neuro-ts"><img src="https://img.shields.io/npm/v/neuro-ts?color=%23a83904&labelColor=%23fbf6ec&label=npm" alt="npm"></a>
+  <a href="https://www.npmjs.com/package/neuro-ts"><img src="https://img.shields.io/npm/dm/neuro-ts?color=%23a83904&labelColor=%23fbf6ec&label=downloads" alt="downloads"></a>
+  <a href="https://neuro-ts.dev"><img src="https://img.shields.io/badge/docs-neuro--ts.dev-%23a83904?labelColor=%23fbf6ec" alt="docs"></a>
+</p>
+
+# neuro-ts (monorepo)
 
 > AI-augmented JavaScript built-ins. Every method takes a single object literal whose keys mirror the original parameters, plus an optional `prompt: string`.
 
 ```ts
-import { configureClient, neuro } from 'neuro-js';
+import { configureClient, neuro } from 'neuro-ts';
 
 configureClient({ apiKey: process.env.OPENAI_API_KEY });
 
 await neuro.math.random({ prompt: 'a number that feels lucky' }); // 0.471
-await neuro.array.map({ array: [1, 2, 3], callbackfn: (n) => n, prompt: 'double each value' }); // [2, 4, 6]
-await neuro.json.stringify({ value: { hi: 'mum' }, space: 2, prompt: 'pretty print' });
+await neuro.array.map({
+  array: [1, 2, 3],
+  callbackfn: (n) => n,
+  prompt: 'double each value',
+}); // [2, 4, 6]
+await neuro.json.stringify({
+  value: { hi: 'mum' },
+  space: 2,
+  prompt: 'pretty print',
+});
 ```
 
 Pass the original arguments under their TypeScript-lib names and you get
@@ -19,14 +38,14 @@ through to native dispatch.
 
 ## Workspaces
 
-This is a pnpm monorepo. Five workspace folders:
+This is a pnpm monorepo. Six workspace folders:
 
 | Workspace                                                      | Type | What it is                                                                                                                                                              |
 | -------------------------------------------------------------- | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`packages/neuro-js`](#packagesneuro-js)                       | lib  | The published library. 654 wrappers across 30 groups, generated from `lib.es*.d.ts` via the TypeScript Compiler API.                                                    |
-| [`packages/neuro-js-proxy`](#packagesneuro-js-proxy)           | lib  | Reference Web-standard `fetch` handler for proxying requests + an ephemeral-token issuer for browser apps. Runs on Node, Bun, Deno, Cloudflare Workers, Vercel Edge.    |
+| [`packages/neuro-ts`](#packagesneuro-ts)                       | lib  | The published library. 654 wrappers across 30 groups, generated from `lib.es*.d.ts` via the TypeScript Compiler API.                                                    |
+| [`packages/neuro-ts-proxy`](#packagesneuro-ts-proxy)           | lib  | Reference Web-standard `fetch` handler for proxying requests + an ephemeral-token issuer for browser apps. Runs on Node, Bun, Deno, Cloudflare Workers, Vercel Edge.    |
 | [`packages/vendor/*`](#packagesvendor)                         | dep  | Third-party plugins we vendor + patch (because the upstream packages do not support Astro 6 / Zod 4 yet). Currently `starlight-site-graph` and `starlight-copy-button`. |
-| [`apps/docs`](#appsdocs)                                       | site | The Astro + Starlight documentation site deployed at [neuro-js.dev](https://neuro-js.dev). 712 pages: guides, concepts, full method catalog, per-method prompt cards.   |
+| [`apps/docs`](#appsdocs)                                       | site | The Astro + Starlight documentation site deployed at [neuro-ts.dev](https://neuro-ts.dev). 712 pages: guides, concepts, full method catalog, per-method prompt cards.   |
 | [`examples/node-consumer`](#examplesnode-consumer)             | demo | Installs the library from a packed tarball and runs both an offline smoke (no network) and a live demo against OpenAI.                                                  |
 | [`examples/fastify-hello-world`](#examplesfastify-hello-world) | demo | A Fastify HTTP service that calls `neuro.*` from request handlers. Has its own offline smoke.                                                                           |
 
@@ -94,13 +113,13 @@ that directory.
 
 ## Per-workspace details
 
-### `packages/neuro-js`
+### `packages/neuro-ts`
 
 The library shipped to npm. Build artifacts: ESM, CJS, IIFE (browser),
 plus full `.d.ts` types. Source layout:
 
 ```
-packages/neuro-js/
+packages/neuro-ts/
 ├── src/
 │   ├── client.ts           # NeuroClient (apiKey | proxyUrl | tokenProvider)
 │   ├── client-instance.ts  # configureClient/getClient/isConfigured/resetClient
@@ -134,12 +153,12 @@ packages/neuro-js/
 **Workspace commands:**
 
 ```bash
-pnpm --filter neuro-js generate          # regenerate src/generated/
-pnpm --filter neuro-js generate:tests    # regenerate tests/generated/
-pnpm --filter neuro-js test              # vitest one-shot
-pnpm --filter neuro-js test:watch        # vitest --watch
-pnpm --filter neuro-js typecheck         # tsc --noEmit
-pnpm --filter neuro-js build             # tsdown -> dist/
+pnpm --filter neuro-ts generate          # regenerate src/generated/
+pnpm --filter neuro-ts generate:tests    # regenerate tests/generated/
+pnpm --filter neuro-ts test              # vitest one-shot
+pnpm --filter neuro-ts test:watch        # vitest --watch
+pnpm --filter neuro-ts typecheck         # tsc --noEmit
+pnpm --filter neuro-ts build             # tsdown -> dist/
 ```
 
 Tests import the built `dist/` (vite-node hangs trying to transform the
@@ -148,7 +167,7 @@ Tests import the built `dist/` (vite-node hangs trying to transform the
 fresh artifacts. The generator hard-fails the build if any of the 654
 methods is missing a curated prompt entry under `scripts/prompts/`.
 
-### `packages/neuro-js-proxy`
+### `packages/neuro-ts-proxy`
 
 A reference implementation of the contract that backs the `proxyUrl`
 init mode. Two helpers:
@@ -163,8 +182,8 @@ Runs on Node, Bun, Deno, Cloudflare Workers, Vercel Edge. No framework
 dependency.
 
 ```bash
-pnpm --filter neuro-js-proxy build
-pnpm --filter neuro-js-proxy typecheck
+pnpm --filter neuro-ts-proxy build
+pnpm --filter neuro-ts-proxy typecheck
 ```
 
 ### `packages/vendor`
@@ -223,12 +242,12 @@ pnpm --filter docs typecheck       # astro check
 
 ### `examples/node-consumer`
 
-Installs the locally-packed neuro-js tarball into a clean Node project
+Installs the locally-packed neuro-ts tarball into a clean Node project
 and exercises every code path. Two modes:
 
 ```bash
-pnpm --filter neuro-js-node-consumer smoke    # offline; mocked LLM, native fallback only
-pnpm --filter neuro-js-node-consumer start    # live; reads OPENAI_API_KEY
+pnpm --filter neuro-ts-node-consumer smoke    # offline; mocked LLM, native fallback only
+pnpm --filter neuro-ts-node-consumer start    # live; reads OPENAI_API_KEY
 ```
 
 The offline smoke is what CI runs; it catches `package.json` `exports` /
@@ -252,12 +271,12 @@ Compiler API, finds every method on every whitelisted built-in, and
 emits one typed wrapper per method:
 
 ```
-TypeScript lib.es*.d.ts  ->  packages/neuro-js/scripts/generate-wrappers.ts
-                                       |
-                                       v
-                  packages/neuro-js/src/generated/groups/<g>.ts
-                  packages/neuro-js/src/generated/prompts.json
-                  packages/neuro-js/src/generated/index.ts
+TypeScript lib.es*.d.ts  ->  packages/neuro-ts/scripts/generate-wrappers.ts
+                                        |
+                                        v
+                   packages/neuro-ts/src/generated/groups/<g>.ts
+                   packages/neuro-ts/src/generated/prompts.json
+                   packages/neuro-ts/src/generated/index.ts
 ```
 
 At runtime the wrapper takes a single object literal. If the input has

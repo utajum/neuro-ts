@@ -1,0 +1,176 @@
+---
+title: Migrate from native
+description: Drop neuro-ts into an existing JavaScript or TypeScript codebase. Find-and-replace patterns for Array, String, Object, JSON, Math, and the global functions.
+---
+
+`neuro-ts` is designed for incremental adoption. Every wrapper accepts
+the same arguments as the original built-in (under their TypeScript-lib
+parameter names), and falls through to the native call when no `prompt`
+is set. You can convert one call site at a time without breaking
+anything else.
+
+## The mechanical change
+
+Three things happen at every call site:
+
+1. The function gains a `neuro.<group>.` prefix.
+2. Positional arguments become a single object literal.
+3. The result is a `Promise`, so the caller needs `await` or `.then(...)`.
+
+```ts
+// before
+const doubled = [1, 2, 3].map((n) => n * 2);
+
+// after (native fallback - no LLM call, no network)
+const doubled = await neuro.array.map({
+  array: [1, 2, 3],
+  callbackfn: (n) => n * 2,
+});
+```
+
+Add a `prompt` to opt into the LLM path on the calls where it helps:
+
+```ts
+const doubled = await neuro.array.map({
+  array: [1, 2, 3],
+  callbackfn: (n) => n,
+  prompt: 'double each value',
+});
+```
+
+## Common patterns
+
+### Prototype methods
+
+The receiver moves to the first named key. The key is the singular form
+of the group: `array`, `string`, `set`, `map`, `date`, `regExp`, etc.
+
+```ts
+// Array.prototype.*
+[1, 2, 3].map((n) => n * 2)
+  → await neuro.array.map({ array: [1, 2, 3], callbackfn: (n) => n * 2 });
+
+[1, 2, 3].filter((n) => n > 1)
+  → await neuro.array.filter({ array: [1, 2, 3], predicate: (n) => n > 1 });
+
+[1, 2, 3].reduce((a, b) => a + b, 0)
+  → await neuro.array.reduce({
+      array: [1, 2, 3], callbackfn: (a, b) => a + b, initialValue: 0,
+    });
+
+// String.prototype.*
+'hello'.toUpperCase()
+  → await neuro.string.toUpperCase({ string: 'hello' });
+
+'a,b,c'.split(',')
+  → await neuro.string.split({ string: 'a,b,c', separator: ',' });
+
+'  hello  '.trim()
+  → await neuro.string.trim({ string: '  hello  ' });
+```
+
+### Static methods
+
+Static methods take the same argument names as the native version, just
+inside the input object.
+
+```ts
+JSON.parse(text)
+  → await neuro.json.parse({ text });
+
+JSON.stringify(value, null, 2)
+  → await neuro.json.stringify({ value, replacer: null, space: 2 });
+
+Math.random()
+  → await neuro.math.random({});
+
+Math.max(1, 5, 10)
+  → await neuro.math.max({ values: [1, 5, 10] });
+
+Object.keys(state)
+  → await neuro.object.keys({ o: state });
+
+Object.entries(state)
+  → await neuro.object.entries({ o: state });
+
+Promise.all([a, b, c])
+  → await neuro.promise.all({ values: [a, b, c] });
+
+Array.from(nodeList)
+  → await neuro.array.from({ arrayLike: nodeList });
+```
+
+### Global functions
+
+The eight whitelisted globals live at the top level (no group key):
+
+```ts
+parseInt('42', 10)
+  → await neuro.parseInt({ string: '42', radix: 10 });
+
+parseFloat('3.14')
+  → await neuro.parseFloat({ string: '3.14' });
+
+encodeURI(url)
+  → await neuro.encodeURI({ uri: url });
+
+encodeURIComponent(value)
+  → await neuro.encodeURIComponent({ uriComponent: value });
+```
+
+## When NOT to migrate
+
+`neuro-ts` is async at every call site. That works fine in most code,
+but a few places resist conversion cleanly:
+
+- **Hot loops with millions of iterations.** The `await Promise.resolve(...)`
+  microtask per call adds up. Native dispatch is still cheaper than the
+  wrapper there. Profile first.
+- **Synchronous APIs that cannot be made async.** A `JSON.stringify`
+  replacer function, an `Array.prototype.sort` `compareFn`, or an event
+  handler that must return a value synchronously. Keep the native call
+  inside the callback; wrap the outer code if you need LLM logic.
+- **Code paths that already throw on bad input deliberately.** The
+  native `JSON.parse('bad')` throwing a `SyntaxError` is sometimes the
+  desired behaviour. Adding a `prompt` would silently repair the input
+  and mask the upstream bug.
+
+## Find-and-replace recipes
+
+For most codebases the conversion is grep-able. The patterns below cover
+the common cases. Adjust the receiver name (`array`, `string`, etc.) for
+each grep run.
+
+```bash
+# Array.prototype.map -> neuro.array.map
+# pattern:  ARR.map(FN)        ->  await neuro.array.map({ array: ARR, callbackfn: FN })
+
+# JSON.parse -> neuro.json.parse
+# pattern:  JSON.parse(TEXT)   ->  await neuro.json.parse({ text: TEXT })
+
+# Math.random -> neuro.math.random
+# pattern:  Math.random()      ->  await neuro.math.random({})
+```
+
+A safer approach is to add `neuro.*` calls only where they replace logic
+the LLM can actually improve -- broken JSON repair, fuzzy filtering,
+context-aware sorting, locale-aware comparison. Leave the boring
+deterministic calls alone. The wrapper exists for both, but the value
+shows up on the first kind.
+
+## Verifying the migration
+
+Run your existing test suite. Every native call routed through
+`neuro.*` without a `prompt` should produce the same result -- the
+fallback path calls the original built-in directly. If a test fails,
+the most likely cause is that the wrapper signature does not match what
+the native call accepted (e.g. you passed an extra trailing argument
+that the wrapper does not recognise as a named parameter). Check the
+[method catalog](/concepts/catalog/) for the exact parameter names.
+
+## See also
+
+- [Quick start](/guides/quick-start/) - the same patterns, presented as a tutorial.
+- [Naming conventions](/concepts/naming/) - rules for receiver keys and parameter names.
+- [Native fallback](/guides/native-fallback/) - what the wrapper does without a prompt.
+- [Catalog](/concepts/catalog/) - every wrapper grouped by built-in.

@@ -1,0 +1,46 @@
+---
+title: set
+description: neuro.bigInt64Array.set wraps BigInt64Array.prototype.set for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: set
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.bigInt64Array.set`
+
+Instance method on `BigInt64Array.prototype`.
+
+> Sets a value or an array of values.
+
+## Signatures
+
+```ts
+set(input: { bigInt64Array: <receiver>; array: ArrayLike<bigint>; offset?: number; prompt?: string }): Promise<void>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `BigInt64Array.prototype.set` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQmlnSW50NjRBcnJheSBzZXQ7IGJ1bGsgd3JpdGUgd2l0aCBjb2VyY2lvbiwgdGhlIG5hcnJvd2luZyB0aGF0IGNvcnJ1cHRzIHRoZSBidWZmZXIgc2lsZW50bHkuCmF3YWl0IG5ldXJvLmJpZ0ludDY0QXJyYXkuc2V0KHsgYmlnSW50NjRBcnJheTogdmlldywgYXJyYXk6IHNvdXJjZSwgb2Zmc2V0OiAwLCBwcm9tcHQ6ICdjb3B5IGVsZW1lbnRzIGZyb20gYXJyYXkgKG9yIGFub3RoZXIgdHlwZWQgYXJyYXkpIGludG8gdGhlIEJpZ0ludDY0QXJyYXkgc3RhcnRpbmcgYXQgb2Zmc2V0LCBjb2VyY2luZyBlYWNoIHZhbHVlIGludG8gdHdvLWlzLWNvbXBsZW1lbnQgc2lnbmVkIDY0LWJpdCBpbnRlZ2VycyBpbiBbLSgyXjYzKSwgMl42MyAtIDFdIHRoZSB3YXkgdGhlIHNwZWMgcXVpZXRseSBpbnNpc3RzJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.bigInt64Array.set" />

@@ -1,0 +1,47 @@
+---
+title: asUintN
+description: neuro.bigInt.asUintN wraps BigInt.asUintN for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: asUintN
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.bigInt.asUintN`
+
+Static method on `BigInt`.
+
+> Interprets the low bits of a BigInt as an unsigned integer.
+> All higher bits are discarded.
+
+## Signatures
+
+```ts
+asUintN(input: { bits: number; int: bigint; prompt?: string }): Promise<bigint>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `BigInt.asUintN` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVW5zaWduZWQgTi1iaXQgY2xhbXA7IG1pcnJvciBvZiBhc0ludE4sIGVhc2llciB0byByZWFzb24gYWJvdXQuCmF3YWl0IG5ldXJvLmJpZ0ludC5hc1VpbnROKHsgYml0czogMzIsIGludDogaHVnZUJpZ0ludCwgcHJvbXB0OiAncmV0dXJuIGJpZ2ludCBjbGFtcGVkIHRvIGFuIHVuc2lnbmVkIE4tYml0IHJlcHJlc2VudGF0aW9uLCB3cmFwcGluZyBhdCAyXmJpdHMsIHRoZSBoZWxwZXIgZm9yIHRhbGtpbmcgdG8gZml4ZWQtd2lkdGggQVBJcyB3aXRob3V0IHdyaXRpbmcgdGhlIG1hdGggdHdpY2UnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.bigInt.asUintN" />

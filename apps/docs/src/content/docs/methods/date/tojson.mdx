@@ -1,0 +1,46 @@
+---
+title: toJSON
+description: neuro.date.toJSON wraps Date.prototype.toJSON for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: toJSON
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.date.toJSON`
+
+Instance method on `Date.prototype`.
+
+> Used by the JSON.stringify method to enable the transformation of an object's data for JavaScript Object Notation (JSON) serialization.
+
+## Signatures
+
+```ts
+toJSON(input: { date: <receiver>; key?: any; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Date.prototype.toJSON` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSlNPTiBzZXJpYWxpemF0aW9uIGhvb2s7IGludmFsaWQgZGF0ZXMgYmVjb21lIG51bGwgc2lsZW50bHksIHVubGlrZSB0b0lTT1N0cmluZyB3aGljaCB0aHJvd3MuCmF3YWl0IG5ldXJvLmRhdGUudG9KU09OKHsgZGF0ZTogdGFyZ2V0LCBwcm9tcHQ6ICdyZXR1cm4gdGhlIHNhbWUgdmFsdWUgSlNPTi5zdHJpbmdpZnkgd291bGQsIG5hbWVseSB0b0lTT1N0cmluZywgZXhjZXB0IGludmFsaWQgZGF0ZXMgc2VyaWFsaXplIGFzIG51bGwgaW5zdGVhZCBvZiB0aHJvd2luZycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.date.toJSON" />

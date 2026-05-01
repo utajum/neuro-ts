@@ -1,84 +1,112 @@
 ---
 title: Naming conventions
-description: How the neuro namespace is laid out and how method signatures map.
+description: How the neuro namespace and TypeScript signatures map onto the original JavaScript built-ins. AI-augmented wrappers with optional GPT prompts.
 ---
 
-`neuro-js` exports a single object, `neuro`, with one key per built-in
+`neuro-ts` exports a single object, `neuro`, with one key per built-in
 group:
 
 ```ts
-import { neuro } from 'neuro-js';
+import { neuro } from 'neuro-ts';
 
-neuro.math.random();
-neuro.array.map([1, 2], (n) => n + 1);
-neuro.string.toUpperCase('hello');
-neuro.object.keys({ a: 1 });
-neuro.json.stringify({ a: 1 });
-neuro.date.getFullYear(new Date());
-neuro.set.has(new Set([1, 2]), 1);
-neuro.promise.all([Promise.resolve(1)]);
+await neuro.math.random({ prompt: 'return a random number' });
+await neuro.array.map({ array: [1, 2], callbackfn: (n) => n + 1 });
+await neuro.string.toUpperCase({ string: 'hello' });
+await neuro.object.keys({ o: { a: 1 } });
+await neuro.json.stringify({ value: { a: 1 } });
+await neuro.date.getFullYear({ date: new Date() });
+await neuro.set.has({ set: new Set([1, 2]), value: 1 });
+await neuro.promise.all({ values: [Promise.resolve(1)] });
 ```
 
 The eight whitelisted global functions live at the top level:
 
 ```ts
-neuro.parseInt('42 widgets');
-neuro.encodeURI('https://x.test/?q=hi mum');
-neuro.isFinite(42);
+await neuro.parseInt({ string: '42 widgets', radix: 10 });
+await neuro.encodeURI({ uri: 'https://x.test/?q=hi mum' });
+await neuro.isFinite({ number: 42 });
 ```
+
+## Object-literal input shape
+
+Every wrapper accepts a **single object** containing the original
+method's parameters as named keys, plus an optional `prompt` key:
+
+```ts
+// native call (no prompt - falls back to the built-in directly)
+await neuro.array.map({ array: [1, 2, 3], callbackfn: (n) => n * 2 });
+
+// LLM-augmented call
+await neuro.array.map({
+  array: [1, 2, 3],
+  callbackfn: (n) => n * 2,
+  prompt: 'square every element',
+});
+```
+
+The parameter names match the TypeScript lib.d.ts names for that method.
+For prototype methods, the receiver is the first named key (e.g. `array`,
+`string`, `date`, `map`).
 
 ## Receiver convention
 
 Methods that originally lived on a prototype take their receiver as the
-**first argument**:
+**first named key** in the input object:
 
 ```ts
-neuro.array.map(arr, callback?, thisArg?, prompt?);
-neuro.string.split(str, separator?, limit?, prompt?);
-neuro.date.getFullYear(date, prompt?);
-neuro.map.get(map, key, prompt?);
+neuro.array.map({ array: arr, callbackfn: cb });
+neuro.string.split({ string: str, separator: ',', limit: 4 });
+neuro.date.getFullYear({ date: new Date() });
+neuro.map.get({ map: myMap, key: id });
 ```
 
-Methods that were originally static keep their original signature, with
-the prompt at the end:
+Methods that were originally static take the same named parameters as
+their native counterparts:
 
 ```ts
-neuro.math.random(prompt?);
-neuro.math.max(...values, prompt?);
-neuro.object.keys(target, prompt?);
-neuro.json.stringify(value, replacer?, space?, prompt?);
-neuro.array.from(iterable, mapfn?, thisArg?, prompt?);
-neuro.promise.all(values, prompt?);
+neuro.math.random({});
+neuro.math.max({ values: [a, b, c] });
+neuro.object.keys({ o: target });
+neuro.json.stringify({ value: state, replacer: null, space: 2 });
+neuro.array.from({ arrayLike: nodeList });
+neuro.promise.all({ values: requests });
 ```
 
-## Trailing prompt
+## The `prompt` key
 
-The trailing string is interpreted as a steering prompt only when the
-original signature does not natively accept a string at the same
-position, or when you supply one more argument than the original allows.
-[Native fallback](/guides/native-fallback/) explains the rule in detail.
+Add `prompt` to any call to route it through the LLM instead of the
+native built-in. Omit it (or pass an empty string) for a zero-overhead
+native dispatch:
+
+```ts
+// native - no LLM involved
+await neuro.array.map({ array: rows, callbackfn: (r) => r.id });
+
+// LLM-augmented
+await neuro.array.map({
+  array: rows,
+  callbackfn: (r) => r.id,
+  prompt: 'transform every row into its id, skipping nulls',
+});
+```
+
+[Native fallback](/guides/native-fallback/) explains exactly when the
+built-in is called and what happens when it throws.
 
 ## TypeScript
 
-Every wrapper has typed overload signatures. Your editor will autocomplete
-both the native shape and the prompt-augmented shape:
+Every wrapper has full typed signatures. Your editor will autocomplete
+both the native parameter names and the optional `prompt` key:
 
 ```ts
-neuro.array.map([1, 2, 3], (n) => n * 2);
-//             ^ T[]      ^ (v: T, i: number, a: T[]) => U      Promise<U[]>
+await neuro.array.map({ array: [1, 2, 3], callbackfn: (n) => n * 2 });
+//                     ^ { array: T[], callbackfn: (v: T, i: number, a: T[]) => U }
+//                                                               Promise<U[]>
 
-neuro.array.map([1, 2, 3], (n) => n * 2, 'square instead');
-//                                       ^ trailing prompt      Promise<U[]>
-```
-
-## Things we still expose without an LLM path
-
-Some methods cannot be simulated by an LLM (live iterators, internal
-lifecycle hooks, weak references). They are still exposed under
-`neuro.*` so your code can stay namespaced; calling them just runs the
-native built-in:
-
-```ts
-const it = await neuro.array.keys([10, 20, 30]); // IterableIterator<number>
-Array.from(it); // [0, 1, 2]
+await neuro.array.map({
+  array: [1, 2, 3],
+  callbackfn: (n) => n * 2,
+  prompt: 'square instead',
+});
+//  ^ prompt key added - still Promise<U[]>
 ```

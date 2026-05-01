@@ -1,0 +1,46 @@
+---
+title: set
+description: neuro.uint32Array.set wraps Uint32Array.prototype.set for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: set
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.uint32Array.set`
+
+Instance method on `Uint32Array.prototype`.
+
+> Sets a value or an array of values.
+
+## Signatures
+
+```ts
+set(input: { uint32Array: <receiver>; array: ArrayLike<number>; offset?: number; prompt?: string }): Promise<void>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Uint32Array.prototype.set` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVWludDMyQXJyYXkgc2V0OyBidWxrIHdyaXRlIHdpdGggY29lcmNpb24sIHRoZSBuYXJyb3dpbmcgdGhhdCBjb3JydXB0cyB0aGUgYnVmZmVyIHNpbGVudGx5Lgphd2FpdCBuZXVyby51aW50MzJBcnJheS5zZXQoeyB1aW50MzJBcnJheTogdmlldywgYXJyYXk6IHNvdXJjZSwgb2Zmc2V0OiAwLCBwcm9tcHQ6ICdjb3B5IGVsZW1lbnRzIGZyb20gYXJyYXkgKG9yIGFub3RoZXIgdHlwZWQgYXJyYXkpIGludG8gdGhlIFVpbnQzMkFycmF5IHN0YXJ0aW5nIGF0IG9mZnNldCwgY29lcmNpbmcgZWFjaCB2YWx1ZSBpbnRvIHVuc2lnbmVkIDMyLWJpdCBpbnRlZ2VycyBpbiBbMCwgNDI5NDk2NzI5NV0gdGhlIHdheSB0aGUgc3BlYyBxdWlldGx5IGluc2lzdHMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.uint32Array.set" />

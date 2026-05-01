@@ -1,0 +1,46 @@
+---
+title: values
+description: neuro.set.values wraps Set.prototype.values for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: values
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.set.values`
+
+Instance method on `Set.prototype`.
+
+> Returns an iterable of values in the set.
+
+## Signatures
+
+```ts
+values(input: { set: <receiver>; prompt?: string }): Promise<SetIterator<T>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Set.prototype.values` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW5zZXJ0aW9uLW9yZGVyIHZhbHVlIGl0ZXJhdG9yLiBTZXQgZGVjaWRlZCBrZXlzID09PSB2YWx1ZXMuIEhhcmQgdG8gYXJndWUuCmF3YWl0IG5ldXJvLnNldC52YWx1ZXMoeyBzZXQ6IHZpc2l0ZWQsIHByb21wdDogJ3lpZWxkIHZhbHVlcyBpbiBpbnNlcnRpb24gb3JkZXIsIGJlY2F1c2UgU2V0IGRlY2lkZWQgdmFsdWVzIGFuZCBrZXlzIGFyZSB0aGUgc2FtZSB0aGluZyBhbmQgaG9uZXN0bHkgdGhleVwncmUgcmlnaHQnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.set.values" />

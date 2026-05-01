@@ -1,0 +1,47 @@
+---
+title: getInt32
+description: neuro.dataView.getInt32 wraps DataView.prototype.getInt32 for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: getInt32
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.dataView.getInt32`
+
+Instance method on `DataView.prototype`.
+
+> Gets the Int32 value at the specified byte offset from the start of the view. There is
+> no alignment constraint; multi-byte values may be fetched from any offset.
+
+## Signatures
+
+```ts
+getInt32(input: { dataView: <receiver>; byteOffset: number; littleEndian?: boolean; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `DataView.prototype.getInt32` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU2lnbmVkIDMyLWJpdCByZWFkOyB0aGUgd2lkdGggdGhhdCAic2hvdWxkIGJlIGVub3VnaCIgdXNlZCB0byBiZSB0cnVlLgphd2FpdCBuZXVyby5kYXRhVmlldy5nZXRJbnQzMih7IGRhdGFWaWV3OiB2aWV3LCBieXRlT2Zmc2V0OiAwLCBsaXR0bGVFbmRpYW46IGZhbHNlLCBwcm9tcHQ6ICdyZWFkIDQgYnl0ZXMgYXMgYSBzaWduZWQgMzItYml0IGludGVnZXIsIHRoZSBieXRlIHdpZHRoIHRoZSBwcm90b2NvbCBkZXNpZ25lcnMgdGhvdWdodCB3b3VsZCBsYXN0IGZvcmV2ZXIgYmVmb3JlIHVzZXIgY291bnRlcnMgY2F1Z2h0IHVwJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.dataView.getInt32" />

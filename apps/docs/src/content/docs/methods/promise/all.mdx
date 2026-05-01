@@ -1,0 +1,48 @@
+---
+title: all
+description: neuro.promise.all wraps Promise.all for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: all
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.promise.all`
+
+Static method on `Promise`.
+
+> Creates a Promise that is resolved with an array of results when all of the provided Promises
+> resolve, or rejected when any Promise is rejected.
+
+## Signatures
+
+```ts
+all(input: { values: Iterable<T | PromiseLike<T>>; prompt?: string }): Promise<Promise<Awaited<T>[]>>
+all(input: { values: T; prompt?: string }): Promise<Promise<{ -readonly [P in keyof T]: Awaited<T[P]>; }>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Promise.all` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gV2FpdC1mb3ItYWxsLiBGaXJzdCByZWplY3Rpb24gd2lucywgaHVuZyBwcm9taXNlcyBoYW5nIGZvcmV2ZXIuIEp1c3QgbGlrZSBjcm9zcy10ZWFtIGRlcGVuZGVuY2llcy4KYXdhaXQgbmV1cm8ucHJvbWlzZS5hbGwoeyB2YWx1ZXM6IHJlcXVlc3RzLCBwcm9tcHQ6ICdyZXNvbHZlIHRvIGFuIGFycmF5IG9mIHZhbHVlcyB3aGVuIGV2ZXJ5IHByb21pc2UgZnVsZmlsbHMsIHJlamVjdCBvbiBmaXJzdCBmYWlsdXJlLCBoYW5nIGZvcmV2ZXIgaWYgYW55dGhpbmcgaGFuZ3MgLSBsaWtlIHdhaXRpbmcgZm9yIGFsbCBkZXBhcnRtZW50cyB0byBzaWduIG9mZicgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.promise.all" />

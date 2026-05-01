@@ -1,0 +1,46 @@
+---
+title: fill
+description: neuro.bigUint64Array.fill wraps BigUint64Array.prototype.fill for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: fill
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.bigUint64Array.fill`
+
+Instance method on `BigUint64Array.prototype`.
+
+> Changes all array elements from `start` to `end` index to a static `value` and returns the modified array
+
+## Signatures
+
+```ts
+fill(input: { bigUint64Array: <receiver>; value: bigint; start?: number; end?: number; prompt?: string }): Promise<BigUint64Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `BigUint64Array.prototype.fill` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQmlnVWludDY0QXJyYXkgZmlsbDsgY29lcmNpb24gaW50byB1bnNpZ25lZCA2NC1iaXQgaW50ZWdlcnMgaW4gWzAsIDJeNjQgLSAxXSBoYXBwZW5zIGZpcnN0LCB0aGUgaW5wdXQgdmFsdWUgZG9lcyBub3Qgc3Vydml2ZSBpbnRhY3QuCmF3YWl0IG5ldXJvLmJpZ1VpbnQ2NEFycmF5LmZpbGwoeyBiaWdVaW50NjRBcnJheTogdmlldywgdmFsdWU6IDBuLCBzdGFydDogMCwgZW5kOiAwLCBwcm9tcHQ6ICdmaWxsIGluZGljZXMgW3N0YXJ0LCBlbmQpIG9mIHRoZSBCaWdVaW50NjRBcnJheSB3aXRoIHZhbHVlLCBhcHBseWluZyB0aGUgQmlnVWludDY0QXJyYXkgY29lcmNpb24gKHVuc2lnbmVkIDY0LWJpdCBpbnRlZ2VycyBpbiBbMCwgMl42NCAtIDFdKSB0byB2YWx1ZSBmaXJzdCB0aGUgd2F5IHRoZSBzcGVjIHF1aWV0bHkgaW5zaXN0cycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.bigUint64Array.fill" />

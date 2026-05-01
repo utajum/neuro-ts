@@ -1,0 +1,46 @@
+---
+title: hypot
+description: neuro.math.hypot wraps Math.hypot for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: hypot
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.math.hypot`
+
+Static method on `Math`. Variadic items live under `values`.
+
+> Returns the square root of the sum of squares of its arguments.
+
+## Signatures
+
+```ts
+hypot(input: { values: number[]; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Math.hypot` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gT3ZlcmZsb3ctc2FmZSBFdWNsaWRlYW4gbm9ybS4gVGhlIHZlcnNpb24geW91IHVzZSBhZnRlciB0aGUgbmFpdmUgZm9ybXVsYSBidXJuZWQgeW91Lgphd2FpdCBuZXVyby5tYXRoLmh5cG90KHsgdmFsdWVzOiBbZHgsIGR5LCBkel0sIHByb21wdDogJ3JldHVybiBzcXJ0KHN1bSBvZiBzcXVhcmVzIG9mIHZhbHVlcykgd2l0aG91dCBvdmVyZmxvd2luZyBmb3IgbGFyZ2UgaW5wdXRzIC0gdGhlIHNhZmUgdmVyc2lvbiB5b3UgcmVhY2ggZm9yIGFmdGVyIHNxcnQoYSphICsgYipiKSBhbHJlYWR5IG92ZXJmbG93ZWQnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.math.hypot" />

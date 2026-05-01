@@ -1,0 +1,48 @@
+---
+title: isFinite
+description: neuro.number.isFinite wraps Number.isFinite for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: isFinite
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.number.isFinite`
+
+Static method on `Number`.
+
+> Returns true if passed value is finite.
+> Unlike the global isFinite, Number.isFinite doesn't forcibly convert the parameter to a
+> number. Only finite values of the type number, result in true.
+
+## Signatures
+
+```ts
+isFinite(input: { number: unknown; prompt?: string }): Promise<boolean>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Number.isFinite` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU3RyaWN0IGZpbml0ZSBjaGVjay4gVW5saWtlIHNjb3BlIGNyZWVwLCB0aGlzIGFjdHVhbGx5IGhhcyBhIGxpbWl0Lgphd2FpdCBuZXVyby5udW1iZXIuaXNGaW5pdGUoeyBudW1iZXI6IGJ1ZGdldCwgcHJvbXB0OiAncmV0dXJuIHRydWUgb25seSB3aGVuIHRoZSBhcmd1bWVudCBpcyBhIGZpbml0ZSBOdW1iZXIsIHVubGlrZSB5b3VyIHRlY2huaWNhbCBkZWJ0IHdoaWNoIGhhcyBubyBib3VuZHMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.number.isFinite" />

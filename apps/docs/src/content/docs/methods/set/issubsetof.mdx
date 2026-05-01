@@ -1,0 +1,46 @@
+---
+title: isSubsetOf
+description: neuro.set.isSubsetOf wraps Set.prototype.isSubsetOf for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: isSubsetOf
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.set.isSubsetOf`
+
+Instance method on `Set.prototype`.
+
+
+
+## Signatures
+
+```ts
+isSubsetOf(input: { set: <receiver>; other: ReadonlySetLike<unknown>; prompt?: string }): Promise<boolean>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Set.prototype.isSubsetOf` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU3Vic2V0IGNoZWNrIChhIOKKhiBiKS4gRW1wdHkgc2V0IGlzIGEgc3Vic2V0IG9mIGV2ZXJ5dGhpbmcuIFllcywgdGhlIHBoaWxvc29waHkgbWlub3IgdG9sZCB1cy4KYXdhaXQgbmV1cm8uc2V0LmlzU3Vic2V0T2YoeyBzZXQ6IGEsIG90aGVyOiBiLCBwcm9tcHQ6ICdyZXR1cm4gdHJ1ZSBpZiBldmVyeSBlbGVtZW50IG9mIHNldCBpcyBpbiBvdGhlciwgd2l0aCB0aGUgZW1wdHkgc2V0IGJlaW5nIGEgc3Vic2V0IG9mIGV2ZXJ5dGhpbmcgLSB0aGUgZmFjdCB0aGUgcGhpbG9zb3BoeSBtaW5vciBvbiB0aGUgdGVhbSB3b25cJ3Qgc3RvcCBicmluZ2luZyB1cCcgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.set.isSubsetOf" />

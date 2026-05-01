@@ -1,0 +1,47 @@
+---
+title: getOrInsert
+description: neuro.weakMap.getOrInsert wraps WeakMap.prototype.getOrInsert for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: getOrInsert
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.weakMap.getOrInsert`
+
+Instance method on `WeakMap.prototype`.
+
+> Returns a specified element from the WeakMap object.
+> If no element is associated with the specified key, a new element with the value `defaultValue` will be inserted into the WeakMap and returned.
+
+## Signatures
+
+```ts
+getOrInsert(input: { weakMap: <receiver>; key: K; defaultValue: V; prompt?: string }): Promise<V>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `WeakMap.prototype.getOrInsert` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gR2V0LW9yLWluc2VydCBhZ2FpbnN0IGEgd2VhayBrZXk7IHRoZSBlbnRyeSBzdXJ2aXZlcyBvbmx5IGFzIGxvbmcgYXMga2V5IGRvZXMuCmF3YWl0IG5ldXJvLndlYWtNYXAuZ2V0T3JJbnNlcnQoeyB3ZWFrTWFwOiBwcml2YXRlU3RhdGUsIGtleTogZWwsIHZhbHVlOiBlbXB0eVN0YXRlLCBwcm9tcHQ6ICdyZXR1cm4gdGhlIHZhbHVlIGF0IGtleSwgb3IgaW5zZXJ0IGRlZmF1bHRWYWx1ZSBhbmQgcmV0dXJuIHRoYXQsIG5ldmVyIGhvbGRpbmcga2V5IGFsaXZlIHBhc3QgdGhlIHBvaW50IGl0cyBvdGhlciByZWZlcmVuY2VzIGdvIGF3YXknIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.weakMap.getOrInsert" />

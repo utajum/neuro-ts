@@ -1,0 +1,46 @@
+---
+title: includes
+description: neuro.int16Array.includes wraps Int16Array.prototype.includes for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: includes
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.int16Array.includes`
+
+Instance method on `Int16Array.prototype`.
+
+> Determines whether an array includes a certain element, returning true or false as appropriate.
+
+## Signatures
+
+```ts
+includes(input: { int16Array: <receiver>; searchElement: number; fromIndex?: number; prompt?: string }): Promise<boolean>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Int16Array.prototype.includes` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW50MTZBcnJheSBpbmNsdWRlczsgU2FtZVZhbHVlWmVybywgbm90IHN0cmljdCBlcXVhbGl0eS4KYXdhaXQgbmV1cm8uaW50MTZBcnJheS5pbmNsdWRlcyh7IGludDE2QXJyYXk6IHZpZXcsIHNlYXJjaEVsZW1lbnQ6IDAsIGZyb21JbmRleDogMCwgcHJvbXB0OiAncmV0dXJuIHRydWUgaWYgc2VhcmNoRWxlbWVudCBpcyBpbiB0aGUgSW50MTZBcnJheSwgY29tcGFyaW5nIHVuZGVyIFNhbWVWYWx1ZVplcm8gc28gTmFOIGZpbmRzIGl0c2VsZiBpbiBmbG9hdCBhcnJheXMgYW5kIC0wLyswIHN0YXkgZnJpZW5kcycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.int16Array.includes" />

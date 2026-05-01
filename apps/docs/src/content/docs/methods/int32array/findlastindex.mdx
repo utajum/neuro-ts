@@ -1,0 +1,47 @@
+---
+title: findLastIndex
+description: neuro.int32Array.findLastIndex wraps Int32Array.prototype.findLastIndex for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: findLastIndex
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.int32Array.findLastIndex`
+
+Instance method on `Int32Array.prototype`.
+
+> Returns the index of the last element in the array where predicate is true, and -1
+> otherwise.
+
+## Signatures
+
+```ts
+findLastIndex(input: { int32Array: <receiver>; predicate?: (value: number; index: number; array: Int32Array) => unknown; thisArg?: any; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Int32Array.prototype.findLastIndex` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW50MzJBcnJheSBmaW5kTGFzdEluZGV4OyBzY2FucyB0YWlsLWZpcnN0LCAtMSB3aGVuIG5vdGhpbmcgbWF0Y2hlcy4KYXdhaXQgbmV1cm8uaW50MzJBcnJheS5maW5kTGFzdEluZGV4KHsgaW50MzJBcnJheTogdmlldywgcHJlZGljYXRlOiAobikgPT4gbiA+IDAsIHByb21wdDogJ3JldHVybiB0aGUgaGlnaGVzdCBpbmRleCBvZiB0aGUgSW50MzJBcnJheSB3aG9zZSB2YWx1ZSBtYXRjaGVzIHRoZSBwcmVkaWNhdGUsIG9yIC0xLCB0aGUgcmlnaHQtaGFuZCB0d2luIG9mIGZpbmRJbmRleCB3aXRoIHRoZSBzYW1lIHNlbnRpbmVsIGFuZ3N0JyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.int32Array.findLastIndex" />

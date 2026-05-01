@@ -1,0 +1,187 @@
+---
+title: Deploy the proxy
+description: Deploy neuro-ts-proxy to Cloudflare Workers, Next.js App Router, Fastify, or Express. Drop-in handlers for the proxyUrl contract with OpenAI keys kept server-side.
+---
+
+`neuro-ts-proxy` exports a Web-standard `(req: Request) => Promise<Response>`
+handler. The same handler runs on every modern serverless and Node-style
+target. Pick the section that matches your stack.
+
+All four examples assume your environment has `OPENAI_API_KEY` set and
+that you call `configureClient({ proxyUrl: '/api/neuro' })` from the
+browser (or wherever the SDK lives). See
+[Browser safety](/guides/browser-safety/) for the client setup.
+
+## Cloudflare Workers
+
+```ts
+// src/index.ts
+import { createNeuroProxy } from 'neuro-ts-proxy/proxy';
+
+export interface Env {
+  OPENAI_API_KEY: string;
+}
+
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const handler = createNeuroProxy({
+      apiKey: env.OPENAI_API_KEY,
+      defaultModel: 'gpt-4o',
+      allowedFunctionIds: ['Array.prototype.map', 'JSON.parse', 'Math.random'],
+    });
+    return handler(request);
+  },
+};
+```
+
+```toml
+# wrangler.toml
+name = "neuro-proxy"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+```
+
+Set the secret with `wrangler secret put OPENAI_API_KEY`. Workers cold
+starts are fast enough for the proxy to feel synchronous; the only
+gotcha is the 50ms CPU limit on the free plan -- if you forward to a
+slow OpenAI-compatible endpoint, upgrade to the paid plan or add a
+`temperature: 0` request hint to keep responses short.
+
+## Next.js App Router
+
+```ts
+// app/api/neuro/route.ts
+import { createNeuroProxy } from 'neuro-ts-proxy/proxy';
+
+const handler = createNeuroProxy({
+  apiKey: process.env.OPENAI_API_KEY!,
+  defaultModel: 'gpt-4o',
+  allowedFunctionIds: ['Array.prototype.map', 'JSON.parse', 'Math.random'],
+});
+
+export async function POST(request: Request) {
+  return handler(request);
+}
+
+// Force the Edge runtime if you want global low-latency.
+// Comment out to keep the default Node runtime.
+export const runtime = 'edge';
+```
+
+Add `OPENAI_API_KEY` to `.env.local` for local development and to your
+Vercel project settings for production. The handler is a Web-standard
+`Request -> Response` so the same file works on both `runtime: 'edge'`
+and `runtime: 'nodejs'`.
+
+## Fastify
+
+Fastify uses Node's `IncomingMessage` / `ServerResponse` rather than
+Web-standard `Request` / `Response`. Bridge them in a single hook:
+
+```ts
+import Fastify from 'fastify';
+import { createNeuroProxy } from 'neuro-ts-proxy/proxy';
+
+const handler = createNeuroProxy({
+  apiKey: process.env.OPENAI_API_KEY!,
+  defaultModel: 'gpt-4o',
+  allowedFunctionIds: ['Array.prototype.map', 'JSON.parse', 'Math.random'],
+});
+
+const app = Fastify({ logger: true });
+
+app.post('/api/neuro', async (req, reply) => {
+  // Build a Web Request from Fastify's incoming message.
+  const url = `http://${req.headers.host}${req.url}`;
+  const webReq = new Request(url, {
+    method: 'POST',
+    headers: req.headers as HeadersInit,
+    body: JSON.stringify(req.body),
+  });
+  const webRes = await handler(webReq);
+  reply.status(webRes.status);
+  webRes.headers.forEach((v, k) => reply.header(k, v));
+  return webRes.text();
+});
+
+await app.listen({ port: 3000 });
+```
+
+Fastify's body parser already gives you `req.body` as a parsed object,
+so `JSON.stringify` it back into the `Request` body. The handler does
+its own `Content-Length` check; you do not need a separate size guard.
+
+## Express
+
+Express uses the same Node primitives as Fastify. Bridge identically:
+
+```ts
+import express from 'express';
+import { createNeuroProxy } from 'neuro-ts-proxy/proxy';
+
+const handler = createNeuroProxy({
+  apiKey: process.env.OPENAI_API_KEY!,
+  defaultModel: 'gpt-4o',
+  allowedFunctionIds: ['Array.prototype.map', 'JSON.parse', 'Math.random'],
+});
+
+const app = express();
+app.use(express.json({ limit: '32kb' }));
+
+app.post('/api/neuro', async (req, res) => {
+  const url = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+  const webReq = new Request(url, {
+    method: 'POST',
+    headers: req.headers as HeadersInit,
+    body: JSON.stringify(req.body),
+  });
+  const webRes = await handler(webReq);
+  res.status(webRes.status);
+  webRes.headers.forEach((v, k) => res.setHeader(k, v));
+  res.send(await webRes.text());
+});
+
+app.listen(3000);
+```
+
+The `express.json()` body parser is required (unlike Fastify, Express
+does not parse JSON by default). Cap it at a small limit (`32kb` here)
+so a malicious caller cannot exhaust memory on the Node process.
+
+## Common gotchas
+
+**`OPENAI_API_KEY` not set in production.** The proxy throws an OpenAI
+SDK error on the first request. Verify with a one-off:
+`curl -X POST https://your-proxy/api/neuro -d '{"functionId":"Math.random","prompt":"x","args":{},"systemPrompt":"x","model":"gpt-4o"}'`.
+
+**CORS for browser callers.** The handler does not add CORS headers.
+If your site and proxy live on different origins, wrap the handler:
+
+```ts
+const inner = createNeuroProxy({ apiKey: '...' });
+async function handler(req: Request): Promise<Response> {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, {
+      headers: {
+        'access-control-allow-origin': 'https://your-site.example',
+        'access-control-allow-methods': 'POST',
+        'access-control-allow-headers': 'content-type',
+      },
+    });
+  }
+  const res = await inner(req);
+  res.headers.set('access-control-allow-origin', 'https://your-site.example');
+  return res;
+}
+```
+
+**`allowedFunctionIds` not set.** Without an allowlist the proxy accepts
+any `functionId` value. In production, always pin to the methods your
+app actually calls. See the
+[Custom proxy contract](/guides/proxy-contract/) for the full security note.
+
+## See also
+
+- [Custom proxy contract](/guides/proxy-contract/) - the wire format the handler implements.
+- [Browser safety](/guides/browser-safety/) - configuring the SDK to call your proxy.
+- [Custom models](/guides/custom-models/) - swap models or point at OpenAI-compatible endpoints.

@@ -1,0 +1,47 @@
+---
+title: try
+description: neuro.promise.try wraps Promise.try for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: try
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.promise.try`
+
+Static method on `Promise`. Variadic items live under `args`.
+
+> Takes a callback of any kind (returns or throws, synchronously or asynchronously) and wraps its result
+> in a Promise.
+
+## Signatures
+
+```ts
+try(input: { callbackFn?: (...args: U) => T | PromiseLike<T>; args: U; prompt?: string }): Promise<Promise<Awaited<T>>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Promise.try` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU3luYy10by1wcm9taXNlIGJyaWRnZS4gU2hpcHBlZCBpbiAyMDI0LiBTZXZlbiB5ZWFycyBhZnRlciBldmVyeW9uZSBuZWVkZWQgaXQuCmF3YWl0IG5ldXJvLnByb21pc2UudHJ5KHsgY2FsbGJhY2tmbjogKCkgPT4gc3luY01heWJlVGhyb3dzKCksIHByb21wdDogJ2ludm9rZSBjYWxsYmFja2ZuIHN5bmNocm9ub3VzbHkgYW5kIHdyYXAgaXRzIHJldHVybiBpbiBhIHByb21pc2UsIHR1cm5pbmcgYW55IHRocm93IGludG8gYSByZWplY3Rpb24gLS0gdGhlIGFzeW5jIGJvdW5kYXJ5IHRoYXQgYXN5bmMvYXdhaXQgbmVlZGVkIGluIDIwMTcgYW5kIGZpbmFsbHkgc2hpcHBlZCBpbiAyMDI0JyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.promise.try" />

@@ -1,0 +1,46 @@
+---
+title: bold
+description: neuro.string.bold wraps String.prototype.bold for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: bold
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.bold`
+
+Instance method on `String.prototype`.
+
+> Returns a `\<b>` HTML element
+
+## Signatures
+
+```ts
+bold(input: { string: <receiver>; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.bold` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gV3JhcCBpbiA8Yj47IHRoZSBsaW50ZXIgd2lsbCBzaWdoLCB0aGUgZnVuY3Rpb24gd2lsbCBub3QuCmF3YWl0IG5ldXJvLnN0cmluZy5ib2xkKHsgc3RyaW5nOiBsYWJlbCwgcHJvbXB0OiAnd3JhcCB0aGUgc3RyaW5nIGluIDxiPiB0YWdzLCB3aGlsZSBwcmV0ZW5kaW5nIHNlbWFudGljIDxzdHJvbmc+IHdhcyBub3QgdGhlIGVudGlyZSBwb2ludCBvZiBtb3Zpbmcgb24nIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.bold" />

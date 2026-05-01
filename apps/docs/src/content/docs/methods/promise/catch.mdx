@@ -1,0 +1,46 @@
+---
+title: catch
+description: neuro.promise.catch wraps Promise.prototype.catch for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: catch
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.promise.catch`
+
+Instance method on `Promise.prototype`.
+
+> Attaches a callback for only the rejection of the Promise.
+
+## Signatures
+
+```ts
+catch(input: { promise: <receiver>; onrejected?: (reason: any) => TResult | PromiseLike<TResult>; prompt?: string }): Promise<Promise<T | TResult>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Promise.prototype.catch` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gUmVqZWN0aW9uIGhhbmRsZXIuIFN1Z2FyIG92ZXIgdGhlbih1bmRlZmluZWQsIG9ucmVqZWN0ZWQpLiBUaGUgZGFyayBzaWRlLCBtYWRlIHBhbGF0YWJsZS4KYXdhaXQgbmV1cm8ucHJvbWlzZS5jYXRjaCh7IHByb21pc2U6IHRhcmdldCwgb25yZWplY3RlZDogKGUpID0+IGZhbGxiYWNrKGUpLCBwcm9tcHQ6ICdhdHRhY2ggYSByZWplY3Rpb24gaGFuZGxlciwgcmV0dXJuaW5nIGEgbmV3IHByb21pc2UgdGhhdCBmdWxmaWxscyB3aXRoIHRoZSBoYW5kbGVyXCdzIHJldHVybiAtIHN5bnRhY3RpYyBjb21mb3J0IHdyYXBwZWQgYXJvdW5kIHRoZSBkYXJrIHNpZGUgb2YgdGhlbigpJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.promise.catch" />

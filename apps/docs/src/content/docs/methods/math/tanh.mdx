@@ -1,0 +1,46 @@
+---
+title: tanh
+description: neuro.math.tanh wraps Math.tanh for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: tanh
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.math.tanh`
+
+Static method on `Math`.
+
+> Returns the hyperbolic tangent of a number.
+
+## Signatures
+
+```ts
+tanh(input: { x: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Math.tanh` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSHlwZXJib2xpYyB0YW5nZW50LiBTYXR1cmF0ZXMgb3V0c2lkZSBbLTIwLCAyMF0uIFRoZSBhY3RpdmF0aW9uIGZ1bmN0aW9uIG1vZGVsIGFyY2hpdGVjdHMgZG9uJ3QgcmVhZC4KYXdhaXQgbmV1cm8ubWF0aC50YW5oKHsgeDogc2lnbmFsLCBwcm9tcHQ6ICdyZXR1cm4gdGhlIGh5cGVyYm9saWMgdGFuZ2VudCBvZiB4LCBzYXR1cmF0aW5nIHRvIMKxMSBiZXlvbmQgWy0yMCwgMjBdIC0gdGhlIGltcGxpY2l0IGNsYW1wIGV2ZXJ5IG5ldXJhbCBuZXR3b3JrIHNpbGVudGx5IHJlbGllcyBvbicgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.math.tanh" />

@@ -1,15 +1,15 @@
 {
-  "name": "neuro-js-fastify-example",
+  "name": "neuro-ts-fastify-example",
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Fastify server that uses `neuro-js` from a route handler.",
+  "description": "Fastify server that uses `neuro-ts` from a route handler.",
   "scripts": {
     "start": "node server.mjs",
     "smoke": "node smoke.mjs"
   },
   "dependencies": {
     "fastify": "5.8.5",
-    "neuro-js": "workspace:*"
+    "neuro-ts": "workspace:*"
   }
 }

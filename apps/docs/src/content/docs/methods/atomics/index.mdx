@@ -1,0 +1,34 @@
+---
+title: Atomics
+description: AI-augmented JavaScript wrappers for `Atomics`. 14 TypeScript-first built-ins with optional GPT / OpenAI prompts and native fallback. Part of neuro-ts.
+sidebar:
+  label: Atomics
+  order: 19
+---
+
+import { Code } from '@astrojs/starlight/components';
+
+
+# Atomics
+
+14 wrappers generated from
+`Atomics` and `Atomics.prototype`.
+Every entry takes a single object literal whose keys mirror the original
+parameter names, plus an optional `prompt: string` for the LLM path.
+
+| Method | First signature |
+| --- | --- |
+| [`add`](/methods/atomics/add/) | <Code lang="ts" code={atob("YWRkKGlucHV0OiB7IHR5cGVkQXJyYXk6IEludDhBcnJheSB8IFVpbnQ4QXJyYXkgfCBJbnQxNkFycmF5IHwgVWludDE2QXJyYXkgfCBJbnQzMkFycmF5IHwgVWludDMyQXJyYXk7IGluZGV4OiBudW1iZXI7IHZhbHVlOiBudW1iZXI7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxudW1iZXI+")} wrap /> |
+| [`and`](/methods/atomics/and/) | <Code lang="ts" code={atob("YW5kKGlucHV0OiB7IHR5cGVkQXJyYXk6IEludDhBcnJheSB8IFVpbnQ4QXJyYXkgfCBJbnQxNkFycmF5IHwgVWludDE2QXJyYXkgfCBJbnQzMkFycmF5IHwgVWludDMyQXJyYXk7IGluZGV4OiBudW1iZXI7IHZhbHVlOiBudW1iZXI7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxudW1iZXI+")} wrap /> |
+| [`compareExchange`](/methods/atomics/compareexchange/) | <Code lang="ts" code={atob("Y29tcGFyZUV4Y2hhbmdlKGlucHV0OiB7IHR5cGVkQXJyYXk6IEludDhBcnJheSB8IFVpbnQ4QXJyYXkgfCBJbnQxNkFycmF5IHwgVWludDE2QXJyYXkgfCBJbnQzMkFycmF5IHwgVWludDMyQXJyYXk7IGluZGV4OiBudW1iZXI7IGV4cGVjdGVkVmFsdWU6IG51bWJlcjsgcmVwbGFjZW1lbnRWYWx1ZTogbnVtYmVyOyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8bnVtYmVyPg==")} wrap /> |
+| [`exchange`](/methods/atomics/exchange/) | <Code lang="ts" code={atob("ZXhjaGFuZ2UoaW5wdXQ6IHsgdHlwZWRBcnJheTogSW50OEFycmF5IHwgVWludDhBcnJheSB8IEludDE2QXJyYXkgfCBVaW50MTZBcnJheSB8IEludDMyQXJyYXkgfCBVaW50MzJBcnJheTsgaW5kZXg6IG51bWJlcjsgdmFsdWU6IG51bWJlcjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPG51bWJlcj4=")} wrap /> |
+| [`isLockFree`](/methods/atomics/islockfree/) | <Code lang="ts" code={atob("aXNMb2NrRnJlZShpbnB1dDogeyBzaXplOiBudW1iZXI7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxib29sZWFuPg==")} wrap /> |
+| [`load`](/methods/atomics/load/) | <Code lang="ts" code={atob("bG9hZChpbnB1dDogeyB0eXBlZEFycmF5OiBJbnQ4QXJyYXkgfCBVaW50OEFycmF5IHwgSW50MTZBcnJheSB8IFVpbnQxNkFycmF5IHwgSW50MzJBcnJheSB8IFVpbnQzMkFycmF5OyBpbmRleDogbnVtYmVyOyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8bnVtYmVyPg==")} wrap /> |
+| [`notify`](/methods/atomics/notify/) | <Code lang="ts" code={atob("bm90aWZ5KGlucHV0OiB7IHR5cGVkQXJyYXk6IEludDMyQXJyYXk7IGluZGV4OiBudW1iZXI7IGNvdW50PzogbnVtYmVyOyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8bnVtYmVyPg==")} wrap /> |
+| [`or`](/methods/atomics/or/) | <Code lang="ts" code={atob("b3IoaW5wdXQ6IHsgdHlwZWRBcnJheTogSW50OEFycmF5IHwgVWludDhBcnJheSB8IEludDE2QXJyYXkgfCBVaW50MTZBcnJheSB8IEludDMyQXJyYXkgfCBVaW50MzJBcnJheTsgaW5kZXg6IG51bWJlcjsgdmFsdWU6IG51bWJlcjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPG51bWJlcj4=")} wrap /> |
+| [`pause`](/methods/atomics/pause/) | <Code lang="ts" code={atob("cGF1c2UoaW5wdXQ6IHsgbj86IG51bWJlcjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPHZvaWQ+")} wrap /> |
+| [`store`](/methods/atomics/store/) | <Code lang="ts" code={atob("c3RvcmUoaW5wdXQ6IHsgdHlwZWRBcnJheTogSW50OEFycmF5IHwgVWludDhBcnJheSB8IEludDE2QXJyYXkgfCBVaW50MTZBcnJheSB8IEludDMyQXJyYXkgfCBVaW50MzJBcnJheTsgaW5kZXg6IG51bWJlcjsgdmFsdWU6IG51bWJlcjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPG51bWJlcj4=")} wrap /> |
+| [`sub`](/methods/atomics/sub/) | <Code lang="ts" code={atob("c3ViKGlucHV0OiB7IHR5cGVkQXJyYXk6IEludDhBcnJheSB8IFVpbnQ4QXJyYXkgfCBJbnQxNkFycmF5IHwgVWludDE2QXJyYXkgfCBJbnQzMkFycmF5IHwgVWludDMyQXJyYXk7IGluZGV4OiBudW1iZXI7IHZhbHVlOiBudW1iZXI7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxudW1iZXI+")} wrap /> |
+| [`wait`](/methods/atomics/wait/) | <Code lang="ts" code={atob("d2FpdChpbnB1dDogeyB0eXBlZEFycmF5OiBJbnQzMkFycmF5OyBpbmRleDogbnVtYmVyOyB2YWx1ZTogbnVtYmVyOyB0aW1lb3V0PzogbnVtYmVyOyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8Im9rIiB8ICJub3QtZXF1YWwiIHwgInRpbWVkLW91dCI+")} wrap /> |
+| [`waitAsync`](/methods/atomics/waitasync/) | <Code lang="ts" code={atob("d2FpdEFzeW5jKGlucHV0OiB7IHR5cGVkQXJyYXk6IEludDMyQXJyYXk7IGluZGV4OiBudW1iZXI7IHZhbHVlOiBudW1iZXI7IHRpbWVvdXQ/OiBudW1iZXI7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTx7IGFzeW5jOiBmYWxzZTsgdmFsdWU6ICJub3QtZXF1YWwiIHwgInRpbWVkLW91dCI7IH0gfCB7IGFzeW5jOiB0cnVlOyB2YWx1ZTogUHJvbWlzZTwib2siIHwgInRpbWVkLW91dCI+OyB9Pg==")} wrap /> |
+| [`xor`](/methods/atomics/xor/) | <Code lang="ts" code={atob("eG9yKGlucHV0OiB7IHR5cGVkQXJyYXk6IEludDhBcnJheSB8IFVpbnQ4QXJyYXkgfCBJbnQxNkFycmF5IHwgVWludDE2QXJyYXkgfCBJbnQzMkFycmF5IHwgVWludDMyQXJyYXk7IGluZGV4OiBudW1iZXI7IHZhbHVlOiBudW1iZXI7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxudW1iZXI+")} wrap /> |

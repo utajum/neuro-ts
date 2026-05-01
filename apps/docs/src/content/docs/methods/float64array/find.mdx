@@ -1,0 +1,47 @@
+---
+title: find
+description: neuro.float64Array.find wraps Float64Array.prototype.find for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: find
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.float64Array.find`
+
+Instance method on `Float64Array.prototype`.
+
+> Returns the value of the first element in the array where predicate is true, and undefined
+> otherwise.
+
+## Signatures
+
+```ts
+find(input: { float64Array: <receiver>; predicate?: (value: number; index: number; obj: Float64Array) => boolean; thisArg?: any; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Float64Array.prototype.find` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRmxvYXQ2NEFycmF5IGZpbmQ7IHByZWRpY2F0ZSBnZXRzIEpTIE51bWJlcnMsIG5vdCByYXcgSUVFRS03NTQgZG91YmxlLXByZWNpc2lvbiBmbG9hdHMgbWF0Y2hpbmcgdGhlIEpTIE51bWJlciB0eXBlIGJ5dGVzLgphd2FpdCBuZXVyby5mbG9hdDY0QXJyYXkuZmluZCh7IGZsb2F0NjRBcnJheTogdmlldywgcHJlZGljYXRlOiAobikgPT4gbiA+IDAsIHByb21wdDogJ3JldHVybiB0aGUgZmlyc3QgRmxvYXQ2NEFycmF5IGVsZW1lbnQgbWF0Y2hpbmcgdGhlIHByZWRpY2F0ZSBvciB1bmRlZmluZWQsIHdoaWxlIHJlbWVtYmVyaW5nIHRoZSB2YWx1ZXMgYXJlIE51bWJlci1kb21haW4gZXZlbiB0aG91Z2ggdGhlIHVuZGVybHlpbmcgYnl0ZXMgYXJlIElFRUUtNzU0IGRvdWJsZS1wcmVjaXNpb24gZmxvYXRzIG1hdGNoaW5nIHRoZSBKUyBOdW1iZXIgdHlwZScgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.float64Array.find" />

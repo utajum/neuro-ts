@@ -1,0 +1,47 @@
+---
+title: matchAll
+description: neuro.string.matchAll wraps String.prototype.matchAll for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: matchAll
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.matchAll`
+
+Instance method on `String.prototype`.
+
+> Matches a string with a regular expression, and returns an iterable of matches
+> containing the results of that search.
+
+## Signatures
+
+```ts
+matchAll(input: { string: <receiver>; regexp: RegExp; prompt?: string }): Promise<RegExpStringIterator<RegExpExecArray>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.matchAll` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQWxsLW1hdGNoZXMgaXRlcmF0b3I7IHRoZSBnbG9iYWwgZmxhZyBpcyBtYW5kYXRvcnkgaGVyZSwgdW5saWtlIG1hdGNoIHdoZXJlIGl0IGlzIGEgZm9vdGd1bi4KYXdhaXQgbmV1cm8uc3RyaW5nLm1hdGNoQWxsKHsgc3RyaW5nOiBzb3VyY2UsIHJlZ2V4cDogL1RPRE8oKHcrKSkvZywgcHJvbXB0OiAnaXRlcmF0ZSBldmVyeSByZWdleHAgbWF0Y2gsIHJlcXVpcmluZyB0aGUgZ2xvYmFsIGZsYWcsIGFuZCB0cmVhdCB0aGUgaXRlcmF0b3IgYXMgb25lLXNob3QgdGhlIHdheSBldmVyeSBpdGVyYXRvciBzZWNyZXRseSBpcycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.matchAll" />

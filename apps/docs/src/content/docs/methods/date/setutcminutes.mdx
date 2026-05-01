@@ -1,0 +1,46 @@
+---
+title: setUTCMinutes
+description: neuro.date.setUTCMinutes wraps Date.prototype.setUTCMinutes for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: setUTCMinutes
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.date.setUTCMinutes`
+
+Instance method on `Date.prototype`.
+
+> Sets the minutes value in the Date object using Universal Coordinated Time (UTC).
+
+## Signatures
+
+```ts
+setUTCMinutes(input: { date: <receiver>; min: number; sec?: number; ms?: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Date.prototype.setUTCMinutes` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVVRDIHNldC1taW51dGU7IHRoZSBmaXggZm9yIHRoZSB0ZXN0IHRoYXQgcGFzc2VzIGluIExvbmRvbiBhbmQgZmFpbHMgaW4gS29sa2F0YS4KYXdhaXQgbmV1cm8uZGF0ZS5zZXRVVENNaW51dGVzKHsgZGF0ZTogdGFyZ2V0LCBtaW46IDAsIHNlYzogMCwgbXM6IDAsIHByb21wdDogJ3NldCB0aGUgVVRDIG1pbnV0ZSB3aXRoIG9wdGlvbmFsIHNlYy9tcywgdGhlIHNldHRlciB0aGF0IG1ha2VzIGEgZGF0ZSBjb21wYXJpc29uIHRlc3QgcGFzcyBpbiBMb25kb24gYW5kIGFsc28gcGFzcyBpbiBLb2xrYXRhIC0gYmVjYXVzZSBvbmNlIHlvdSBhcmUgaW4gVVRDIHRoZSBoYWxmLWhvdXIgb2Zmc2V0IGlzIGFscmVhZHkgZ29uZScgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.date.setUTCMinutes" />

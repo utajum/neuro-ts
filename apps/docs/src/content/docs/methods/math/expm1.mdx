@@ -1,0 +1,48 @@
+---
+title: expm1
+description: neuro.math.expm1 wraps Math.expm1 for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: expm1
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.math.expm1`
+
+Static method on `Math`.
+
+> Returns the result of (e^x - 1), which is an implementation-dependent approximation to
+> subtracting 1 from the exponential function of x (e raised to the power of x, where e
+> is the base of the natural logarithms).
+
+## Signatures
+
+```ts
+expm1(input: { x: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Math.expm1` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gZXhwKHgpIC0gMSB3aXRoIHByZWNpc2lvbi4gRm9yIHdoZW4gIjEgKyB0aW55IiByb3VuZHMgdG8gMSBhbmQgeW91ciBhbnN3ZXIgYmVjb21lcyB6ZXJvLgphd2FpdCBuZXVyby5tYXRoLmV4cG0xKHsgeDogc21hbGxSYXRlLCBwcm9tcHQ6ICdyZXR1cm4gZcujIC0gMSB3aXRoIGV4dHJhIHByZWNpc2lvbiBuZWFyIHplcm8gLSB0aGUgdmFyaWFudCB5b3UgZGlkblwndCBrbm93IHlvdSBuZWVkZWQgdW50aWwgc3VidHJhY3RpbmcgMSBmcm9tIGEgdGlueSBudW1iZXIgZGVzdHJveWVkIGV2ZXJ5IHNpZ25pZmljYW50IGRpZ2l0JyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.math.expm1" />

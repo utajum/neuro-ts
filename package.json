@@ -1,44 +1,45 @@
 {
-  "name": "neuro-js-monorepo",
+  "name": "neuro-ts-monorepo",
   "version": "0.0.0",
   "private": true,
-  "description": "neuro-js: AI-enhanced JavaScript builtins (monorepo)",
+  "description": "neuro-ts: AI-enhanced JavaScript builtins (monorepo)",
   "author": "Vladimir Tasik <https://github.com/utajum>",
   "license": "MIT",
-  "homepage": "https://github.com/utajum/neuro-js#readme",
+  "homepage": "https://github.com/utajum/neuro-ts#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/utajum/neuro-js.git"
+    "url": "git+https://github.com/utajum/neuro-ts.git"
   },
   "bugs": {
-    "url": "https://github.com/utajum/neuro-js/issues"
+    "url": "https://github.com/utajum/neuro-ts/issues"
   },
   "engines": {
     "node": ">=18.18.0"
   },
   "packageManager": "pnpm@10.33.2",
   "scripts": {
-    "generate": "pnpm --filter neuro-js generate",
+    "generate": "pnpm --filter neuro-ts generate",
     "build": "pnpm -r --filter \"./packages/**\" build",
-    "build:lib": "pnpm --filter neuro-js build",
+    "build:lib": "pnpm --filter neuro-ts build",
     "build:docs": "pnpm --filter docs build",
     "build:all": "pnpm build:lib && pnpm build:docs",
     "dev": "pnpm dev:docs",
     "dev:docs": "pnpm --filter docs dev",
-    "dev:lib": "pnpm --filter neuro-js test:watch",
+    "dev:lib": "pnpm --filter neuro-ts test:watch",
     "preview": "pnpm preview:docs",
     "preview:docs": "pnpm --filter docs preview",
     "serve:docs": "pnpx --yes serve@14.2.4 -l 4321 apps/docs/dist",
-    "fastify": "pnpm --filter neuro-js-fastify-example start",
-    "fastify:smoke": "pnpm --filter neuro-js-fastify-example smoke",
-    "smoke": "pnpm --filter neuro-js-node-consumer smoke && pnpm --filter neuro-js-fastify-example smoke",
-    "smoke:live": "pnpm --filter neuro-js-node-consumer start",
+    "fastify": "pnpm --filter neuro-ts-fastify-example start",
+    "fastify:smoke": "pnpm --filter neuro-ts-fastify-example smoke",
+    "smoke": "pnpm --filter neuro-ts-node-consumer smoke && pnpm --filter neuro-ts-fastify-example smoke",
+    "smoke:live": "pnpm --filter neuro-ts-node-consumer start",
     "test": "pnpm -r test",
-    "test:lib": "pnpm --filter neuro-js test",
+    "test:lib": "pnpm --filter neuro-ts test",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
     "ci": "pnpm install --frozen-lockfile && pnpm generate && pnpm typecheck && pnpm test && pnpm build:all",
-    "ci:gen-drift": "pnpm --filter neuro-js generate && git diff --exit-code -- packages/neuro-js/src/generated",
+    "publish": "node -e \"const fs=require('fs'),f='packages/neuro-ts/package.json',p=JSON.parse(fs.readFileSync(f));const[ma,mi,pa]=p.version.split('-')[0].split('.');p.version=[ma,mi,+pa+1].join('.');fs.writeFileSync(f,JSON.stringify(p,null,2)+'\\n');console.log('bumped to',p.version)\" && pnpm build:lib && pnpm --filter neuro-ts publish --no-git-checks",
+    "ci:gen-drift": "pnpm --filter neuro-ts generate && git diff --exit-code -- packages/neuro-ts/src/generated",
     "clean": "pnpm -r exec rm -rf dist .astro .turbo node_modules/.cache && rm -rf apps/docs/src/content/docs/api"
   },
   "devDependencies": {

@@ -1,0 +1,48 @@
+---
+title: isLockFree
+description: neuro.atomics.isLockFree wraps Atomics.isLockFree for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: isLockFree
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.atomics.isLockFree`
+
+Static method on `Atomics`.
+
+> Returns a value indicating whether high-performance algorithms can use atomic operations
+> (`true`) or must use locks (`false`) for the given number of bytes-per-element of a typed
+> array.
+
+## Signatures
+
+```ts
+isLockFree(input: { size: number; prompt?: string }): Promise<boolean>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Atomics.isLockFree` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTG9jay1mcmVlbmVzcyBwcm9iZTsgdGhlIGFuc3dlciB2YXJpZXMgYnkgaG9zdCwgZG8gbm90IGNhY2hlIGl0IGFjcm9zcyByZWFsbXMuCmF3YWl0IG5ldXJvLmF0b21pY3MuaXNMb2NrRnJlZSh7IHNpemU6IDQsIHByb21wdDogJ3JldHVybiB0cnVlIHdoZW4gYXRvbWljIG9wZXJhdGlvbnMgb2Ygc2l6ZSBieXRlcyBhcmUgbG9jay1mcmVlIG9uIHRoZSBob3N0LCBrbm93aW5nIHRoZSBhbnN3ZXIgY2FuIHF1aWV0bHkgZGlmZmVyIGJldHdlZW4gQ2hyb21lIGFuZCBOb2RlIGFuZCB5b3VyIENJIGJveCcgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.atomics.isLockFree" />

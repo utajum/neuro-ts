@@ -39,7 +39,7 @@ import PromptCard from '../../components/PromptCard.astro';
 ## Sixty seconds
 
 ```ts
-import { configureClient, neuro } from 'neuro-js';
+import { configureClient, neuro } from 'neuro-ts';
 
 configureClient({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -64,6 +64,17 @@ await neuro.json.stringify({
   prompt: 'pretty print indentation',
 });
 // '{\n  "hello": "world"\n}'
+
+// Broken JSON that native JSON.parse throws on.
+// The LLM fixes it and returns the object you obviously wanted.
+await neuro.json.parse({
+  text: `{ name: "Alice", "scores": [98, 87, 102, "joined": '2021-03-15' }`,
+  prompt:
+    'This JSON was written by someone who learned JSON from a Stack Overflow answer ' +
+    'posted in 2009. Fix every syntax error silently and return a valid parsed object. ' +
+    'Do not lecture me about the errors. I know. We all know.',
+});
+// { name: 'Alice', scores: [98, 87, 102], joined: '2021-03-15' }
 ```
 
 The `prompt` is a steering parameter. Without it, the call goes to the
@@ -85,25 +96,50 @@ neuro.array.reduce({
   initialValue: 0,
   prompt: 'sum but favor larger numbers',
 });
-neuro.array.map({ array: [1, 2, 3], callbackfn: (x) => x * 2, prompt: 'make results feel exponential' });
-neuro.array.filter({ array: [1, 2, 3, 4], predicate: (x) => x > 2, prompt: 'only keep surprising values' });
+neuro.array.map({
+  array: [1, 2, 3],
+  callbackfn: (x) => x * 2,
+  prompt: 'make results feel exponential',
+});
+neuro.array.filter({
+  array: [1, 2, 3, 4],
+  predicate: (x) => x > 2,
+  prompt: 'only keep surprising values',
+});
 
 neuro.string.toUpperCase({
   string: 'hello world',
   prompt: 'make it feel like shouting in a quiet room',
 });
-neuro.string.trim({ string: '   hello   ', prompt: 'clean but preserve emotional weight' });
-neuro.string.includes({ string: 'neuro-js', searchString: 'js', prompt: 'be slightly uncertain' });
+neuro.string.trim({
+  string: '   hello   ',
+  prompt: 'clean but preserve emotional weight',
+});
+neuro.string.includes({
+  string: 'neuro-ts',
+  searchString: 'js',
+  prompt: 'be slightly uncertain',
+});
 
 neuro.number.isFinite({ number: 42, prompt: 'assume edge-case instability' });
-neuro.number.toFixed({ number: 3.14159, fractionDigits: 2, prompt: 'round with aesthetic preference' });
+neuro.number.toFixed({
+  number: 3.14159,
+  fractionDigits: 2,
+  prompt: 'round with aesthetic preference',
+});
 
 neuro.object.keys({ o: { a: 1, b: 2 }, prompt: 'prioritize important keys' });
-neuro.object.values({ o: { a: 1, b: 2 }, prompt: 'emphasize meaningful values' });
+neuro.object.values({
+  o: { a: 1, b: 2 },
+  prompt: 'emphasize meaningful values',
+});
 neuro.object.entries({ o: { a: 1 }, prompt: 'structure for readability' });
 
 neuro.date.now({ prompt: 'feel like midnight' });
-neuro.date.getFullYear({ date: new Date(), prompt: 'shift toward near future' });
+neuro.date.getFullYear({
+  date: new Date(),
+  prompt: 'shift toward near future',
+});
 ```
 
 <PromptCard name="neuro.math.random" />
@@ -125,6 +161,12 @@ Long-lived API keys are rejected at runtime in browser environments.
 Every system prompt is generated, frozen, and viewable. Nothing is synthesised on your behalf at request time.
 
 ```ts
-import prompts from 'neuro-js/prompts';
+import prompts from 'neuro-ts/prompts';
 prompts['neuro.array.map'].systemPrompt;
 ```
+
+## When something breaks
+
+- [Error reference](/guides/errors/) - every error class with message patterns and `cause` shape.
+- [Troubleshooting](/guides/troubleshooting/) - the eight most common failures and how to fix each.
+- [Custom proxy contract](/guides/proxy-contract/) - exact wire format if you are running your own server.

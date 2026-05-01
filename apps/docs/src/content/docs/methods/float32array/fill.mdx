@@ -1,0 +1,46 @@
+---
+title: fill
+description: neuro.float32Array.fill wraps Float32Array.prototype.fill for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: fill
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.float32Array.fill`
+
+Instance method on `Float32Array.prototype`.
+
+> Changes all array elements from `start` to `end` index to a static `value` and returns the modified array
+
+## Signatures
+
+```ts
+fill(input: { float32Array: <receiver>; value: number; start?: number; end?: number; prompt?: string }): Promise<Float32Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Float32Array.prototype.fill` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRmxvYXQzMkFycmF5IGZpbGw7IGNvZXJjaW9uIGludG8gSUVFRS03NTQgc2luZ2xlLXByZWNpc2lvbiBmbG9hdHMgaGFwcGVucyBmaXJzdCwgdGhlIGlucHV0IHZhbHVlIGRvZXMgbm90IHN1cnZpdmUgaW50YWN0Lgphd2FpdCBuZXVyby5mbG9hdDMyQXJyYXkuZmlsbCh7IGZsb2F0MzJBcnJheTogdmlldywgdmFsdWU6IDAsIHN0YXJ0OiAwLCBlbmQ6IDAsIHByb21wdDogJ2ZpbGwgaW5kaWNlcyBbc3RhcnQsIGVuZCkgb2YgdGhlIEZsb2F0MzJBcnJheSB3aXRoIHZhbHVlLCBhcHBseWluZyB0aGUgRmxvYXQzMkFycmF5IGNvZXJjaW9uIChJRUVFLTc1NCBzaW5nbGUtcHJlY2lzaW9uIGZsb2F0cykgdG8gdmFsdWUgZmlyc3QgdGhlIHdheSB0aGUgc3BlYyBxdWlldGx5IGluc2lzdHMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.float32Array.fill" />

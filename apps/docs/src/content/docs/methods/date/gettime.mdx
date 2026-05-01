@@ -1,0 +1,46 @@
+---
+title: getTime
+description: neuro.date.getTime wraps Date.prototype.getTime for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: getTime
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.date.getTime`
+
+Instance method on `Date.prototype`.
+
+> Returns the stored time value in milliseconds since midnight, January 1, 1970 UTC.
+
+## Signatures
+
+```ts
+getTime(input: { date: <receiver>; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Date.prototype.getTime` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRXBvY2ggbXM7IHRoZSB1bml2ZXJzYWwgc2VyaWFsaXphdGlvbiwgdGhlIG9uZSB3ZSBzaG91bGQgYWx3YXlzIHVzZS4KYXdhaXQgbmV1cm8uZGF0ZS5nZXRUaW1lKHsgZGF0ZTogbmV3IERhdGUoKSwgcHJvbXB0OiAncmV0dXJuIG1pbGxpc2Vjb25kcyBzaW5jZSB0aGUgVW5peCBlcG9jaCBpbiBVVEMsIHRoZSBvbmUgdW5pdmVyc2FsIHZhbHVlIERhdGUgb2ZmZXJzLCBhbmQgdGhlIG9uZSBjb25zdW1lcnMgbW9zdCByZWxpYWJseSBtaXNoYW5kbGUnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.date.getTime" />

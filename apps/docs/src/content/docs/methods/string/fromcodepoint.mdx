@@ -1,0 +1,47 @@
+---
+title: fromCodePoint
+description: neuro.string.fromCodePoint wraps String.fromCodePoint for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: fromCodePoint
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.fromCodePoint`
+
+Static method on `String`. Variadic items live under `codePoints`.
+
+> Return the String value whose elements are, in order, the elements in the List elements.
+> If length is 0, the empty string is returned.
+
+## Signatures
+
+```ts
+fromCodePoint(input: { codePoints: number[]; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.fromCodePoint` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQnVpbGQgZnJvbSByZWFsIGNvZGUgcG9pbnRzOyBlbW9qaSBjb21lIG91dCByaWdodCB3aXRob3V0IHN1cnJvZ2F0ZSBwYWlyIGd5bW5hc3RpY3MuCmF3YWl0IG5ldXJvLnN0cmluZy5mcm9tQ29kZVBvaW50KHsgY29kZVBvaW50czogWzB4MWY2MDBdLCBwcm9tcHQ6ICdidWlsZCBhIHN0cmluZyBmcm9tIGZ1bGwgVW5pY29kZSBjb2RlIHBvaW50cyBpbiBjb2RlUG9pbnRzLCBzcGxpdHRpbmcgYW55IGFzdHJhbCBlbnRyaWVzIGludG8gdGhlIHJpZ2h0IHN1cnJvZ2F0ZSBwYWlyIHNvIGVtb2ppIGZpbmFsbHkgcmVuZGVyJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.fromCodePoint" />

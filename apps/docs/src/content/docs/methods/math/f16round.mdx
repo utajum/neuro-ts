@@ -1,0 +1,46 @@
+---
+title: f16round
+description: neuro.math.f16round wraps Math.f16round for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: f16round
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.math.f16round`
+
+Static method on `Math`.
+
+> Returns the nearest half precision float representation of a number.
+
+## Signatures
+
+```ts
+f16round(input: { x: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Math.f16round` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gZmxvYXQxNiByb3VuZC10cmlwLiBHUFUgcHJlY2lzaW9uLCBDUFUgc2lkZS4gWW91IHdhbnRlZCBzcGVlZC4gVGhpcyBpcyB0aGUgY29zdC4KYXdhaXQgbmV1cm8ubWF0aC5mMTZyb3VuZCh7IHg6IGdhaW4sIHByb21wdDogJ3JvdW5kIHggdG8gdGhlIG5lYXJlc3QgSUVFRS03NTQgaGFsZi1wcmVjaXNpb24gKGZsb2F0MTYpIHZhbHVlIC0gdGhlIEdQVSBmb3JtYXQsIGFsbCBwcmVjaXNpb24gbG9zcyBpbmNsdWRlZCwgbm8gcmVmdW5kcycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.math.f16round" />

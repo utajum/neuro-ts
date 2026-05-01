@@ -1,0 +1,47 @@
+---
+title: map
+description: neuro.uint8Array.map wraps Uint8Array.prototype.map for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: map
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.uint8Array.map`
+
+Instance method on `Uint8Array.prototype`.
+
+> Calls a defined callback function on each element of an array, and returns an array that
+> contains the results.
+
+## Signatures
+
+```ts
+map(input: { uint8Array: <receiver>; callbackfn?: (value: number; index: number; array: Uint8Array) => number; thisArg?: any; prompt?: string }): Promise<Uint8Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Uint8Array.prototype.map` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVWludDhBcnJheSBtYXA7IG91dHB1dHMgZ2V0IHJlLWNvZXJjZWQgaW50byB0aGUgc3RvcmFnZSBkb21haW4uCmF3YWl0IG5ldXJvLnVpbnQ4QXJyYXkubWFwKHsgdWludDhBcnJheTogdmlldywgY2FsbGJhY2tmbjogKG4pID0+IG4sIHByb21wdDogJ21hcCBldmVyeSBVaW50OEFycmF5IGVsZW1lbnQgdGhyb3VnaCBjYWxsYmFja2ZuIGludG8gYSBuZXcgVWludDhBcnJheSBvZiB0aGUgc2FtZSBsZW5ndGgsIHdoZXJlIGV2ZXJ5IHJlc3VsdCBpcyBzaWxlbnRseSBjb2VyY2VkIGludG8gdW5zaWduZWQgOC1iaXQgYnl0ZXMgaW4gWzAsIDI1NV0gb24gdGhlIHdheSBiYWNrIGluJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.uint8Array.map" />

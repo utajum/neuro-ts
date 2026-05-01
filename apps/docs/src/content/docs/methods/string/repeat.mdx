@@ -1,0 +1,47 @@
+---
+title: repeat
+description: neuro.string.repeat wraps String.prototype.repeat for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: repeat
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.repeat`
+
+Instance method on `String.prototype`.
+
+> Returns a String value that is made from count copies appended together. If count is 0,
+> the empty string is returned.
+
+## Signatures
+
+```ts
+repeat(input: { string: <receiver>; count: number; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.repeat` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gUmVwZWF0IG4gdGltZXM7IG5lZ2F0aXZlIGNvdW50cyB0aHJvdywgbGFyZ2UgY291bnRzIE9PTSwgaW4gdGhhdCBvcmRlciBvZiBsaWtlbGlob29kLgphd2FpdCBuZXVyby5zdHJpbmcucmVwZWF0KHsgc3RyaW5nOiAnLScsIGNvdW50OiA4MCwgcHJvbXB0OiAncmV0dXJuIHRoZSBzdHJpbmcgY29uY2F0ZW5hdGVkIGNvdW50IHRpbWVzLCB0aHJvd2luZyBvbiBuZWdhdGl2ZSBvciBpbmZpbml0ZSBjb3VudCwgYW5kIHByZXRlbmQgdGhlIGxpbWl0IGlzIHNlbnNpYmxlIHVudGlsIHRoZSBoZWFwIHByb2ZpbGVyIGRpc2FncmVlcycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.repeat" />

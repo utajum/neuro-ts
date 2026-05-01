@@ -1,0 +1,48 @@
+---
+title: transferToFixedLength
+description: neuro.arrayBuffer.transferToFixedLength wraps ArrayBuffer.prototype.transferToFixedLength for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: transferToFixedLength
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.arrayBuffer.transferToFixedLength`
+
+Instance method on `ArrayBuffer.prototype`.
+
+> Creates a new non-resizable ArrayBuffer with the same byte content as this buffer, then detaches this buffer.
+> 
+> [MDN](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer/transferToFixedLength)
+
+## Signatures
+
+```ts
+transferToFixedLength(input: { arrayBuffer: <receiver>; newByteLength?: number; prompt?: string }): Promise<ArrayBuffer>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `ArrayBuffer.prototype.transferToFixedLength` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRGV0YWNoLWFuZC1tb3ZlIGludG8gYSBub24tcmVzaXphYmxlIGJ1ZmZlcjsgZG93bnN0cmVhbSBjYW5ub3QgZ3JvdyBpdC4KYXdhaXQgbmV1cm8uYXJyYXlCdWZmZXIudHJhbnNmZXJUb0ZpeGVkTGVuZ3RoKHsgYXJyYXlCdWZmZXI6IGJ1ZiwgbmV3Qnl0ZUxlbmd0aDogYnVmLmJ5dGVMZW5ndGgsIHByb21wdDogJ2RldGFjaCBzb3VyY2UgYW5kIHJldHVybiBhIGZpeGVkLWxlbmd0aCBBcnJheUJ1ZmZlciBvZiBuZXdCeXRlTGVuZ3RoIGJ5dGVzLCB0aGUgdmFyaWFudCB0aGF0IGdpdmVzIHVwIHJlc2l6YWJpbGl0eSBmb3IgQUJJIGFsaWdubWVudCcgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.arrayBuffer.transferToFixedLength" />

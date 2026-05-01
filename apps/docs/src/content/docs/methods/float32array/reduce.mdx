@@ -1,0 +1,50 @@
+---
+title: reduce
+description: neuro.float32Array.reduce wraps Float32Array.prototype.reduce for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: reduce
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.float32Array.reduce`
+
+Instance method on `Float32Array.prototype`.
+
+> Calls the specified callback function for all the elements in an array. The return value of
+> the callback function is the accumulated result, and is provided as an argument in the next
+> call to the callback function.
+
+## Signatures
+
+```ts
+reduce(input: { float32Array: <receiver>; callbackfn?: (previousValue: number; currentValue: number; currentIndex: number; array: Float32Array) => number; prompt?: string }): Promise<number>
+reduce(input: { float32Array: <receiver>; callbackfn?: (previousValue: number; currentValue: number; currentIndex: number; array: Float32Array) => number; initialValue?: number; prompt?: string }): Promise<number>
+reduce(input: { float32Array: <receiver>; callbackfn?: (previousValue: U; currentValue: number; currentIndex: number; array: Float32Array) => U; initialValue?: U; prompt?: string }): Promise<U>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Float32Array.prototype.reduce` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRmxvYXQzMkFycmF5IHJlZHVjZTsgbGVmdCBmb2xkLCB0aGUgdHlwZSBzZWVkIGlzIHRoZSBpbml0aWFsIHZhbHVlLgphd2FpdCBuZXVyby5mbG9hdDMyQXJyYXkucmVkdWNlKHsgZmxvYXQzMkFycmF5OiB2aWV3LCBjYWxsYmFja2ZuOiAoYSwgYikgPT4gYSArIGIsIGluaXRpYWxWYWx1ZTogMCwgcHJvbXB0OiAnZm9sZCB0aGUgRmxvYXQzMkFycmF5IGxlZnQgc3RhcnRpbmcgZnJvbSBpbml0aWFsVmFsdWUsIGFwcGx5aW5nIGNhbGxiYWNrZm4gdG8gZWFjaCBlbGVtZW50LCB3aXRoIHRoZSBzYW1lIGluaXRpYWxWYWx1ZS1hcy10eXBlLXNlZWQgZGFuY2UgZXZlcnkgVHlwZVNjcmlwdCByZWR1Y2VyIGZpZ2h0cycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.float32Array.reduce" />

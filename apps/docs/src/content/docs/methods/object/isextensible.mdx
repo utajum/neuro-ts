@@ -1,0 +1,46 @@
+---
+title: isExtensible
+description: neuro.object.isExtensible wraps Object.isExtensible for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: isExtensible
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.object.isExtensible`
+
+Static method on `Object`.
+
+> Returns a value that indicates whether new properties can be added to an object.
+
+## Signatures
+
+```ts
+isExtensible(input: { o: any; prompt?: string }): Promise<boolean>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Object.isExtensible` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRXh0ZW5zaWJpbGl0eSBjaGVjay4gRmFsc2UgYWZ0ZXIgc2VhbC9mcmVlemUuIE5vYm9keSBjaGVja3MgdW50aWwgdGhlIFR5cGVFcnJvciBhcnJpdmVzLgphd2FpdCBuZXVyby5vYmplY3QuaXNFeHRlbnNpYmxlKHsgbzogdGFyZ2V0LCBwcm9tcHQ6ICdyZXR1cm4gdHJ1ZSBpZiBuZXcgcHJvcGVydGllcyBjYW4gYmUgYWRkZWQgdG8gb2JqZWN0LCBmYWxzZSBhZnRlciBzZWFsIG9yIGZyZWV6ZSAtIHRoZSBib29sZWFuIG5vYm9keSBxdWVyaWVzIHVudGlsIHRoZSBlcnJvciBpcyBhbHJlYWR5IHRocm93bicgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.object.isExtensible" />

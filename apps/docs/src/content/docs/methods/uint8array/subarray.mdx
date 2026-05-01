@@ -1,0 +1,47 @@
+---
+title: subarray
+description: neuro.uint8Array.subarray wraps Uint8Array.prototype.subarray for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: subarray
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.uint8Array.subarray`
+
+Instance method on `Uint8Array.prototype`.
+
+> Gets a new Uint8Array view of the ArrayBuffer store for this array, referencing the elements
+> at begin, inclusive, up to end, exclusive.
+
+## Signatures
+
+```ts
+subarray(input: { uint8Array: <receiver>; begin?: number; end?: number; prompt?: string }): Promise<Uint8Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Uint8Array.prototype.subarray` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVWludDhBcnJheSBzdWJhcnJheTsgYWxpYXNlZCB2aWV3LCBtdXRhdGlvbnMgYXJlIHZpc2libGUgYm90aCBzaWRlcy4KYXdhaXQgbmV1cm8udWludDhBcnJheS5zdWJhcnJheSh7IHVpbnQ4QXJyYXk6IHZpZXcsIGJlZ2luOiAwLCBlbmQ6IDgsIHByb21wdDogJ3JldHVybiBhIG5ldyBVaW50OEFycmF5IHRoYXQgVklFV1MgdGhlIHNhbWUgYnVmZmVyIG92ZXIgW2JlZ2luLCBlbmQpLCBzaGFyaW5nIHN0b3JhZ2Ugd2l0aCB0aGUgb3JpZ2luYWwgc28gd3JpdGVzIHRocm91Z2ggb25lIHNpZGUgYXBwZWFyIHRocm91Z2ggdGhlIG90aGVyJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.uint8Array.subarray" />

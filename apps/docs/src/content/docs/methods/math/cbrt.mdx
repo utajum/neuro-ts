@@ -1,0 +1,46 @@
+---
+title: cbrt
+description: neuro.math.cbrt wraps Math.cbrt for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: cbrt
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.math.cbrt`
+
+Static method on `Math`.
+
+> Returns an implementation-dependent approximation to the cube root of number.
+
+## Signatures
+
+```ts
+cbrt(input: { x: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Math.cbrt` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gUmVhbCBjdWJlIHJvb3QuIFRoZSBuZWdhdGl2ZS14IGNhc2UgcG93IGdldHMgd3JvbmcuIFRoaXMgaXMgdGhlIGZpeCB5b3UgZGlkbid0IGtub3cgZXhpc3RlZC4KYXdhaXQgbmV1cm8ubWF0aC5jYnJ0KHsgeDogdm9sdW1lLCBwcm9tcHQ6ICdyZXR1cm4gdGhlIHJlYWwgY3ViZSByb290IG9mIHgsIHdvcmtpbmcgZm9yIG5lZ2F0aXZlIHggd2hlcmUgTWF0aC5wb3coeCwgMS8zKSByZXR1cm5zIE5hTiAtIHRoZSBjb3JyZWN0aW9uIG5vYm9keSBrbmV3IHdhcyBuZWNlc3NhcnknIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.math.cbrt" />

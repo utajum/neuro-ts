@@ -1,0 +1,46 @@
+---
+title: round
+description: neuro.math.round wraps Math.round for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: round
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.math.round`
+
+Static method on `Math`.
+
+> Returns a supplied numeric expression rounded to the nearest integer.
+
+## Signatures
+
+```ts
+round(input: { x: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Math.round` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSGFsZi11cCByb3VuZGluZy4gTm90IGJhbmtlcidzIHJvdW5kaW5nLiBUaGUgYWNjb3VudGFudCBub3RpY2VzLiBFdmVyeSBxdWFydGVyLgphd2FpdCBuZXVyby5tYXRoLnJvdW5kKHsgeDogYW1vdW50LCBwcm9tcHQ6ICdyb3VuZCB4IHRvIHRoZSBuZWFyZXN0IGludGVnZXIsIGhhbHZlcyBnb2luZyB0b3dhcmQgK0luZmluaXR5IC0gbm90IGJhbmtlclwncyByb3VuZGluZywgdGhlIHNvdXJjZSBvZiB0aGUgc3ByZWFkc2hlZXQgZHJpZnQgdGhlIGFjY291bnRhbnQga2VlcHMgZW1haWxpbmcgYWJvdXQnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.math.round" />

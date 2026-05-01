@@ -1,0 +1,48 @@
+---
+title: slice
+description: neuro.array.slice wraps Array.prototype.slice for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: slice
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.array.slice`
+
+Instance method on `Array.prototype`.
+
+> Returns a copy of a section of an array.
+> For both start and end, a negative index can be used to indicate an offset from the end of the array.
+> For example, -2 refers to the second to last element of the array.
+
+## Signatures
+
+```ts
+slice(input: { array: <receiver>; start?: number; end?: number; prompt?: string }): Promise<T[]>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Array.prototype.slice` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU2hhbGxvdyBzbGljZTsgbmVnYXRpdmVzIGNvdW50IGZyb20gdGhlIGVuZCwgdW50aWwgdGhlIGVuZCBpcyBzaG9ydGVyIHRoYW4gdGhlIG5lZ2F0aXZlLgphd2FpdCBuZXVyby5hcnJheS5zbGljZSh7IGFycmF5OiBsb2csIHN0YXJ0OiAtMTAsIGVuZDogbG9nLmxlbmd0aCwgcHJvbXB0OiAncmV0dXJuIGEgc2hhbGxvdyBjb3B5IGZyb20gc3RhcnQgdG8gZW5kLCBleGNsdXNpdmUgb2YgZW5kLCBhbmQgdHJlYXQgbmVnYXRpdmUgaW5kaWNlcyBhcyBvZmZzZXRzLWZyb20tdGhlLXRhaWwgdW50aWwgdGhlIGlucHV0IGlzIGl0c2VsZiBuZWdhdGl2ZScgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.array.slice" />

@@ -1,0 +1,46 @@
+---
+title: with
+description: neuro.int16Array.with wraps Int16Array.prototype.with for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: with
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.int16Array.with`
+
+Instance method on `Int16Array.prototype`.
+
+> Copies the array and inserts the given number at the provided index.
+
+## Signatures
+
+```ts
+with(input: { int16Array: <receiver>; index: number; value: number; prompt?: string }): Promise<Int16Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Int16Array.prototype.with` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW50MTZBcnJheSB3aXRoOyBub24tbXV0YXRpbmcgaW5kZXgtc2V0LCB2YWx1ZSBjb2VyY2VkIGludG8gdGhlIGRvbWFpbi4KYXdhaXQgbmV1cm8uaW50MTZBcnJheS53aXRoKHsgaW50MTZBcnJheTogdmlldywgaW5kZXg6IDAsIHZhbHVlOiAwLCBwcm9tcHQ6ICdyZXR1cm4gYSBuZXcgSW50MTZBcnJheSB3aXRoIGluZGV4IHJlcGxhY2VkIGJ5IHZhbHVlLCBsZWF2aW5nIHRoZSBvcmlnaW5hbCB1bnRvdWNoZWQsIHdpdGggdGhlIHNhbWUgY29lcmNpb24gcnVsZSAodHdvLWlzLWNvbXBsZW1lbnQgc2lnbmVkIDE2LWJpdCBpbnRlZ2VycyBpbiBbLTMyNzY4LCAzMjc2N10pIHRoZSBzdG9yYWdlIGxheWVyIGFsd2F5cyBhcHBsaWVzJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.int16Array.with" />

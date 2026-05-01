@@ -1,0 +1,46 @@
+---
+title: withResolvers
+description: neuro.promise.withResolvers wraps Promise.withResolvers for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: withResolvers
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.promise.withResolvers`
+
+Static method on `Promise`.
+
+> Creates a new Promise and returns it in an object, along with its resolve and reject functions.
+
+## Signatures
+
+```ts
+withResolvers(input: { prompt?: string }): Promise<PromiseWithResolvers<T>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Promise.withResolvers` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRGVmZXJyZWQgcGF0dGVybiB3aXRob3V0IHRoZSBib2lsZXJwbGF0ZS4gUmVzdCBpbiBwZWFjZSwgbmV3IFByb21pc2UgY29uc3RydWN0b3IgYm9keS4KYXdhaXQgbmV1cm8ucHJvbWlzZS53aXRoUmVzb2x2ZXJzKHsgcHJvbXB0OiAncmV0dXJuIHsgcHJvbWlzZSwgcmVzb2x2ZSwgcmVqZWN0IH0gc28gZXh0ZXJuYWwgY29kZSBjYW4gc2V0dGxlIHRoZSBwcm9taXNlIGxhdGVyIC0gZmlmdGVlbiB5ZWFycyBvZiBuZXcgUHJvbWlzZSgocmVzLCByZWopID0+IHsuLi59KSBmaW5hbGx5IHB1dCB0byByZXN0JyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.promise.withResolvers" />

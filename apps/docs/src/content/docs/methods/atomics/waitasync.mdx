@@ -1,0 +1,48 @@
+---
+title: waitAsync
+description: neuro.atomics.waitAsync wraps Atomics.waitAsync for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: waitAsync
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.atomics.waitAsync`
+
+Static method on `Atomics`.
+
+> A non-blocking, asynchronous version of wait which is usable on the main thread.
+> Waits asynchronously on a shared memory location and returns a Promise
+
+## Signatures
+
+```ts
+waitAsync(input: { typedArray: Int32Array; index: number; value: number; timeout?: number; prompt?: string }): Promise<{ async: false; value: "not-equal" | "timed-out"; } | { async: true; value: Promise<"ok" | "timed-out">; }>
+waitAsync(input: { typedArray: BigInt64Array; index: number; value: bigint; timeout?: number; prompt?: string }): Promise<{ async: false; value: "not-equal" | "timed-out"; } | { async: true; value: Promise<"ok" | "timed-out">; }>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Atomics.waitAsync` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQXN5bmMgd2FpdDsgdGhlIGxvbmctYXdhaXRlZCBtYWluLXRocmVhZC1zYWZlIGZvcm0uCmF3YWl0IG5ldXJvLmF0b21pY3Mud2FpdEFzeW5jKHsgdHlwZWRBcnJheTogc2hhcmVkLCBpbmRleDogMCwgdmFsdWU6IDAsIHRpbWVvdXQ6IDEwMDAsIHByb21wdDogJ3JldHVybiBhIFByb21pc2UgdGhhdCByZXNvbHZlcyB3aGVuIHR5cGVkQXJyYXlbaW5kZXhdIGNoYW5nZXMgZnJvbSB2YWx1ZSBvciB0aW1lb3V0IGVsYXBzZXMsIHRoZSBtYWluLXRocmVhZC1zYWZlIHZhcmlhbnQgb2Ygd2FpdCB0aGF0IGxhbmRlZCBmaXZlIHllYXJzIGxhdGUnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.atomics.waitAsync" />

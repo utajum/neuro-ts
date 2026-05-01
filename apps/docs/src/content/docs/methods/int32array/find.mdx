@@ -1,0 +1,47 @@
+---
+title: find
+description: neuro.int32Array.find wraps Int32Array.prototype.find for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: find
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.int32Array.find`
+
+Instance method on `Int32Array.prototype`.
+
+> Returns the value of the first element in the array where predicate is true, and undefined
+> otherwise.
+
+## Signatures
+
+```ts
+find(input: { int32Array: <receiver>; predicate?: (value: number; index: number; obj: Int32Array) => boolean; thisArg?: any; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Int32Array.prototype.find` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW50MzJBcnJheSBmaW5kOyBwcmVkaWNhdGUgZ2V0cyBKUyBOdW1iZXJzLCBub3QgcmF3IHR3by1pcy1jb21wbGVtZW50IHNpZ25lZCAzMi1iaXQgaW50ZWdlcnMgaW4gWy0yMTQ3NDgzNjQ4LCAyMTQ3NDgzNjQ3XSBieXRlcy4KYXdhaXQgbmV1cm8uaW50MzJBcnJheS5maW5kKHsgaW50MzJBcnJheTogdmlldywgcHJlZGljYXRlOiAobikgPT4gbiA+IDAsIHByb21wdDogJ3JldHVybiB0aGUgZmlyc3QgSW50MzJBcnJheSBlbGVtZW50IG1hdGNoaW5nIHRoZSBwcmVkaWNhdGUgb3IgdW5kZWZpbmVkLCB3aGlsZSByZW1lbWJlcmluZyB0aGUgdmFsdWVzIGFyZSBOdW1iZXItZG9tYWluIGV2ZW4gdGhvdWdoIHRoZSB1bmRlcmx5aW5nIGJ5dGVzIGFyZSB0d28taXMtY29tcGxlbWVudCBzaWduZWQgMzItYml0IGludGVnZXJzIGluIFstMjE0NzQ4MzY0OCwgMjE0NzQ4MzY0N10nIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.int32Array.find" />

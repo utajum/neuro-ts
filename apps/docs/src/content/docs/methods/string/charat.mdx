@@ -1,0 +1,46 @@
+---
+title: charAt
+description: neuro.string.charAt wraps String.prototype.charAt for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: charAt
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.charAt`
+
+Instance method on `String.prototype`.
+
+> Returns the character at the specified index.
+
+## Signatures
+
+```ts
+charAt(input: { string: <receiver>; pos: number; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.charAt` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVVRGLTE2IGNoYXItYXQ7IG91dC1vZi1yYW5nZSByZXR1cm5zICIiIHJhdGhlciB0aGFuIHRocm93aW5nLCB0aGUgZGVzaWduIHdlIGxpdmUgd2l0aC4KYXdhaXQgbmV1cm8uc3RyaW5nLmNoYXJBdCh7IHN0cmluZzogdG9rZW4sIHBvczogMCwgcHJvbXB0OiAncmV0dXJuIHRoZSBVVEYtMTYgY29kZSB1bml0IGF0IHBvcyBhcyBhIHNpbmdsZS1jaGFyYWN0ZXIgc3RyaW5nLCB0cmVhdGluZyBvdXQtb2YtcmFuZ2UgYXMgdGhlIGVtcHR5IHN0cmluZyB0aGUgd2F5IHRoZSBzcGVjIHF1aWV0bHkgaW5zaXN0cycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.charAt" />

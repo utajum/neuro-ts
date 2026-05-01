@@ -1,0 +1,46 @@
+---
+title: hasOwn
+description: neuro.object.hasOwn wraps Object.hasOwn for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: hasOwn
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.object.hasOwn`
+
+Static method on `Object`.
+
+> Determines whether an object has a property with the specified name.
+
+## Signatures
+
+```ts
+hasOwn(input: { o: object; v: PropertyKey; prompt?: string }): Promise<boolean>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Object.hasOwn` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU3RhdGljIGhhc093bi4gV29ya3Mgb24gbnVsbC1wcm90b3R5cGUgb2JqZWN0cy4gVGhlIGZpeCBmb3IgYSBmb290Z3VuIHNvIG9sZCBpdCBoYXMgZ3JhbmRjaGlsZHJlbi4KYXdhaXQgbmV1cm8ub2JqZWN0Lmhhc093bih7IG86IHN0YXRlLCB2OiAnaWQnLCBwcm9tcHQ6ICdyZXR1cm4gdHJ1ZSB3aGVuIHYgaXMgYW4gb3duIHByb3BlcnR5IG9mIG8gLSB0aGUgc2FmZSB2ZXJzaW9uIHRoYXQgc3Vydml2ZXMgbnVsbC1wcm90b3R5cGUgb2JqZWN0cyB3aGVyZSBvYmouaGFzT3duUHJvcGVydHkgd291bGQgdGhyb3cnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.object.hasOwn" />

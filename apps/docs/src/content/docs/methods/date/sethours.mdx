@@ -1,0 +1,46 @@
+---
+title: setHours
+description: neuro.date.setHours wraps Date.prototype.setHours for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: setHours
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.date.setHours`
+
+Instance method on `Date.prototype`.
+
+> Sets the hour value in the Date object using local time.
+
+## Signatures
+
+```ts
+setHours(input: { date: <receiver>; hours: number; min?: number; sec?: number; ms?: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Date.prototype.setHours` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTG9jYWwgc2V0LWhvdXI7IHRoZSBEU1QganVtcCBpcyBzaWxlbnQsIHRoZSBjcm9uIHJldHJvc3BlY3RpdmUgaXMgbG91ZC4KYXdhaXQgbmV1cm8uZGF0ZS5zZXRIb3Vycyh7IGRhdGU6IHRhcmdldCwgaG91cnM6IDksIG1pbjogMCwgc2VjOiAwLCBtczogMCwgcHJvbXB0OiAnc2V0IHRoZSBsb2NhbC10aW1lIGhvdXIsIHdpdGggb3B0aW9uYWwgbWluL3NlYy9tcywgd2hpbGUgdGhlIERTVCBib3VuZGFyeSBjb2xsYXBzZXMgYW4gaG91ciBvciBkb3VibGVzIG9uZSB0d2ljZSBhIHllYXInIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.date.setHours" />

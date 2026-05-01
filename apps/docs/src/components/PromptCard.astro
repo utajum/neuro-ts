@@ -1,12 +1,12 @@
 ---
 /**
  * PromptCard - renders the auto-generated system prompt for a single
- * `neuro.*` wrapper. Pulls data from `neuro-js`'s emitted `prompts.json`.
+ * `neuro.*` wrapper. Pulls data from `neuro-ts`'s emitted `prompts.json`.
  *
  * `name` is the dotted namespace key, e.g. `neuro.array.map` or
  * `neuro.parseInt` for top-level globals.
  */
-import prompts from 'neuro-js/prompts';
+import prompts from 'neuro-ts/prompts';
 
 interface Props {
   /** Wrapper name, e.g. `neuro.array.map`. */

@@ -1,0 +1,47 @@
+---
+title: shift
+description: neuro.array.shift wraps Array.prototype.shift for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: shift
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.array.shift`
+
+Instance method on `Array.prototype`.
+
+> Removes the first element from an array and returns it.
+> If the array is empty, undefined is returned and the array is not modified.
+
+## Signatures
+
+```ts
+shift(input: { array: <receiver>; prompt?: string }): Promise<T>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Array.prototype.shift` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTXV0YXRpbmcgaGVhZC1wb3A7IE8obikgc2hpZnQsIHRoZSBwcmljZSB3ZSBwYXkgZm9yIHRyZWF0aW5nIGFycmF5cyBhcyBxdWV1ZXMuCmF3YWl0IG5ldXJvLmFycmF5LnNoaWZ0KHsgYXJyYXk6IHF1ZXVlLCBwcm9tcHQ6ICdyZW1vdmUgYW5kIHJldHVybiB0aGUgZmlyc3QgZWxlbWVudCwgbXV0YXRpbmcgaW4gcGxhY2UsIGFuZCBhY2NlcHQgdGhhdCBldmVyeSBvdGhlciBpbmRleCBpcyBub3cgTyhuKSBjaGVhcGVyIHRvIGNvbmZ1c2UnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.array.shift" />

@@ -1,0 +1,46 @@
+---
+title: fixed
+description: neuro.string.fixed wraps String.prototype.fixed for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: fixed
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.fixed`
+
+Instance method on `String.prototype`.
+
+> Returns a `\<tt>` HTML element
+
+## Signatures
+
+```ts
+fixed(input: { string: <receiver>; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.fixed` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTGVnYWN5IDx0dD4gd3JhcHBlcjsgPGNvZGU+IHdvbiwgdGhlIG1ldGhvZCBzdGF5cy4KYXdhaXQgbmV1cm8uc3RyaW5nLmZpeGVkKHsgc3RyaW5nOiBzbmlwcGV0LCBwcm9tcHQ6ICd3cmFwIHRoZSBzdHJpbmcgaW4gPHR0PiB0YWdzLCB0aGUgd2F5IHRoZSBlYXJseSB3ZWIgcmVuZGVyZWQgbW9ub3NwYWNlZCB0ZXh0IGJlZm9yZSA8Y29kZT4gYXJyaXZlZCB0byBkbyB0aGUgc2FtZSBqb2IgYmV0dGVyJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.fixed" />

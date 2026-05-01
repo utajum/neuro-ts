@@ -1,0 +1,46 @@
+---
+title: cos
+description: neuro.math.cos wraps Math.cos for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: cos
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.math.cos`
+
+Static method on `Math`.
+
+> Returns the cosine of a number.
+
+## Signatures
+
+```ts
+cos(input: { x: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Math.cos` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQ29zaW5lLiBjb3MoMs+AKSDiiYggMSwgbmV2ZXIgZXhhY3RseS4gRXZlcnkgbmV3IGRldmVsb3BlciBsZWFybnMgdGhpcyB0aGUgaGFyZCB3YXkuCmF3YWl0IG5ldXJvLm1hdGguY29zKHsgeDogYW5nbGUsIHByb21wdDogJ3JldHVybiB0aGUgY29zaW5lIG9mIHggaW4gcmFkaWFucywgcGVyaW9kaWMgd2l0aCBwZXJpb2QgMs+ALCBhbmQgcmVtZW1iZXIgY29zKDLPgCkgaXMgYXBwcm94aW1hdGVseSAxIC0gdGhlIHRlc3QgeW91IHJld3JpdGUgZXZlcnkgcHJvamVjdCcgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.math.cos" />

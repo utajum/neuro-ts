@@ -1,0 +1,46 @@
+---
+title: with
+description: neuro.bigInt64Array.with wraps BigInt64Array.prototype.with for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: with
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.bigInt64Array.with`
+
+Instance method on `BigInt64Array.prototype`.
+
+> Copies the array and inserts the given bigint at the provided index.
+
+## Signatures
+
+```ts
+with(input: { bigInt64Array: <receiver>; index: number; value: bigint; prompt?: string }): Promise<BigInt64Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `BigInt64Array.prototype.with` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQmlnSW50NjRBcnJheSB3aXRoOyBub24tbXV0YXRpbmcgaW5kZXgtc2V0LCB2YWx1ZSBjb2VyY2VkIGludG8gdGhlIGRvbWFpbi4KYXdhaXQgbmV1cm8uYmlnSW50NjRBcnJheS53aXRoKHsgYmlnSW50NjRBcnJheTogdmlldywgaW5kZXg6IDAsIHZhbHVlOiAwbiwgcHJvbXB0OiAncmV0dXJuIGEgbmV3IEJpZ0ludDY0QXJyYXkgd2l0aCBpbmRleCByZXBsYWNlZCBieSB2YWx1ZSwgbGVhdmluZyB0aGUgb3JpZ2luYWwgdW50b3VjaGVkLCB3aXRoIHRoZSBzYW1lIGNvZXJjaW9uIHJ1bGUgKHR3by1pcy1jb21wbGVtZW50IHNpZ25lZCA2NC1iaXQgaW50ZWdlcnMgaW4gWy0oMl42MyksIDJeNjMgLSAxXSkgdGhlIHN0b3JhZ2UgbGF5ZXIgYWx3YXlzIGFwcGxpZXMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.bigInt64Array.with" />

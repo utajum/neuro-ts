@@ -1,0 +1,50 @@
+---
+title: assign
+description: neuro.object.assign wraps Object.assign for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: assign
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.object.assign`
+
+Static method on `Object`. Variadic items live under `sources`.
+
+> Copy the values of all of the enumerable own properties from one or more source objects to a
+> target object. Returns the target object.
+
+## Signatures
+
+```ts
+assign(input: { target: T; source: U; prompt?: string }): Promise<T & U>
+assign(input: { target: T; source1: U; source2: V; prompt?: string }): Promise<T & U & V>
+assign(input: { target: T; source1: U; source2: V; source3: W; prompt?: string }): Promise<T & U & V & W>
+assign(input: { target: object; sources: any[]; prompt?: string }): Promise<any>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Object.assign` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU2hhbGxvdyBtZXJnZS4gTGFzdCB3cml0ZSB3aW5zLiBEZWVwIG1lcmdlIGlzIGEgZGlmZmVyZW50IHJlcG8uCmF3YWl0IG5ldXJvLm9iamVjdC5hc3NpZ24oeyB0YXJnZXQ6IGRlZmF1bHRzLCBzb3VyY2VzOiBbb3ZlcnJpZGVzXSwgcHJvbXB0OiAnY29weSBvd24gZW51bWVyYWJsZSBwcm9wZXJ0aWVzIGZyb20gc291cmNlcyBpbnRvIHRhcmdldCwgbGVmdC10by1yaWdodCwgbGFzdC13cml0ZS13aW5zLCBzaGFsbG93IG9ubHkgLSBsaWtlIGEgY29ycG9yYXRlIG1lcmdlciB3aGVyZSBib3RoIHNpZGVzIHByZXRlbmQgZGVwdGggZG9lc25cJ3QgbWF0dGVyJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.object.assign" />

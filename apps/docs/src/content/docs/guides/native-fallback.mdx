@@ -1,6 +1,6 @@
 ---
 title: Native fallback
-description: What neuro-js does when no prompt is supplied.
+description: 'Native fallback in neuro-ts: when prompt is empty, the wrapper calls the original JavaScript built-in directly. No LLM, no network, full TypeScript types.'
 ---
 
 Every `neuro.*` method has two modes, decided at the call site by the
@@ -16,7 +16,7 @@ The native fallback is not a fallback in the "the LLM failed, fall back"
 sense. It is the default. The LLM is opt-in per call.
 
 ```ts
-import { neuro } from 'neuro-js';
+import { neuro } from 'neuro-ts';
 
 await neuro.array.map({ array: [1, 2, 3], callbackfn: (n) => n * 2 });
 // [2, 4, 6]   <- native call, no client needed
@@ -30,10 +30,61 @@ await neuro.object.keys({ o: { a: 1, b: 2 } });
 
 ## Why both?
 
-The native path keeps `neuro-js` a strict superset of the standard library.
+The native path keeps `neuro-ts` a strict superset of the standard library.
 You can wire `neuro` into existing code, ship it without breaking anything,
 then sprinkle prompts in only where they help.
 
-It also means `neuro-js` works with no `OPENAI_API_KEY` configured: as long
+It also means `neuro-ts` works with no `OPENAI_API_KEY` configured: as long
 as the input lacks a `prompt` field, the library is just a typed Promise
 wrapper over the original built-ins.
+
+## Is it zero-cost?
+
+Yes. The native fallback is a synchronous call to the original built-in
+wrapped in `Promise.resolve()`. There is no network round-trip, no client
+instantiation, and no parsing overhead beyond the argument object lookup.
+
+## Does it require `configureClient`?
+
+No. Native fallback calls never touch the client singleton. You can use
+`neuro.*` without calling `configureClient()` as long as you omit `prompt`:
+
+```ts
+import { neuro } from 'neuro-ts';
+
+// Works with no configureClient() call at all.
+const sorted = await neuro.array.sort({ array: [3, 1, 2] });
+// [1, 2, 3]
+```
+
+Only calls with a non-empty `prompt` require the client to be configured.
+
+## What if the native built-in throws?
+
+Errors from the native built-in propagate as-is. `neuro-ts` does not catch
+or wrap them on the fallback path:
+
+```ts
+await neuro.json.parse({ text: 'not valid json' });
+// SyntaxError: Unexpected token 'o', "not valid json" is not valid JSON
+```
+
+This is intentional -- the native fallback behaves exactly like calling
+the original built-in directly. If you want error recovery, use a `prompt`:
+
+```ts
+await neuro.json.parse({
+  text: 'not valid json',
+  prompt: 'fix any syntax errors and parse',
+});
+```
+
+## Every method supports a prompt
+
+Every one of the 654 wrappers accepts an optional `prompt` field and
+routes to the LLM when one is supplied. There are no native-only methods.
+The only thing that changes is whether the result the LLM produces makes
+sense for the method's return type -- iterators, live `WeakMap` handles,
+and atomic operations that depend on shared memory state cannot be
+serialised over the wire, so for those methods you almost always want
+the native path. Pick whichever suits the call.

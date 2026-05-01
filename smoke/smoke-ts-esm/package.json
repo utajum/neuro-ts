@@ -1,0 +1,17 @@
+{
+  "name": "neuro-ts-smoke-ts-esm",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Smoke test: consume the published neuro-ts via TypeScript ESM imports.",
+  "scripts": {
+    "smoke": "tsx smoke.ts"
+  },
+  "dependencies": {
+    "neuro-ts": "*"
+  },
+  "devDependencies": {
+    "tsx": "4.21.0",
+    "typescript": "5.8.3"
+  }
+}

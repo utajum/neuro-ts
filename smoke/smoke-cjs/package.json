@@ -1,0 +1,12 @@
+{
+  "name": "neuro-ts-smoke-cjs",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Smoke test: consume the published neuro-ts via CommonJS require().",
+  "scripts": {
+    "smoke": "node smoke.cjs"
+  },
+  "dependencies": {
+    "neuro-ts": "*"
+  }
+}

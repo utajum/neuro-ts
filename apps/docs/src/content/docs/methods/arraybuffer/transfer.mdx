@@ -1,0 +1,48 @@
+---
+title: transfer
+description: neuro.arrayBuffer.transfer wraps ArrayBuffer.prototype.transfer for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: transfer
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.arrayBuffer.transfer`
+
+Instance method on `ArrayBuffer.prototype`.
+
+> Creates a new ArrayBuffer with the same byte content as this buffer, then detaches this buffer.
+> 
+> [MDN](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer/transfer)
+
+## Signatures
+
+```ts
+transfer(input: { arrayBuffer: <receiver>; newByteLength?: number; prompt?: string }): Promise<ArrayBuffer>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `ArrayBuffer.prototype.transfer` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRGV0YWNoLWFuZC1tb3ZlOyB0aGUgb3JpZ2luYWwgYnVmZmVyIGJlY29tZXMgdW51c2FibGUsIGV2ZXJ5IGV4aXN0aW5nIHZpZXcgZ29lcyBieXRlTGVuZ3RoOiAwLgphd2FpdCBuZXVyby5hcnJheUJ1ZmZlci50cmFuc2Zlcih7IGFycmF5QnVmZmVyOiBidWYsIG5ld0J5dGVMZW5ndGg6IGJ1Zi5ieXRlTGVuZ3RoLCBwcm9tcHQ6ICdkZXRhY2ggdGhlIHNvdXJjZSBidWZmZXIgYW5kIHJldHVybiBhIG5ldyBBcnJheUJ1ZmZlciBvZiBuZXdCeXRlTGVuZ3RoIGJ5dGVzIGNvbnRhaW5pbmcgdGhlIG9yaWdpbmFsIGJ5dGVzLCB0aGUgbW92ZS1zZW1hbnRpY3MgcHJpbWl0aXZlIFdBU00gaGFzIGJlZW4gcXVpZXRseSB3YWl0aW5nIGZvcicgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.arrayBuffer.transfer" />

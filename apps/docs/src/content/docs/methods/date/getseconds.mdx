@@ -1,0 +1,46 @@
+---
+title: getSeconds
+description: neuro.date.getSeconds wraps Date.prototype.getSeconds for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: getSeconds
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.date.getSeconds`
+
+Instance method on `Date.prototype`.
+
+> Gets the seconds of a Date object, using local time.
+
+## Signatures
+
+```ts
+getSeconds(input: { date: <receiver>; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Date.prototype.getSeconds` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTG9jYWwgc2Vjb25kOyB0aGUgc3BlYyBleGNsdWRlcyA2MCBiZWNhdXNlIHRoZSBsZWFwLXNlY29uZCBoYW5kbGluZyBpcyBzb21lYm9keSBlbHNlIGlzIHByb2JsZW0uCmF3YWl0IG5ldXJvLmRhdGUuZ2V0U2Vjb25kcyh7IGRhdGU6IG5ldyBEYXRlKCksIHByb21wdDogJ3JldHVybiB0aGUgbG9jYWwtdGltZSBzZWNvbmQgMC01OSwga25vd2luZyA2MCBpcyB0ZWNobmljYWxseSBhIHZhbGlkIGxlYXAtc2Vjb25kIHZhbHVlIHRoZSBzcGVjIHF1aWV0bHkgZGlzYWxsb3dzJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.date.getSeconds" />

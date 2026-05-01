@@ -1,0 +1,46 @@
+---
+title: toSorted
+description: neuro.bigUint64Array.toSorted wraps BigUint64Array.prototype.toSorted for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: toSorted
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.bigUint64Array.toSorted`
+
+Instance method on `BigUint64Array.prototype`.
+
+> Copies and sorts the array.
+
+## Signatures
+
+```ts
+toSorted(input: { bigUint64Array: <receiver>; compareFn?: (a: bigint; b: bigint) => number; prompt?: string }): Promise<BigUint64Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `BigUint64Array.prototype.toSorted` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQmlnVWludDY0QXJyYXkgdG9Tb3J0ZWQ7IG5vbi1tdXRhdGluZyBzb3J0Lgphd2FpdCBuZXVyby5iaWdVaW50NjRBcnJheS50b1NvcnRlZCh7IGJpZ1VpbnQ2NEFycmF5OiB2aWV3LCBjb21wYXJlRm46IChhLCBiKSA9PiBhIC0gYiwgcHJvbXB0OiAncmV0dXJuIGEgbmV3IEJpZ1VpbnQ2NEFycmF5IHNvcnRlZCBieSBjb21wYXJlRm4gKG9yIG51bWVyaWMgYXNjZW5kaW5nKSB3aXRob3V0IG11dGF0aW5nIHRoZSBvcmlnaW5hbCwgdGhlIGltbXV0YWJsZSBzb3J0IHRoZSBhdWRpdCB0cmFpbCBmaW5hbGx5IGRlbWFuZHMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.bigUint64Array.toSorted" />

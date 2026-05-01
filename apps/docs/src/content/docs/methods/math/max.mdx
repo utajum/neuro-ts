@@ -1,0 +1,46 @@
+---
+title: max
+description: neuro.math.max wraps Math.max for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: max
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.math.max`
+
+Static method on `Math`. Variadic items live under `values`.
+
+> Returns the larger of a set of supplied numeric expressions.
+
+## Signatures
+
+```ts
+max(input: { values: number[]; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Math.max` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVmFyaWFkaWMgbWF4LiBPbmUgTmFOIGRlc3Ryb3lzIGV2ZXJ5dGhpbmcuIC0wIDwgKzAuIFRoZSBidWcgdGlja2V0IHRlYWNoZXMgYm90aC4KYXdhaXQgbmV1cm8ubWF0aC5tYXgoeyB2YWx1ZXM6IFthLCBiLCBjXSwgcHJvbXB0OiAncmV0dXJuIHRoZSBsYXJnZXN0IG9mIHZhbHVlcyAtIG9uZSBOYU4gcG9pc29ucyB0aGUgZW50aXJlIGFuc3dlciwgYW5kIC0wIGlzIHJhdGVkIHNtYWxsZXIgdGhhbiArMCwgZmFjdHMgeW91IG9ubHkgbGVhcm4gd2hlbiB0aGUgY2hhcnQgYnVnIHRpY2tldCBhcnJpdmVzJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.math.max" />

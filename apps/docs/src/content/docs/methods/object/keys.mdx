@@ -1,0 +1,47 @@
+---
+title: keys
+description: neuro.object.keys wraps Object.keys for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: keys
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.object.keys`
+
+Static method on `Object`.
+
+> Returns the names of the enumerable string properties and methods of an object.
+
+## Signatures
+
+```ts
+keys(input: { o: object; prompt?: string }): Promise<string[]>
+keys(input: { o: {}; prompt?: string }): Promise<string[]>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Object.keys` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gT3duLWVudW1lcmFibGUtc3RyaW5nLWtleXMuIEludGVnZXJzIGNvbWUgZmlyc3QsIHRoZW4gaW5zZXJ0aW9uIG9yZGVyLiBUaGUgc3BlYyBpbnNpc3RzLgphd2FpdCBuZXVyby5vYmplY3Qua2V5cyh7IG86IHN0YXRlLCBwcm9tcHQ6ICdyZXR1cm4gb3duIGVudW1lcmFibGUgc3RyaW5nLWtleWVkIHByb3BlcnR5IG5hbWVzLCB3aXRoIGludGVnZXIga2V5cyBwcm9tb3RlZCB0byB0aGUgZnJvbnQgLSB0aGUgc29ydGluZyB5b3UgZGlkblwndCBhc2sgZm9yIGJ1dCB0aGUgc3BlYyBkZWxpdmVycyBldmVyeSB0aW1lJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.object.keys" />

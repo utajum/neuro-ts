@@ -1,10 +1,10 @@
 ---
 title: Method catalog
-description: Every neuro-js wrapper, grouped by built-in.
+description: Catalog of every neuro-ts wrapper, grouped by JavaScript built-in. AI-augmented TypeScript wrappers with optional GPT / OpenAI prompts.
 ---
 
 import PromptCard from '../../../components/PromptCard.astro';
-import prompts from 'neuro-js/prompts';
+import prompts from 'neuro-ts/prompts';
 
 export const grouped = Object.entries(prompts).reduce((acc, [name, entry]) => {
   const g = entry?.group ?? 'misc';
@@ -14,7 +14,7 @@ export const grouped = Object.entries(prompts).reduce((acc, [name, entry]) => {
 }, {});
 
 The full catalog is generated from `prompts.json`. Every wrapper exposed
-by `neuro-js` is listed below, grouped by built-in. Click through to the
+by `neuro-ts` is listed below, grouped by built-in. Click through to the
 [full method catalog](/methods/) for full type signatures.
 
 <div class="neuro-catalog not-content">
@@ -36,8 +36,130 @@ by `neuro-js` is listed below, grouped by built-in. Click through to the
     ))}
 </div>
 
-## Sample prompts
+---
 
-<PromptCard name="neuro.math.floor" />
+## Sample prompts by group
+
+One representative prompt per group showing the kind of instruction you
+can pass to steer the LLM. These are the curated prompts shipped in
+`prompts.json` -- the same text that appears in each method's docs page.
+
+### array
+
 <PromptCard name="neuro.array.filter" />
+
+### string
+
+<PromptCard name="neuro.string.replace" />
+
+### math
+
+<PromptCard name="neuro.math.random" />
+
+### number
+
+<PromptCard name="neuro.number.toFixed" />
+
+### json
+
 <PromptCard name="neuro.json.parse" />
+
+### object
+
+<PromptCard name="neuro.object.freeze" />
+
+### date
+
+<PromptCard name="neuro.date.getMonth" />
+
+### regExp
+
+<PromptCard name="neuro.regExp.exec" />
+
+### map
+
+<PromptCard name="neuro.map.groupBy" />
+
+### set
+
+<PromptCard name="neuro.set.intersection" />
+
+### weakMap
+
+<PromptCard name="neuro.weakMap.get" />
+
+### weakSet
+
+<PromptCard name="neuro.weakSet.has" />
+
+### promise
+
+<PromptCard name="neuro.promise.all" />
+
+### symbol
+
+<PromptCard name="neuro.symbol.for" />
+
+### bigInt
+
+<PromptCard name="neuro.bigInt.asIntN" />
+
+### arrayBuffer
+
+<PromptCard name="neuro.arrayBuffer.transfer" />
+
+### dataView
+
+<PromptCard name="neuro.dataView.getFloat64" />
+
+### atomics
+
+<PromptCard name="neuro.atomics.compareExchange" />
+
+### int8Array
+
+<PromptCard name="neuro.int8Array.fill" />
+
+### uint8Array
+
+<PromptCard name="neuro.uint8Array.toBase64" />
+
+### uint8ClampedArray
+
+<PromptCard name="neuro.uint8ClampedArray.filter" />
+
+### int16Array
+
+<PromptCard name="neuro.int16Array.sort" />
+
+### uint16Array
+
+<PromptCard name="neuro.uint16Array.indexOf" />
+
+### int32Array
+
+<PromptCard name="neuro.int32Array.reduce" />
+
+### uint32Array
+
+<PromptCard name="neuro.uint32Array.set" />
+
+### float32Array
+
+<PromptCard name="neuro.float32Array.map" />
+
+### float64Array
+
+<PromptCard name="neuro.float64Array.find" />
+
+### bigInt64Array
+
+<PromptCard name="neuro.bigInt64Array.reduce" />
+
+### bigUint64Array
+
+<PromptCard name="neuro.bigUint64Array.set" />
+
+### globals
+
+<PromptCard name="neuro.encodeURIComponent" />

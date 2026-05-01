@@ -1,0 +1,46 @@
+---
+title: of
+description: neuro.bigInt64Array.of wraps BigInt64Array.of for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: of
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.bigInt64Array.of`
+
+Static method on `BigInt64Array`. Variadic items live under `items`.
+
+> Returns a new array from a set of elements.
+
+## Signatures
+
+```ts
+of(input: { items: bigint[]; prompt?: string }): Promise<BigInt64Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `BigInt64Array.of` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQmlnSW50NjRBcnJheSBvZjsgdGhlIHNhZmUgdmFyaWFkaWMgY29uc3RydWN0b3IsIGltbXVuZSB0byB0aGUgbmV3LUFycmF5KG4pIGxlbmd0aCBjb25mdXNpb24uCmF3YWl0IG5ldXJvLmJpZ0ludDY0QXJyYXkub2YoeyBpdGVtczogWzBuLCAwbl0sIHByb21wdDogJ3BhY2sgaXRlbXMgaW50byBhIGZyZXNoIEJpZ0ludDY0QXJyYXkgZXhhY3RseSBhcyBzdXBwbGllZCwgd2l0aCBlYWNoIGl0ZW0gY29lcmNlZCBpbnRvIHR3by1pcy1jb21wbGVtZW50IHNpZ25lZCA2NC1iaXQgaW50ZWdlcnMgaW4gWy0oMl42MyksIDJeNjMgLSAxXSwgdGhlIHZhcmlhZGljIGNvbnN0cnVjdG9yIHRoYXQgZG9lcyBub3QgaGF2ZSBCaWdJbnQ2NEFycmF5Lm9mKG4pICJtYWtlIG1lIGEgbGVuZ3RoIiB0cmFwJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.bigInt64Array.of" />

@@ -1,0 +1,47 @@
+---
+title: findIndex
+description: neuro.array.findIndex wraps Array.prototype.findIndex for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: findIndex
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.array.findIndex`
+
+Instance method on `Array.prototype`.
+
+> Returns the index of the first element in the array where predicate is true, and -1
+> otherwise.
+
+## Signatures
+
+```ts
+findIndex(input: { array: <receiver>; predicate?: (value: T; index: number; obj: T[]) => unknown; thisArg?: any; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Array.prototype.findIndex` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRmlyc3QtbWF0Y2ggaW5kZXg7IC0xIGlzIHRoZSBzZW50aW5lbCBldmVyeW9uZSBmb3JnZXRzIGlzIGFsc28gdGhlIHNlY29uZC10by1sYXN0IGluZGV4IG9mIGEgUHl0aG9uIGFycmF5Lgphd2FpdCBuZXVyby5hcnJheS5maW5kSW5kZXgoeyBhcnJheTogZXZlbnRzLCBwcmVkaWNhdGU6IChlKSA9PiBlLnR5cGUgPT09ICdlcnJvcicsIHByb21wdDogJ3JldHVybiB0aGUgcG9zaXRpb24gb2YgdGhlIGZpcnN0IG1hdGNoLCBvciAtMSwgYW5kIHJlbWVtYmVyIHRoYXQgLTEgaXMgYWxzbyBhIHZhbGlkIGFycmF5IGluZGV4IGluIHNvbWUgbGFuZ3VhZ2VzIGJ1dCBub3QgdGhpcyBvbmUnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.array.findIndex" />

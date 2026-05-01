@@ -1,0 +1,53 @@
+---
+title: replace
+description: neuro.string.replace wraps String.prototype.replace for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: replace
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.replace`
+
+Instance method on `String.prototype`.
+
+> Replaces text in a string, using a regular expression or search string.
+>
+> Passes a string and \{@linkcode replaceValue\} to the `[Symbol.replace]` method on \{@linkcode searchValue\}. This method is expected to implement its own replacement algorithm.
+>
+> Replaces text in a string, using an object that supports replacement within a string.
+
+## Signatures
+
+```ts
+replace(input: { string: <receiver>; searchValue: string | RegExp; replaceValue: string; prompt?: string }): Promise<string>
+replace(input: { string: <receiver>; searchValue: string | RegExp; replacer?: (substring: string; args: any[]) => string; prompt?: string }): Promise<string>
+replace(input: { string: <receiver>; searchValue: { [Symbol.replace](string: string; replaceValue: string): string; }; replaceValue: string; prompt?: string }): Promise<string>
+replace(input: { string: <receiver>; searchValue?: { [Symbol.replace](string: string; replacer: (substring: string; args: any[]) => string): string; }; replacer?: (substring: string; args: any[]) => string; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.replace` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRmlyc3QtbWF0Y2ggcmVwbGFjZTsgYmFja3JlZmVyZW5jZXMgb25seSB3b3JrIGZvciByZWdleCwgbmV2ZXIgZm9yIHN0cmluZ3MsIHRoZSB0cmFwIHdlIHRlc3QgZm9yLgphd2FpdCBuZXVyby5zdHJpbmcucmVwbGFjZSh7IHN0cmluZzogc291cmNlLCBzZWFyY2hWYWx1ZTogLyhkKykvLCByZXBsYWNlVmFsdWU6ICcjJDEnLCBwcm9tcHQ6ICdyZXBsYWNlIHRoZSBmaXJzdCBzZWFyY2hWYWx1ZSBtYXRjaCB3aXRoIHJlcGxhY2VWYWx1ZSwgc3VwcG9ydGluZyAkMS4uJDkgaW4gdGhlIHJlcGxhY2VtZW50IG9ubHkgd2hlbiBzZWFyY2hWYWx1ZSBpcyBhIHJlZ2V4LCB0aGUgYXN5bW1ldHJ5IHRoYXQgbm9ib2R5IHJlbWVtYmVycyBjb3JyZWN0bHkgdHdpY2UnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.replace" />

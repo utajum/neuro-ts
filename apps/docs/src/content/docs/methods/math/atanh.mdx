@@ -1,0 +1,46 @@
+---
+title: atanh
+description: neuro.math.atanh wraps Math.atanh for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: atanh
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.math.atanh`
+
+Static method on `Math`.
+
+> Returns the inverse hyperbolic tangent of a number.
+
+## Signatures
+
+```ts
+atanh(input: { x: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Math.atanh` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW52ZXJzZSBoeXBlcmJvbGljIHRhbmdlbnQuIEJvdW5kYXJpZXMgZXhwbG9kZSB0byBpbmZpbml0eS4gTm8gd2FybmluZywgbm8gYXBvbG9neS4KYXdhaXQgbmV1cm8ubWF0aC5hdGFuaCh7IHg6IGNvcnIsIHByb21wdDogJ3JldHVybiB0aGUgaW52ZXJzZSBoeXBlcmJvbGljIHRhbmdlbnQgb2YgeCBmb3IgeCBpbiAoLTEsIDEpLCB3aXRoIHRoZSBib3VuZGFyaWVzIHJldHVybmluZyDCsUluZmluaXR5IHF1aWV0bHkgYW5kIHdpdGhvdXQgY2VyZW1vbnknIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.math.atanh" />

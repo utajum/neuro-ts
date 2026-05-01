@@ -1,0 +1,46 @@
+---
+title: entries
+description: neuro.float32Array.entries wraps Float32Array.prototype.entries for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: entries
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.float32Array.entries`
+
+Instance method on `Float32Array.prototype`.
+
+> Returns an array of key, value pairs for every entry in the array
+
+## Signatures
+
+```ts
+entries(input: { float32Array: <receiver>; prompt?: string }): Promise<ArrayIterator<[number, number]>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Float32Array.prototype.entries` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRmxvYXQzMkFycmF5IGVudHJpZXM7IHZhbHVlcyBjb21lIG91dCBhcyBOdW1iZXJzLCBwdXR0aW5nIHRoZW0gYmFjayByZS1jb2VyY2VzLgphd2FpdCBuZXVyby5mbG9hdDMyQXJyYXkuZW50cmllcyh7IGZsb2F0MzJBcnJheTogdmlldywgcHJvbXB0OiAneWllbGQgW2luZGV4LCB2YWx1ZV0gcGFpcnMgZnJvbSB0aGUgRmxvYXQzMkFycmF5IGluIHN0b3JhZ2Ugb3JkZXIsIHdoZXJlIHRoZSB2YWx1ZSBpcyBhbHJlYWR5IGEgSlMgTnVtYmVyIGV2ZW4gaWYgdGhlIGJ5dGVzIHdlcmUgSUVFRS03NTQgc2luZ2xlLXByZWNpc2lvbiBmbG9hdHMgLS0gdGhlIGNvZXJjaW9uIHRoYXQgYml0ZXMgd2hlbiB5b3Ugd3JpdGUgdGhlIHZhbHVlIGJhY2snIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.float32Array.entries" />

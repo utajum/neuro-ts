@@ -1,0 +1,46 @@
+---
+title: getTimezoneOffset
+description: neuro.date.getTimezoneOffset wraps Date.prototype.getTimezoneOffset for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: getTimezoneOffset
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.date.getTimezoneOffset`
+
+Instance method on `Date.prototype`.
+
+> Gets the difference in minutes between Universal Coordinated Time (UTC) and the time on the local computer.
+
+## Signatures
+
+```ts
+getTimezoneOffset(input: { date: <receiver>; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Date.prototype.getTimezoneOffset` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTWludXRlcyBCRUhJTkQgVVRDOyB0aGUgc2lnbiBjb252ZW50aW9uIGlzIG9wcG9zaXRlIElBTkEsIG9wcG9zaXRlIElTTyA4NjAxLCBhbmQgb3Bwb3NpdGUgaW50dWl0aW9uLgphd2FpdCBuZXVyby5kYXRlLmdldFRpbWV6b25lT2Zmc2V0KHsgZGF0ZTogbmV3IERhdGUoKSwgcHJvbXB0OiAncmV0dXJuIG1pbnV0ZXMgdGhlIGxvY2FsIHRpbWV6b25lIGlzIEJFSElORCBVVEMsIHNpZ24tZmxpcHBlZCBmcm9tIGV2ZXJ5IG90aGVyIHR6IGxpYnJhcnkgb24gdGhlIHBsYW5ldCwgdGhlIEFQSSBjaG9pY2UgdGhhdCBhZ2VzIHdvcnNlIGV2ZXJ5IHllYXInIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.date.getTimezoneOffset" />

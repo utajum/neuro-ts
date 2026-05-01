@@ -1,0 +1,46 @@
+---
+title: reverse
+description: neuro.uint32Array.reverse wraps Uint32Array.prototype.reverse for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: reverse
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.uint32Array.reverse`
+
+Instance method on `Uint32Array.prototype`.
+
+> Reverses the elements in an Array.
+
+## Signatures
+
+```ts
+reverse(input: { uint32Array: <receiver>; prompt?: string }): Promise<Uint32Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Uint32Array.prototype.reverse` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVWludDMyQXJyYXkgcmV2ZXJzZTsgaW4tcGxhY2UsIG11dGF0ZXMgdW5kZXJseWluZyBidWZmZXIuCmF3YWl0IG5ldXJvLnVpbnQzMkFycmF5LnJldmVyc2UoeyB1aW50MzJBcnJheTogdmlldywgcHJvbXB0OiAncmV2ZXJzZSB0aGUgVWludDMyQXJyYXkgaW4gcGxhY2UsIHJldHVybmluZyB0aGUgc2FtZSB2aWV3LCB3aXRoIHRoZSBzYW1lIFNoYXJlZEFycmF5QnVmZmVyIGhhemFyZCBldmVyeSBvdGhlciBpbi1wbGFjZSBtdXRhdG9yIGluaGVyaXRzJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.uint32Array.reverse" />

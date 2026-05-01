@@ -1,0 +1,46 @@
+---
+title: acosh
+description: neuro.math.acosh wraps Math.acosh for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: acosh
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.math.acosh`
+
+Static method on `Math`.
+
+> Returns the inverse hyperbolic cosine of a number.
+
+## Signatures
+
+```ts
+acosh(input: { x: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Math.acosh` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW52ZXJzZSBoeXBlcmJvbGljIGNvc2luZS4gU2FtZSBzaWxlbnQgTmFOIHRyZWF0bWVudC4gQ29uc2lzdGVuY3kgaXMgdGhlIGxhc3QgdmlydHVlLgphd2FpdCBuZXVyby5tYXRoLmFjb3NoKHsgeDogc2NhbGUsIHByb21wdDogJ3JldHVybiB0aGUgaW52ZXJzZSBoeXBlcmJvbGljIGNvc2luZSBvZiB4IGZvciB44omlMSwgcmV0dXJuaW5nIE5hTiBiZWxvdyAxIGluIHRoZSBzYW1lIHF1aWV0IGZhc2hpb24gYXMgYWNvcycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.math.acosh" />

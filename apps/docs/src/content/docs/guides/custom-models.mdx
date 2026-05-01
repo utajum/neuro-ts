@@ -1,15 +1,15 @@
 ---
 title: Custom models
-description: Configure a different default model or use an OpenAI-compatible endpoint.
+description: Configure a different default model or use any OpenAI-compatible endpoint with neuro-ts. AI-augmented JavaScript built-ins, TypeScript-first.
 ---
 
-`neuro-js` defaults to `gpt-4o-mini` because it is cheap and fast enough
+`neuro-ts` defaults to `gpt-4o` because it is cheap and fast enough
 for one-shot built-in simulation. You can change this globally or per call.
 
 ## Change the default model
 
 ```ts
-import { configureClient } from 'neuro-js';
+import { configureClient } from 'neuro-ts';
 
 configureClient({
   apiKey: process.env.OPENAI_API_KEY,
@@ -26,19 +26,27 @@ intentionally tight to mirror the original signatures). To override per
 call, drop down to the client:
 
 ```ts
-import { getClient } from 'neuro-js';
+import { getClient } from 'neuro-ts';
+import prompts from 'neuro-ts/prompts';
+
+const entry = prompts['neuro.array.map'];
 
 const result = await getClient().executeFunction({
-  functionId: 'Array.prototype.map',
+  functionId: entry.functionId, // 'Array.prototype.map'
+  systemPrompt: entry.systemPrompt, // generated system prompt
+  signatureHint: entry.overloads, // TypeScript overload signatures
   prompt: 'classify each item as fruit or vegetable',
   instance: ['apple', 'carrot', 'banana'],
   args: { callbackfn: undefined },
-  signatureHint: [],
-  systemPrompt:
-    'You are simulating Array.prototype.map. Output a JSON array of the same length.',
   model: 'gpt-4o',
 });
 ```
+
+`signatureHint` is the list of TypeScript overload signatures for the
+method. It is embedded in the system prompt to help the model understand
+expected parameter and return types. Always source it from `prompts.json`
+rather than passing `[]` -- an accurate hint measurably improves output
+quality for complex signatures.
 
 ## OpenAI-compatible endpoints
 

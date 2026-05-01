@@ -1,0 +1,47 @@
+---
+title: map
+description: neuro.bigUint64Array.map wraps BigUint64Array.prototype.map for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: map
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.bigUint64Array.map`
+
+Instance method on `BigUint64Array.prototype`.
+
+> Calls a defined callback function on each element of an array, and returns an array that
+> contains the results.
+
+## Signatures
+
+```ts
+map(input: { bigUint64Array: <receiver>; callbackfn?: (value: bigint; index: number; array: BigUint64Array) => bigint; thisArg?: any; prompt?: string }): Promise<BigUint64Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `BigUint64Array.prototype.map` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQmlnVWludDY0QXJyYXkgbWFwOyBvdXRwdXRzIGdldCByZS1jb2VyY2VkIGludG8gdGhlIHN0b3JhZ2UgZG9tYWluLgphd2FpdCBuZXVyby5iaWdVaW50NjRBcnJheS5tYXAoeyBiaWdVaW50NjRBcnJheTogdmlldywgY2FsbGJhY2tmbjogKG4pID0+IG4sIHByb21wdDogJ21hcCBldmVyeSBCaWdVaW50NjRBcnJheSBlbGVtZW50IHRocm91Z2ggY2FsbGJhY2tmbiBpbnRvIGEgbmV3IEJpZ1VpbnQ2NEFycmF5IG9mIHRoZSBzYW1lIGxlbmd0aCwgd2hlcmUgZXZlcnkgcmVzdWx0IGlzIHNpbGVudGx5IGNvZXJjZWQgaW50byB1bnNpZ25lZCA2NC1iaXQgaW50ZWdlcnMgaW4gWzAsIDJeNjQgLSAxXSBvbiB0aGUgd2F5IGJhY2sgaW4nIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.bigUint64Array.map" />

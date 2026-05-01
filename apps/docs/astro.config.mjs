@@ -1,18 +1,55 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import sitemap from '@astrojs/sitemap';
 import starlightTypeDoc, { typeDocSidebarGroup } from 'starlight-typedoc';
 import starlightLinksValidator from 'starlight-links-validator';
 import starlightSiteGraph from 'starlight-site-graph';
 import starlightCopyButton from 'starlight-copy-button';
+import starlightLlmsTxt from 'starlight-llms-txt';
 
 import methodsSidebar from './src/api-sidebar.json' with { type: 'json' };
 
 export default defineConfig({
-  site: 'https://neuro-js.dev',
+  site: 'https://neuro-ts.dev',
   integrations: [
+    sitemap({
+      serialize(item) {
+        const p = new URL(item.url).pathname;
+
+        // Exclude llms-txt files and the warp redirector - not HTML pages.
+        if (p.endsWith('.txt') || p === '/warp/' || p === '/warp') return undefined;
+
+        let priority = 0.5;
+        // EnumChangefreq values - cast to any to avoid TS enum mismatch in .mjs
+        let changefreq = /** @type {any} */ ('monthly');
+
+        if (p === '/') {
+          priority = 1.0;
+          changefreq = 'weekly';
+        } else if (/^\/methods\/[^/]+\/$/.test(p)) {
+          priority = 0.8;
+        } else if (/^\/methods\/[^/]+\/[^/]+\/$/.test(p)) {
+          priority = 0.6;
+        } else if (p.startsWith('/guides/')) {
+          priority = 0.7;
+        } else if (p.startsWith('/concepts/')) {
+          priority = 0.7;
+        } else if (p.startsWith('/api/')) {
+          priority = 0.5;
+        } else if (p === '/support/') {
+          priority = 0.4;
+          changefreq = 'yearly';
+        }
+
+        item.priority = priority;
+        item.changefreq = changefreq;
+        item.lastmod = new Date().toISOString();
+        return item;
+      },
+    }),
     starlight({
-      title: 'neuro-js',
+      title: 'neuro-ts',
       description:
         'AI-augmented JavaScript built-ins. neuro.math.random, neuro.array.map, neuro.string.split. Every method takes the same arguments as the original plus an optional trailing prompt.',
       logo: {
@@ -42,33 +79,40 @@ export default defineConfig({
         PageTitle: './src/components/overrides/PageTitle.astro',
       },
       head: [
-        // Paper tone matching the default light canvas (--neuro-paper-0).
-        // Browsers that respect color-scheme will pick up the dark
-        // counterpart through CSS once data-theme flips.
+        // Colour meta
         { tag: 'meta', attrs: { name: 'theme-color', content: '#fbf6ec' } },
-        // Discoverability hints; Starlight's stock head ships title +
-        // description but nothing else SEO-relevant. Per-page og:image
-        // tags + JSON-LD + extra metadata live in
-        // `src/components/overrides/Head.astro`.
+        // Sitemap
         {
           tag: 'link',
-          attrs: {
-            rel: 'sitemap',
-            type: 'application/xml',
-            href: '/sitemap-index.xml',
-          },
+          attrs: { rel: 'sitemap', type: 'application/xml', href: '/sitemap-index.xml' },
         },
+        // PWA / home-screen
+        {
+          tag: 'link',
+          attrs: { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+        },
+        { tag: 'link', attrs: { rel: 'manifest', href: '/site.webmanifest' } },
+        { tag: 'meta', attrs: { name: 'apple-mobile-web-app-capable', content: 'yes' } },
+        {
+          tag: 'meta',
+          attrs: { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
+        },
+        { tag: 'meta', attrs: { name: 'apple-mobile-web-app-title', content: 'neuro-ts' } },
+        { tag: 'meta', attrs: { name: 'application-name', content: 'neuro-ts' } },
+        { tag: 'meta', attrs: { name: 'msapplication-TileColor', content: '#a83904' } },
       ],
       social: [
         {
+          icon: 'npm',
+          label: 'npm',
+          href: 'https://www.npmjs.com/package/neuro-ts',
+        },
+        {
           icon: 'github',
           label: 'GitHub',
-          href: 'https://github.com/utajum/neuro-js',
+          href: 'https://github.com/utajum/neuro-ts',
         },
       ],
-      editLink: {
-        baseUrl: 'https://github.com/utajum/neuro-js/edit/main/apps/docs/',
-      },
       expressiveCode: {
         themes: ['github-dark-default', 'github-light-default'],
         styleOverrides: {
@@ -83,8 +127,8 @@ export default defineConfig({
         // straight from prompts.json (so each page can show its actual
         // system prompt).
         starlightTypeDoc({
-          entryPoints: ['../../packages/neuro-js/typedoc-entry.ts'],
-          tsconfig: '../../packages/neuro-js/tsconfig.json',
+          entryPoints: ['../../packages/neuro-ts/typedoc-entry.ts'],
+          tsconfig: '../../packages/neuro-ts/tsconfig.json',
           sidebar: { collapsed: true, label: 'Client API' },
           pagination: true,
           typeDoc: {
@@ -103,6 +147,41 @@ export default defineConfig({
           },
         }),
         starlightCopyButton(),
+        starlightLlmsTxt({
+          // projectName and description fall back to Starlight's `title`
+          // ("neuro-ts") and `description` option - no need to repeat them.
+          details: [
+            'neuro-ts wraps every standard JavaScript built-in (Math, Array, String,',
+            'Object, Number, Date, Map, Set, Promise, RegExp, JSON, BigInt, Atomics,',
+            'TypedArray, Intl, and the global functions) so each method accepts an',
+            'optional trailing natural-language prompt. With no prompt the wrapper',
+            'falls through to the native built-in. With a prompt the call is routed',
+            'to an LLM (OpenAI by default, or any OpenAI-compatible endpoint).',
+            'The library is TypeScript-first: each wrapper preserves the original',
+            'signature exactly, plus an optional `prompt: string` field.',
+          ].join(' '),
+          promote: ['index', 'guides/install', 'guides/quick-start'],
+          customSets: [
+            {
+              label: 'Concepts and guides',
+              description:
+                'Conceptual docs, installation, configuration, and how-tos for neuro-ts.',
+              paths: ['guides/**', 'concepts/**', 'support'],
+            },
+            {
+              label: 'Method reference',
+              description:
+                'AI-augmented wrappers for every JavaScript built-in (654 methods across 30 groups).',
+              paths: ['methods/**'],
+            },
+            {
+              label: 'API reference',
+              description: 'Client class, configuration, error types, and TypeScript interfaces.',
+              paths: ['api/**'],
+            },
+          ],
+          pageSeparator: '\n\n---\n\n',
+        }),
         starlightSiteGraph({
           graphConfig: {
             depth: 1,
@@ -212,7 +291,11 @@ export default defineConfig({
             { label: 'Browser safety', slug: 'guides/browser-safety' },
             { label: 'Custom models', slug: 'guides/custom-models' },
             { label: 'Custom proxy contract', slug: 'guides/proxy-contract' },
+            { label: 'Deploy the proxy', slug: 'guides/deploy-proxy' },
             { label: 'Native fallback', slug: 'guides/native-fallback' },
+            { label: 'Migrate from native', slug: 'guides/migrate' },
+            { label: 'Error reference', slug: 'guides/errors' },
+            { label: 'Troubleshooting', slug: 'guides/troubleshooting' },
           ],
         },
         {

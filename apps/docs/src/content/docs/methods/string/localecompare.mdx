@@ -1,0 +1,50 @@
+---
+title: localeCompare
+description: neuro.string.localeCompare wraps String.prototype.localeCompare for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: localeCompare
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.localeCompare`
+
+Instance method on `String.prototype`.
+
+> Determines whether two strings are equivalent in the current locale.
+>
+> Determines whether two strings are equivalent in the current or specified locale.
+
+## Signatures
+
+```ts
+localeCompare(input: { string: <receiver>; that: string; prompt?: string }): Promise<number>
+localeCompare(input: { string: <receiver>; that: string; locales?: string | string[]; options?: Intl.CollatorOptions; prompt?: string }): Promise<number>
+localeCompare(input: { string: <receiver>; that: string; locales?: Intl.LocalesArgument; options?: Intl.CollatorOptions; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.localeCompare` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTG9jYWxlLWF3YXJlIGNvbXBhcmlzb247IHRoZSBtYWduaXR1ZGUgaXMgYSBNYXRoLnNpZ24oLi4uKSB0cmFwIHdhaXRpbmcgdG8gaGFwcGVuLgphd2FpdCBuZXVyby5zdHJpbmcubG9jYWxlQ29tcGFyZSh7IHN0cmluZzogYSwgdGhhdDogYiwgbG9jYWxlczogJ2VuJywgb3B0aW9uczogeyBzZW5zaXRpdml0eTogJ2Jhc2UnIH0sIHByb21wdDogJ2NvbXBhcmUgdGhlIHN0cmluZ3MgdW5kZXIgbG9jYWxlIGNvbGxhdGlvbiwgcmV0dXJuaW5nIGEgbmVnYXRpdmUsIHplcm8sIG9yIHBvc2l0aXZlIG51bWJlciwgYW5kIHJlbWVtYmVyIHRoZSBzaWduIG1hdHRlcnMgYnV0IHRoZSBtYWduaXR1ZGUgZG9lcyBub3QnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.localeCompare" />

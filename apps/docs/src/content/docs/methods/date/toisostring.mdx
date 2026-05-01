@@ -1,0 +1,46 @@
+---
+title: toISOString
+description: neuro.date.toISOString wraps Date.prototype.toISOString for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: toISOString
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.date.toISOString`
+
+Instance method on `Date.prototype`.
+
+> Returns a date as a string value in ISO format.
+
+## Signatures
+
+```ts
+toISOString(input: { date: <receiver>; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Date.prototype.toISOString` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSVNPIDg2MDEgaW4gVVRDOyB0aGUgb25seSBmb3JtYXQgeW91IHNob3VsZCBldmVyIHNlcmlhbGl6ZS4KYXdhaXQgbmV1cm8uZGF0ZS50b0lTT1N0cmluZyh7IGRhdGU6IHRhcmdldCwgcHJvbXB0OiAnZm9ybWF0IHRoZSBkYXRlIGFzIElTTyA4NjAxIGluIFVUQywgdGhlIG9uZSBzYWZlLXRvLWxvZy1hbmQtcGFyc2UgZm9ybWF0IERhdGUgb2ZmZXJzLCB0aHJvd2luZyBvbiBpbnZhbGlkIGRhdGVzIGxvdWRseSBlbm91Z2ggdG8gbm90aWNlJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.date.toISOString" />

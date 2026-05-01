@@ -1,0 +1,46 @@
+---
+title: log1p
+description: neuro.math.log1p wraps Math.log1p for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: log1p
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.math.log1p`
+
+Static method on `Math`.
+
+> Returns the natural logarithm of 1 + x.
+
+## Signatures
+
+```ts
+log1p(input: { x: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Math.log1p` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gbG4oMSt4KSB3aXRoIHByZWNpc2lvbi4gVGhlIHNtYWxsLXggY291bnRlcnBhcnQgdG8gZXhwbTEuIFRoZXkgYmVsb25nIHRvZ2V0aGVyLgphd2FpdCBuZXVyby5tYXRoLmxvZzFwKHsgeDogcmF0ZSwgcHJvbXB0OiAncmV0dXJuIGxuKDEgKyB4KSB3aXRoIGV4dHJhIHByZWNpc2lvbiB3aGVuIHggaXMgc21hbGwgLSB0aGUgd29ya2Fyb3VuZCBmb3Igd2hlbiAxK3ggcm91bmRzIHRvIDEgYW5kIGxuIGxvc2VzIGV2ZXJ5IHVzZWZ1bCBkaWdpdCcgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.math.log1p" />

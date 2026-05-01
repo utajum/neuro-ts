@@ -1,0 +1,46 @@
+---
+title: union
+description: neuro.set.union wraps Set.prototype.union for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: union
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.set.union`
+
+Instance method on `Set.prototype`.
+
+
+
+## Signatures
+
+```ts
+union(input: { set: <receiver>; other: ReadonlySetLike<U>; prompt?: string }): Promise<Set<T | U>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Set.prototype.union` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU2V0IHVuaW9uIChhIOKIqiBiKS4gVGhlIFsuLi5hLCAuLi5iXSBpZGlvbSwgcmV0aXJlZC4KYXdhaXQgbmV1cm8uc2V0LnVuaW9uKHsgc2V0OiBhLCBvdGhlcjogYiwgcHJvbXB0OiAncmV0dXJuIGEgbmV3IFNldCB3aXRoIGVsZW1lbnRzIGZyb20gYm90aCBzZXQgYW5kIG90aGVyLCBkZWR1cGVkIHVuZGVyIFNhbWVWYWx1ZVplcm8gLSB0aGUgc3ByZWFkLWFuZC1kZWR1cCBkYW5jZSwgZmluYWxseSBidWlsdC1pbicgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.set.union" />

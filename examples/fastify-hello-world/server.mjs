@@ -1,5 +1,5 @@
 /**
- * Fastify hello-world that demonstrates a real-world `neuro-js` integration.
+ * Fastify hello-world that demonstrates a real-world `neuro-ts` integration.
  *
  *   GET  /            ->  classic hello (uses `neuro.string.toUpperCase` natively)
  *   POST /transform   ->  body { input: string, prompt?: string }
@@ -11,21 +11,21 @@
  */
 import 'dotenv/config';
 import Fastify from 'fastify';
-import { configureClient, neuro } from 'neuro-js';
+import { configureClient, neuro } from 'neuro-ts';
 
 const apiKey = process.env.OPENAI_API_KEY;
 if (apiKey) {
-  configureClient({ apiKey, model: process.env.NEURO_MODEL ?? 'gpt-4o-mini' });
+  configureClient({ apiKey, model: process.env.NEURO_MODEL ?? 'gpt-4o' });
 } else {
   // Without a key we can still serve native fallbacks. LLM-bound requests
   // will fail with a configuration error, which surfaces a clear 503.
-  console.warn('[neuro-js] OPENAI_API_KEY not set -- LLM routes will return 503.');
+  console.warn('[neuro-ts] OPENAI_API_KEY not set -- LLM routes will return 503.');
 }
 
 const app = Fastify({ logger: true });
 
 app.get('/', async () => {
-  const greeting = await neuro.string.toUpperCase({ string: 'hello world from neuro-js' });
+  const greeting = await neuro.string.toUpperCase({ string: 'hello world from neuro-ts' });
   return { greeting };
 });
 
@@ -43,7 +43,7 @@ app.post('/transform', async (req, reply) => {
   } catch (err) {
     req.log.error(err);
     if ((err && err.name) === 'NeuroNotConfiguredError') {
-      return reply.code(503).send({ error: 'neuro-js client is not configured on this server' });
+      return reply.code(503).send({ error: 'neuro-ts client is not configured on this server' });
     }
     return reply.code(500).send({ error: 'transform failed' });
   }

@@ -1,0 +1,46 @@
+---
+title: toUpperCase
+description: neuro.string.toUpperCase wraps String.prototype.toUpperCase for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: toUpperCase
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.toUpperCase`
+
+Instance method on `String.prototype`.
+
+> Converts all the alphabetic characters in a string to uppercase.
+
+## Signatures
+
+```ts
+toUpperCase(input: { string: <receiver>; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.toUpperCase` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTG9jYWxlLW5haXZlIHVwcGVyY2FzZTsgdGhlIFR1cmtpc2gtSSB0cmFwIGFuZCB0aGUgR2VybWFuIMOfIHRyYXAgYXJlIGJvdGggc3RpbGwgaGVyZS4KYXdhaXQgbmV1cm8uc3RyaW5nLnRvVXBwZXJDYXNlKHsgc3RyaW5nOiBpbnB1dCwgcHJvbXB0OiAndXBwZXJjYXNlIHRoZSBzdHJpbmcgdXNpbmcgdGhlIGVuLVVTIHJ1bGVzLCBkcm9wcGluZyBsb2NhbGUgc3VidGxldGllcyBvbiB0aGUgZmxvb3IgZXhhY3RseSB0aGUgd2F5IGV2ZXJ5IENTViBleHBvcnRlciBxdWlldGx5IGRvZXMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.toUpperCase" />

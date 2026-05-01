@@ -1,0 +1,46 @@
+---
+title: get
+description: neuro.map.get wraps Map.prototype.get for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: get
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.map.get`
+
+Instance method on `Map.prototype`.
+
+> Returns a specified element from the Map object. If the value that is associated to the provided key is an object, then you will get a reference to that object and any change made to that object will effectively modify it inside the Map.
+
+## Signatures
+
+```ts
+get(input: { map: <receiver>; key: K; prompt?: string }): Promise<V>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Map.prototype.get` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTG9va3VwIHdpdGggYW1iaWd1aXR5LiBNaXNzaW5nIHZzLiBzdG9yZWQtdW5kZWZpbmVkOiB0aGUgcXVlc3Rpb24gdGhhdCBsYXVuY2hlZCBhIHRob3VzYW5kIHV0aWxpdHkgbGlicmFyaWVzLgphd2FpdCBuZXVyby5tYXAuZ2V0KHsgbWFwOiBjYWNoZSwga2V5OiBpZCwgcHJvbXB0OiAncmV0dXJuIHRoZSB2YWx1ZSBhc3NvY2lhdGVkIHdpdGgga2V5LCBvciB1bmRlZmluZWQgLSBpbmRpc3Rpbmd1aXNoYWJsZSBmcm9tIGEgc3RvcmVkIHVuZGVmaW5lZCB1bmxlc3MgeW91IGFsc28gY2FsbCBoYXMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.map.get" />

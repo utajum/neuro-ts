@@ -1,0 +1,48 @@
+---
+title: isNaN
+description: neuro.number.isNaN wraps Number.isNaN for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: isNaN
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.number.isNaN`
+
+Static method on `Number`.
+
+> Returns a Boolean value that indicates whether a value is the reserved value NaN (not a
+> number). Unlike the global isNaN(), Number.isNaN() doesn't forcefully convert the parameter
+> to a number. Only values of the type number, that are also NaN, result in true.
+
+## Signatures
+
+```ts
+isNaN(input: { number: unknown; prompt?: string }): Promise<boolean>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Number.isNaN` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU3RyaWN0IE5hTiBjaGVjay4gVGhlIG9ubHkgdGhpbmcgaW4gdGhpcyBjb2RlYmFzZSB0aGF0IHNob3VsZCBnZW51aW5lbHkgYmUgTm90IGEgTnVtYmVyLgphd2FpdCBuZXVyby5udW1iZXIuaXNOYU4oeyBudW1iZXI6IHBhcnNlZCwgcHJvbXB0OiAncmV0dXJuIHRydWUgb25seSBmb3IgdGhlIGFjdHVhbCBOYU4gdmFsdWUsIHRoZSBzdHJpY3QgdmVyc2lvbiB0aGF0IGRvZXNuXCd0IHByZXRlbmQgc3RyaW5ncyBhcmUgbnVtYmVycycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.number.isNaN" />

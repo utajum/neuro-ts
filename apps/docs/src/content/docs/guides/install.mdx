@@ -1,11 +1,11 @@
 ---
 title: Install
-description: Install neuro-js with your preferred package manager.
+description: Install neuro-ts with npm, pnpm, yarn or bun. AI-augmented JavaScript and TypeScript library wrapping 600+ built-ins with optional GPT prompts.
 ---
 
 import InstallTabs from '../../../components/InstallTabs.astro';
 
-`neuro-js` is published to npm. It ships ESM, CJS, an IIFE bundle for
+`neuro-ts` is published to npm. It ships ESM, CJS, an IIFE bundle for
 direct script tags, and full TypeScript types.
 
 <InstallTabs />
@@ -22,15 +22,44 @@ The `openai` SDK is a runtime dependency. It is not bundled into the
 ESM/CJS outputs (treeshaking-friendly). It is inlined into the IIFE
 bundle so a single script tag works on a static page.
 
+## TypeScript configuration
+
+`neuro-ts` ships full `.d.ts` types. The wrapper signatures reference
+methods from recent JavaScript libs (`findLast`, `Promise.try`, the
+`Set` set-theory operations, `Uint8Array.toBase64`). Your `tsconfig.json`
+must include a lib version that knows about them:
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2024", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true
+  }
+}
+```
+
+| TypeScript field | Recommended | Minimum  | Why                                           |
+| ---------------- | ----------- | -------- | --------------------------------------------- |
+| TypeScript       | 5.4+        | 5.0      | Tuple/template-literal inference for prompts. |
+| `target`         | `ES2022`    | `ES2020` | Top-level `await` in your own files.          |
+| `lib`            | `ES2024`    | `ES2022` | `findLast`, `Set` ops, `Promise.try`.         |
+
+If your build target is older than `ES2022`, `neuro-ts` itself still works
+(every wrapper is async and the runtime feature-detects), but the
+TypeScript checker may flag method names it does not recognise.
+
 ## CDN (no build tool)
 
 ```html
-<script src="https://unpkg.com/neuro-js/dist/neuro-js.iife.js"></script>
+<script src="https://unpkg.com/neuro-ts/dist/neuro-ts.iife.js"></script>
 <script>
-  NeuroJS.configureClient({
+  NeuroTS.configureClient({
     tokenProvider: () => fetch('/api/neuro-token').then((r) => r.text()),
   });
-  NeuroJS.neuro.array
+  NeuroTS.neuro.array
     .map({ array: ['a', 'b'], callbackfn: (s) => s, prompt: 'uppercase each' })
     .then(console.log);
 </script>
@@ -39,7 +68,7 @@ bundle so a single script tag works on a static page.
 ## Verify your install
 
 ```ts
-import { configureClient, neuro } from 'neuro-js';
+import { configureClient, neuro } from 'neuro-ts';
 
 configureClient({ apiKey: process.env.OPENAI_API_KEY });
 console.log(await neuro.math.random({}));

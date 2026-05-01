@@ -1,0 +1,46 @@
+---
+title: then
+description: neuro.promise.then wraps Promise.prototype.then for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: then
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.promise.then`
+
+Instance method on `Promise.prototype`.
+
+> Attaches callbacks for the resolution and/or rejection of the Promise.
+
+## Signatures
+
+```ts
+then(input: { promise: <receiver>; onfulfilled?: (value: T) => TResult1 | PromiseLike<TResult1>; onrejected?: (reason: any) => TResult2 | PromiseLike<TResult2>; prompt?: string }): Promise<Promise<TResult1 | TResult2>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Promise.prototype.then` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRHVhbC1oYW5kbGVyIGF0dGFjaC4gSW1wbGljaXQgdGhlbmFibGUgdW53cmFwIGlzIGNhdGFzdHJvcGhpY2FsbHkgZm9yZ2V0dGFibGUuCmF3YWl0IG5ldXJvLnByb21pc2UudGhlbih7IHByb21pc2U6IHRhcmdldCwgb25mdWxmaWxsZWQ6ICh2KSA9PiB2LmlkLCBvbnJlamVjdGVkOiAoZSkgPT4gbnVsbCwgcHJvbXB0OiAnYXR0YWNoIGZ1bGZpbGxtZW50IGFuZCByZWplY3Rpb24gaGFuZGxlcnMsIHJldHVybmluZyBhIG5ldyBwcm9taXNlIHdpdGggaW1wbGljaXQgdGhlbmFibGUgdW53cmFwIC0gdGhlIHN0ZXAgZXZlcnkgcmVmYWN0b3IgZm9yZ2V0cyBiZWZvcmUgdGhlIGluY2lkZW50JyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.promise.then" />

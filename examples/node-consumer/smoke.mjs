@@ -1,5 +1,5 @@
 /**
- * Runtime smoke test. Imports the published `neuro-js` build, configures a
+ * Runtime smoke test. Imports the published `neuro-ts` build, configures a
  * `proxyUrl` client backed by a stub `fetch`, and exercises a handful of
  * methods from different built-in groups using the new object-shape API.
  *
@@ -9,7 +9,7 @@
  * Exit code 0 on success.
  */
 import assert from 'node:assert/strict';
-import { configureClient, neuro } from 'neuro-js';
+import { configureClient, neuro } from 'neuro-ts';
 
 // Stub fetch -- answers each request with a fixture matching the original
 // JS behaviour. Lets us exercise the SDK end-to-end without an API key.
@@ -63,11 +63,7 @@ const checks = [
     '{"hello":"world"}',
   ],
   ['neuro.json.stringify (native)', () => neuro.json.stringify({ value: { a: 1 } }), '{"a":1}'],
-  [
-    'neuro.math.random (LLM)',
-    () => neuro.math.random({ prompt: 'any number near 0.42' }),
-    0.42,
-  ],
+  ['neuro.math.random (LLM)', () => neuro.math.random({ prompt: 'any number near 0.42' }), 0.42],
   [
     'neuro.object.keys (LLM)',
     () => neuro.object.keys({ o: { a: 1, b: 2 }, prompt: 'just give the keys' }),

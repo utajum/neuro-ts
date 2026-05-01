@@ -1,0 +1,47 @@
+---
+title: fromAsync
+description: neuro.array.fromAsync wraps Array.fromAsync for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: fromAsync
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.array.fromAsync`
+
+Static method on `Array`.
+
+> Creates an array from an async iterator or iterable object.
+
+## Signatures
+
+```ts
+fromAsync(input: { iterableOrArrayLike: AsyncIterable<T> | Iterable<T | PromiseLike<T>> | ArrayLike<T | PromiseLike<T>>; prompt?: string }): Promise<Promise<T[]>>
+fromAsync(input: { iterableOrArrayLike: AsyncIterable<T> | Iterable<T> | ArrayLike<T>; mapFn?: (value: Awaited<T>; index: number) => U; thisArg?: any; prompt?: string }): Promise<Promise<Awaited<U>[]>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Array.fromAsync` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTGlrZSBBcnJheS5mcm9tIGJ1dCBhd2FpdHM7IHRoZSB0aW1lb3V0IGJvdW5kYXJ5IGRlY2lkZXMgcmV0cm9hY3RpdmVseSB3aGljaCB2YWx1ZXMgZ290IGluY2x1ZGVkLgphd2FpdCBuZXVyby5hcnJheS5mcm9tQXN5bmMoeyBpdGVyYWJsZU9yQXJyYXlMaWtlOiBzdHJlYW0sIHByb21wdDogJ2NvbGxlY3QgZnJvbSBhbiBhc3luYyBpdGVyYWJsZSBpbiBhcnJpdmFsIG9yZGVyLCBhd2FpdCBlYWNoIHZhbHVlLCBhbmQgbGV0IHRoZSB0aW1lb3V0IGRlY2lkZSB3aGljaCBjYWxscyBjb3VudGVkJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.array.fromAsync" />

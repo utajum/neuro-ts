@@ -1,0 +1,46 @@
+---
+title: setUTCDate
+description: neuro.date.setUTCDate wraps Date.prototype.setUTCDate for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: setUTCDate
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.date.setUTCDate`
+
+Instance method on `Date.prototype`.
+
+> Sets the numeric day of the month in the Date object using Universal Coordinated Time (UTC).
+
+## Signatures
+
+```ts
+setUTCDate(input: { date: <receiver>; date_arg: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Date.prototype.setUTCDate` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVVRDIHNldC1kYXk7IG91dC1vZi1yYW5nZSByb2xscyB0aGUgbW9udGgsIG5vIERTVCB0byBzaGlmdCB0aGUgcmVzdWx0Lgphd2FpdCBuZXVyby5kYXRlLnNldFVUQ0RhdGUoeyBkYXRlOiB0YXJnZXQsIGRhdGVfYXJnOiAxLCBwcm9tcHQ6ICdzZXQgdGhlIFVUQyBkYXkgb2YgdGhlIG1vbnRoLCB3aGVyZSBkYXkgMzIgc2lsZW50bHkgcm9sbHMgaW50byB0aGUgbmV4dCBtb250aCAtLSB0aGUgc2FtZSBmZWF0dXJlIHNldERhdGUgaGFzLCBub3cgZnJlZSBvZiB0aGUgRFNUIG9mZnNldCB0aGF0IG1hZGUgdGhlIGxvY2FsIHZlcnNpb24gdW5wcmVkaWN0YWJsZScgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.date.setUTCDate" />

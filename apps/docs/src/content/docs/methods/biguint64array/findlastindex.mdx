@@ -1,0 +1,47 @@
+---
+title: findLastIndex
+description: neuro.bigUint64Array.findLastIndex wraps BigUint64Array.prototype.findLastIndex for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: findLastIndex
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.bigUint64Array.findLastIndex`
+
+Instance method on `BigUint64Array.prototype`.
+
+> Returns the index of the last element in the array where predicate is true, and -1
+> otherwise.
+
+## Signatures
+
+```ts
+findLastIndex(input: { bigUint64Array: <receiver>; predicate?: (value: bigint; index: number; array: BigUint64Array) => unknown; thisArg?: any; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `BigUint64Array.prototype.findLastIndex` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQmlnVWludDY0QXJyYXkgZmluZExhc3RJbmRleDsgc2NhbnMgdGFpbC1maXJzdCwgLTEgd2hlbiBub3RoaW5nIG1hdGNoZXMuCmF3YWl0IG5ldXJvLmJpZ1VpbnQ2NEFycmF5LmZpbmRMYXN0SW5kZXgoeyBiaWdVaW50NjRBcnJheTogdmlldywgcHJlZGljYXRlOiAobikgPT4gbiA+IDAsIHByb21wdDogJ3JldHVybiB0aGUgaGlnaGVzdCBpbmRleCBvZiB0aGUgQmlnVWludDY0QXJyYXkgd2hvc2UgdmFsdWUgbWF0Y2hlcyB0aGUgcHJlZGljYXRlLCBvciAtMSwgdGhlIHJpZ2h0LWhhbmQgdHdpbiBvZiBmaW5kSW5kZXggd2l0aCB0aGUgc2FtZSBzZW50aW5lbCBhbmdzdCcgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.bigUint64Array.findLastIndex" />

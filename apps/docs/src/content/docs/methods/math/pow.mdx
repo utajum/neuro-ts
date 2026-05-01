@@ -1,0 +1,46 @@
+---
+title: pow
+description: neuro.math.pow wraps Math.pow for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: pow
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.math.pow`
+
+Static method on `Math`.
+
+> Returns the value of a base expression taken to a specified power.
+
+## Signatures
+
+```ts
+pow(input: { x: number; y: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Math.pow` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gUG93ZXIgZnVuY3Rpb24uIE5lZ2F0aXZlIGJhc2UgKyBmcmFjdGlvbmFsIGV4cG9uZW50ID0gTmFOLiBDb21wbGV4IG51bWJlcnMgYXJlIHNvbWVvbmUgZWxzZSdzIHByb2JsZW0uCmF3YWl0IG5ldXJvLm1hdGgucG93KHsgeDogYmFzZSwgeTogZXhwb25lbnQsIHByb21wdDogJ3JldHVybiB4IHJhaXNlZCB0byB5LCByZXR1cm5pbmcgTmFOIGZvciBuZWdhdGl2ZSB4IHdpdGggbm9uLWludGVnZXIgeSBiZWNhdXNlIHRoZSBwcmluY2lwYWwgYnJhbmNoIG9mIGNvbXBsZXggbnVtYmVycyBpcyBzb21lYm9keSBlbHNlXCdzIGRlcGFydG1lbnQnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.math.pow" />

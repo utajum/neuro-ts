@@ -1,0 +1,47 @@
+---
+title: for
+description: neuro.symbol.for wraps Symbol.for for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: for
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.symbol.for`
+
+Static method on `Symbol`.
+
+> Returns a Symbol object from the global symbol registry matching the given key if found.
+> Otherwise, returns a new symbol with this key.
+
+## Signatures
+
+```ts
+for(input: { key: string; prompt?: string }): Promise<symbol>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Symbol.for` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gR2xvYmFsIHN5bWJvbCByZWdpc3RyeTsgeW91LCBsb2Rhc2gsIGFuZCB0aGF0IDIwMTcgcG9seWZpbGwgYWxsIHNoYXJlIG9uZSBuYW1lc3BhY2UgaGVyZS4KYXdhaXQgbmV1cm8uc3ltYm9sLmZvcih7IGtleTogJ3NoYXJlZC5pZCcsIHByb21wdDogJ3JldHVybiB0aGUgZ2xvYmFsIFN5bWJvbCBmb3Iga2V5LCBzaGFyZWQgYWNyb3NzIGV2ZXJ5IHJlYWxtLCBldmVyeSBpZnJhbWUsIGFuZCBldmVyeSBjb3B5IG9mIGV2ZXJ5IGxpYnJhcnkgZXZlciBsb2FkZWQgLS0gdGhlIG9uZSByZWdpc3RyeSB3aGVyZSB5b3UgYW5kIGxvZGFzaCBhbmQgdGhhdCBhYmFuZG9uZWQgcG9seWZpbGwgZnJvbSAyMDE3IGFsbCBzaGFyZSBhIG5hbWVzcGFjZScgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.symbol.for" />

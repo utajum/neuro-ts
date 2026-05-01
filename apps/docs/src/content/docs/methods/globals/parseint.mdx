@@ -1,0 +1,46 @@
+---
+title: parseInt
+description: neuro.parseInt wraps globalThis.parseInt for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: parseInt
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.parseInt`
+
+Static method on `globalThis`.
+
+> Converts a string to an integer.
+
+## Signatures
+
+```ts
+parseInt(input: { string: string; radix?: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `globalThis.parseInt` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gR2xvYmFsIHBhcnNlSW50OyB0aGUgaGlzdG9yaWNhbCBkZWZhdWx0LW9jdGFsIHRyYXAgaXMgZmluYWxseSBkZWFkLgphd2FpdCBuZXVyby5wYXJzZUludCh7IHN0cmluZzogY291bnQsIHJhZGl4OiAxMCwgcHJvbXB0OiAncGFyc2UgdGhlIGxlYWRpbmcgaW50ZWdlciBpbiBzdHJpbmcgdW5kZXIgcmFkaXgsIHdpdGggdGhlIGhpc3RvcmljYWwgMHggPSAxNiBoZXggcHJlZml4IGFuZCB0aGUgbG9uZy1maXhlZCAwLi4uID0gMTAgKG5vdCA4KSBkZWZhdWx0IHJhZGl4JyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.parseInt" />

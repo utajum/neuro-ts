@@ -1,0 +1,46 @@
+---
+title: isWellFormed
+description: neuro.string.isWellFormed wraps String.prototype.isWellFormed for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: isWellFormed
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.isWellFormed`
+
+Instance method on `String.prototype`.
+
+> Returns true if all leading surrogates and trailing surrogates appear paired and in order.
+
+## Signatures
+
+```ts
+isWellFormed(input: { string: <receiver>; prompt?: string }): Promise<boolean>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.isWellFormed` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVVRGLTE2IHdlbGwtZm9ybWVkbmVzcyBjaGVjazsgdGhlIHVwc3RyZWFtIGlzIHRoZSBzdXNwZWN0LCB0aGlzIG1ldGhvZCBqdXN0IGNvbmZpcm1zLgphd2FpdCBuZXVyby5zdHJpbmcuaXNXZWxsRm9ybWVkKHsgc3RyaW5nOiBwYXlsb2FkLCBwcm9tcHQ6ICdyZXR1cm4gdHJ1ZSBvbmx5IHdoZW4gdGhlIHN0cmluZyBjb250YWlucyBubyBsb25lIHN1cnJvZ2F0ZXMsIHdoaWxlIHdlIHRyaWFnZSB0aGUgQVBJIGVuZHBvaW50IHRoYXQga2VlcHMgZW1pdHRpbmcgdGhlbScgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.isWellFormed" />

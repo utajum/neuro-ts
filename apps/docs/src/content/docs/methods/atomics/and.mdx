@@ -1,0 +1,49 @@
+---
+title: and
+description: neuro.atomics.and wraps Atomics.and for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: and
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.atomics.and`
+
+Static method on `Atomics`.
+
+> Stores the bitwise AND of a value with the value at the given position in the array,
+> returning the original value. Until this atomic operation completes, any other read or
+> write operation against the array will block.
+
+## Signatures
+
+```ts
+and(input: { typedArray: Int8Array | Uint8Array | Int16Array | Uint16Array | Int32Array | Uint32Array; index: number; value: number; prompt?: string }): Promise<number>
+and(input: { typedArray: BigInt64Array | BigUint64Array; index: number; value: bigint; prompt?: string }): Promise<bigint>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Atomics.and` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQXRvbWljIEFORDsgbWFzay1jbGVhciBzZW1hbnRpY3MsIHJldHVybnMgcHJldmlvdXMuCmF3YWl0IG5ldXJvLmF0b21pY3MuYW5kKHsgdHlwZWRBcnJheTogc2hhcmVkLCBpbmRleDogMCwgdmFsdWU6IDB4ZmYsIHByb21wdDogJ2F0b21pY2FsbHkgQU5EIHZhbHVlIGludG8gdHlwZWRBcnJheVtpbmRleF0sIHJldHVybmluZyB0aGUgcHJldmlvdXMgdmFsdWUsIHRoZSBiaXRtYXNrIHdlIHVzZSB0byBjbGVhciBmZWF0dXJlIGZsYWdzIHdpdGhvdXQgYnJlYWtpbmcgYW5vdGhlciB3b3JrZXIgaXMgcmVhZCcgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.atomics.and" />

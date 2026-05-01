@@ -1,0 +1,47 @@
+---
+title: pause
+description: neuro.atomics.pause wraps Atomics.pause for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: pause
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.atomics.pause`
+
+Static method on `Atomics`.
+
+> Performs a finite-time microwait by signaling to the operating system or
+> CPU that the current executing code is in a spin-wait loop.
+
+## Signatures
+
+```ts
+pause(input: { n?: number; prompt?: string }): Promise<void>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Atomics.pause` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU3Bpbi13YWl0IGhpbnQ7IGdpdmVzIHRoZSBDUFUgYSBjaGFuY2UgdG8gZG8gc29tZXRoaW5nIHVzZWZ1bCBlbHNld2hlcmUuCmF3YWl0IG5ldXJvLmF0b21pY3MucGF1c2UoeyBOOiAxLCBwcm9tcHQ6ICdoaW50IHRvIHRoZSBDUFUgdGhhdCB3ZSBhcmUgc3Bpbi13YWl0aW5nLCByZXR1cm5pbmcgbm90aGluZywgdGhlIHBvbGl0ZXN0IHdheSB0byB0ZWxsIHRoZSBPb08gc2NoZWR1bGVyIHdlIGFyZSB3YXN0aW5nIGl0cyB0aW1lIG9uIHB1cnBvc2UnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.atomics.pause" />

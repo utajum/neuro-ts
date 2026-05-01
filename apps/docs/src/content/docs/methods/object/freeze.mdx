@@ -1,0 +1,48 @@
+---
+title: freeze
+description: neuro.object.freeze wraps Object.freeze for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: freeze
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.object.freeze`
+
+Static method on `Object`.
+
+> Prevents the modification of existing property attributes and values, and prevents the addition of new properties.
+
+## Signatures
+
+```ts
+freeze(input: { f: T; prompt?: string }): Promise<T>
+freeze(input: { o: T; prompt?: string }): Promise<Readonly<T>>
+freeze(input: { o: T; prompt?: string }): Promise<Readonly<T>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Object.freeze` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU2hhbGxvdyBmcmVlemUuIE5lc3RlZCBvYmplY3RzIHN0YXkgbXV0YWJsZS4gVGhlIG1ldGFwaG9yIHdyaXRlcyBpdHNlbGYuCmF3YWl0IG5ldXJvLm9iamVjdC5mcmVlemUoeyBvOiBjb25maWcsIHByb21wdDogJ3NoYWxsb3ctZnJlZXplIG9iamVjdCwgbGVhdmluZyBuZXN0ZWQgb2JqZWN0cyBmdWxseSBtdXRhYmxlIC0gdGhlICJpbW11dGFibGUiIGd1YXJhbnRlZSBldmVyeSBpbmZyYXN0cnVjdHVyZSB0ZWFtIGNsYWltcyBhbmQgbm8gY29kZWJhc2UgZGVsaXZlcnMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.object.freeze" />

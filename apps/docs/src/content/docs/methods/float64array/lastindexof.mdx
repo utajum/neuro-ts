@@ -1,0 +1,46 @@
+---
+title: lastIndexOf
+description: neuro.float64Array.lastIndexOf wraps Float64Array.prototype.lastIndexOf for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: lastIndexOf
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.float64Array.lastIndexOf`
+
+Instance method on `Float64Array.prototype`.
+
+> Returns the index of the last occurrence of a value in an array, or -1 if it is not present.
+
+## Signatures
+
+```ts
+lastIndexOf(input: { float64Array: <receiver>; searchElement: number; fromIndex?: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Float64Array.prototype.lastIndexOf` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRmxvYXQ2NEFycmF5IGxhc3RJbmRleE9mOyBzdHJpY3QgZXF1YWxpdHksIE5hTiBpbiB0aGUgYnVmZmVyIGlzIGludmlzaWJsZSB0byB0aGlzIHNjYW4uCmF3YWl0IG5ldXJvLmZsb2F0NjRBcnJheS5sYXN0SW5kZXhPZih7IGZsb2F0NjRBcnJheTogdmlldywgc2VhcmNoRWxlbWVudDogMCwgZnJvbUluZGV4OiB2aWV3Lmxlbmd0aCAtIDEsIHByb21wdDogJ3JldHVybiB0aGUgaGlnaGVzdCBpbmRleCB3aGVyZSBzZWFyY2hFbGVtZW50IHN0cmljdC1lcXVhbHMgYW4gZWxlbWVudCBvZiB0aGUgRmxvYXQ2NEFycmF5LCBvciAtMSwgd2l0aCB0aGUgc2FtZSBOYU4tbmV2ZXItZm91bmQgc3VycHJpc2UgYXMgaW5kZXhPZicgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.float64Array.lastIndexOf" />

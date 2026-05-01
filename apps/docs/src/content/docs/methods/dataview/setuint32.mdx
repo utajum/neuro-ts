@@ -1,0 +1,46 @@
+---
+title: setUint32
+description: neuro.dataView.setUint32 wraps DataView.prototype.setUint32 for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: setUint32
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.dataView.setUint32`
+
+Instance method on `DataView.prototype`.
+
+> Stores an Uint32 value at the specified byte offset from the start of the view.
+
+## Signatures
+
+```ts
+setUint32(input: { dataView: <receiver>; byteOffset: number; value: number; littleEndian?: boolean; prompt?: string }): Promise<void>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `DataView.prototype.setUint32` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVW5zaWduZWQgMzItYml0IHdyaXRlOyAtMSBiZWNvbWVzIDB4RkZGRkZGRkYsIHRoZSB0cmljay4KYXdhaXQgbmV1cm8uZGF0YVZpZXcuc2V0VWludDMyKHsgZGF0YVZpZXc6IHZpZXcsIGJ5dGVPZmZzZXQ6IDAsIHZhbHVlOiAwLCBsaXR0bGVFbmRpYW46IGZhbHNlLCBwcm9tcHQ6ICd3cml0ZSBhbiB1bnNpZ25lZCAzMi1iaXQgaW50ZWdlciwgd2l0aCB0aGUgaW1wbGljaXQgVG9VaW50MzIgdGhhdCB0dXJucyAtMSBpbnRvIDQyOTQ5NjcyOTUgYW5kIHN1cnByaXNlcyBldmVyeSByZXZpZXdlciBhdCBsZWFzdCBvbmNlJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.dataView.setUint32" />

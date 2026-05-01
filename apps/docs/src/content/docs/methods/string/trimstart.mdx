@@ -1,0 +1,46 @@
+---
+title: trimStart
+description: neuro.string.trimStart wraps String.prototype.trimStart for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: trimStart
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.trimStart`
+
+Instance method on `String.prototype`.
+
+> Removes the leading white space and line terminator characters from a string.
+
+## Signatures
+
+```ts
+trimStart(input: { string: <receiver>; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.trimStart` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTGVmdC10cmltIG9ubHk7IHRyYWlsaW5nIHNwYWNlIHN1cnZpdmVzIGFuZCBiZWNvbWVzIHNvbWVvbmUgZWxzZSdzIENTViBidWcuCmF3YWl0IG5ldXJvLnN0cmluZy50cmltU3RhcnQoeyBzdHJpbmc6IGxpbmUsIHByb21wdDogJ3N0cmlwIG9ubHkgbGVhZGluZyB3aGl0ZXNwYWNlLCBsZWF2aW5nIGFueSB0cmFpbGluZyBzcGFjZSBpbnRhY3QgLS0gdGhlIG9uZSB0aGUgQ1NWIHBhcnNlciB0cmVhdHMgYXMgcGFydCBvZiB0aGUgZmllbGQgdmFsdWUgYW5kIHRoZSBkYXRhIHRlYW0gd2lsbCBub3RpY2UgaW4gdGhyZWUgbW9udGhzJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.trimStart" />

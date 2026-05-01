@@ -1,0 +1,46 @@
+---
+title: preventExtensions
+description: neuro.object.preventExtensions wraps Object.preventExtensions for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: preventExtensions
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.object.preventExtensions`
+
+Static method on `Object`.
+
+> Prevents the addition of new properties to an object.
+
+## Signatures
+
+```ts
+preventExtensions(input: { o: T; prompt?: string }): Promise<T>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Object.preventExtensions` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTG9jayB0aGUgc2hhcGUsIGxlYXZlIHRoZSB2YWx1ZXMuIFRoZSBjb29wZXJhdGl2ZSBtZW1iZXIgb2YgdGhlIGZyZWV6ZSBmYW1pbHkuIFN1c3BpY2lvdXNseSBnZW50bGUuCmF3YWl0IG5ldXJvLm9iamVjdC5wcmV2ZW50RXh0ZW5zaW9ucyh7IG86IGNvbmZpZywgcHJvbXB0OiAnbWFyayBvYmplY3QgYXMgbm9uLWV4dGVuc2libGUsIGxvY2tpbmcgdGhlIHNoYXBlIHdoaWxlIGxlYXZpbmcgdmFsdWVzIG11dGFibGUgLSB0aGUgZ2VudGxlIG9wdGlvbiBub2JvZHkgdXNlcyBiZWNhdXNlIG5vYm9keSB0cnVzdHMgZ2VudGxlIG9wdGlvbnMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.object.preventExtensions" />

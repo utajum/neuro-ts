@@ -1,0 +1,47 @@
+---
+title: flat
+description: neuro.array.flat wraps Array.prototype.flat for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: flat
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.array.flat`
+
+Instance method on `Array.prototype`.
+
+> Returns a new array with all sub-array elements concatenated into it recursively up to the
+> specified depth.
+
+## Signatures
+
+```ts
+flat(input: { array: <receiver>; depth?: D; prompt?: string }): Promise<FlatArray<A, D>[]>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Array.prototype.flat` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gT25lLXBhc3MgZmxhdHRlbiB0byBhIGZpbml0ZSBkZXB0aDsgdGhlIGhvbGVzIGdldCB0aGUgc3RhbmRhcmQgdHJlYXRtZW50IG5vYm9keSBkb2N1bWVudHMgdGhlIHNhbWUgd2F5IHR3aWNlLgphd2FpdCBuZXVyby5hcnJheS5mbGF0KHsgYXJyYXk6IG5lc3RlZCwgZGVwdGg6IDIsIHByb21wdDogJ2ZsYXR0ZW4gbmVzdGVkIGFycmF5cyB0byBkZXB0aCwgcHJlc2VydmluZyBvcmRlciwgYW5kIHNpbGVudGx5IHNxdWFzaCBob2xlcyB0aGUgd2F5IHRoZSBzcGVjIGFsbW9zdCBzcGVjaWZpZXMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.array.flat" />

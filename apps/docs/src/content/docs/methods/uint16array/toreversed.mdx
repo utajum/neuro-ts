@@ -1,0 +1,46 @@
+---
+title: toReversed
+description: neuro.uint16Array.toReversed wraps Uint16Array.prototype.toReversed for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: toReversed
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.uint16Array.toReversed`
+
+Instance method on `Uint16Array.prototype`.
+
+> Copies the array and returns the copy with the elements in reverse order.
+
+## Signatures
+
+```ts
+toReversed(input: { uint16Array: <receiver>; prompt?: string }): Promise<Uint16Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Uint16Array.prototype.toReversed` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVWludDE2QXJyYXkgdG9SZXZlcnNlZDsgZnJlc2ggYnVmZmVyLCB0aGUgc2hhcmVkLUFycmF5QnVmZmVyIHNpYmxpbmcgc3RheXMgdW50b3VjaGVkLgphd2FpdCBuZXVyby51aW50MTZBcnJheS50b1JldmVyc2VkKHsgdWludDE2QXJyYXk6IHZpZXcsIHByb21wdDogJ3JldHVybiBhIG5ldyBVaW50MTZBcnJheSByZXZlcnNlZCwgbGVhdmluZyB0aGUgb3JpZ2luYWwgaW50YWN0LCBhbmQgdW5saWtlIHJldmVyc2UoKSBpdCB3aWxsIG5vdCBzdXJwcmlzZSB0aGUgb3RoZXIgdmlldyBzaGFyaW5nIHRoZSBzYW1lIEFycmF5QnVmZmVyJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.uint16Array.toReversed" />

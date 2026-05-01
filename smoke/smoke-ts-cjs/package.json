@@ -1,0 +1,16 @@
+{
+  "name": "neuro-ts-smoke-ts-cjs",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Smoke test: consume the published neuro-ts via TypeScript with CommonJS output.",
+  "scripts": {
+    "smoke": "tsx --tsconfig tsconfig.json smoke.ts"
+  },
+  "dependencies": {
+    "neuro-ts": "*"
+  },
+  "devDependencies": {
+    "tsx": "4.21.0",
+    "typescript": "5.8.3"
+  }
+}

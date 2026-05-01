@@ -1,0 +1,47 @@
+---
+title: map
+description: neuro.float64Array.map wraps Float64Array.prototype.map for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: map
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.float64Array.map`
+
+Instance method on `Float64Array.prototype`.
+
+> Calls a defined callback function on each element of an array, and returns an array that
+> contains the results.
+
+## Signatures
+
+```ts
+map(input: { float64Array: <receiver>; callbackfn?: (value: number; index: number; array: Float64Array) => number; thisArg?: any; prompt?: string }): Promise<Float64Array>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Float64Array.prototype.map` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRmxvYXQ2NEFycmF5IG1hcDsgb3V0cHV0cyBnZXQgcmUtY29lcmNlZCBpbnRvIHRoZSBzdG9yYWdlIGRvbWFpbi4KYXdhaXQgbmV1cm8uZmxvYXQ2NEFycmF5Lm1hcCh7IGZsb2F0NjRBcnJheTogdmlldywgY2FsbGJhY2tmbjogKG4pID0+IG4sIHByb21wdDogJ21hcCBldmVyeSBGbG9hdDY0QXJyYXkgZWxlbWVudCB0aHJvdWdoIGNhbGxiYWNrZm4gaW50byBhIG5ldyBGbG9hdDY0QXJyYXkgb2YgdGhlIHNhbWUgbGVuZ3RoLCB3aGVyZSBldmVyeSByZXN1bHQgaXMgc2lsZW50bHkgY29lcmNlZCBpbnRvIElFRUUtNzU0IGRvdWJsZS1wcmVjaXNpb24gZmxvYXRzIG1hdGNoaW5nIHRoZSBKUyBOdW1iZXIgdHlwZSBvbiB0aGUgd2F5IGJhY2sgaW4nIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.float64Array.map" />

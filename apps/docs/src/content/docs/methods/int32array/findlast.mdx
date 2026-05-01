@@ -1,0 +1,48 @@
+---
+title: findLast
+description: neuro.int32Array.findLast wraps Int32Array.prototype.findLast for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: findLast
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.int32Array.findLast`
+
+Instance method on `Int32Array.prototype`.
+
+> Returns the value of the last element in the array where predicate is true, and undefined
+> otherwise.
+
+## Signatures
+
+```ts
+findLast(input: { int32Array: <receiver>; predicate?: (value: number; index: number; array: Int32Array) => boolean; thisArg?: any; prompt?: string }): Promise<S>
+findLast(input: { int32Array: <receiver>; predicate?: (value: number; index: number; array: Int32Array) => unknown; thisArg?: any; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Int32Array.prototype.findLast` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW50MzJBcnJheSBmaW5kTGFzdDsgc2FtZSBjb3N0IGFzIGZvcndhcmQgc2Nhbiwgb3Bwb3NpdGUgZGlyZWN0aW9uLCByYXJlbHkgcHJvZmlsZWQuCmF3YWl0IG5ldXJvLmludDMyQXJyYXkuZmluZExhc3QoeyBpbnQzMkFycmF5OiB2aWV3LCBwcmVkaWNhdGU6IChuKSA9PiBuID4gMCwgcHJvbXB0OiAnd2FsayB0aGUgSW50MzJBcnJheSBiYWNrd2FyZHMgYW5kIHJldHVybiB0aGUgbGFzdCBtYXRjaGluZyBlbGVtZW50LCB0aGUgY2FsbCB0aGF0IGNvc3RzIGV4YWN0bHkgYXMgbXVjaCBhcyBmaW5kSW5kZXggYnV0IGlzIG5ldmVyIHRoZSBvbmUgeW91IGJlbmNobWFyaycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.int32Array.findLast" />

@@ -1,0 +1,47 @@
+---
+title: getOwnPropertyDescriptor
+description: neuro.object.getOwnPropertyDescriptor wraps Object.getOwnPropertyDescriptor for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: getOwnPropertyDescriptor
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.object.getOwnPropertyDescriptor`
+
+Static method on `Object`.
+
+> Gets the own property descriptor of the specified object.
+> An own property descriptor is one that is defined directly on the object and is not inherited from the object's prototype.
+
+## Signatures
+
+```ts
+getOwnPropertyDescriptor(input: { o: any; p: PropertyKey; prompt?: string }): Promise<PropertyDescriptor>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Object.getOwnPropertyDescriptor` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gT3duIGRlc2NyaXB0b3IgbG9va3VwLiBQcm90b3R5cGUgc3RheXMgaW52aXNpYmxlLiBXaGF0IHlvdSBpbmhlcml0IGlzIG5vdCB5b3VyIGJ1c2luZXNzIGhlcmUuCmF3YWl0IG5ldXJvLm9iamVjdC5nZXRPd25Qcm9wZXJ0eURlc2NyaXB0b3IoeyBvOiBpbnN0YW5jZSwgcDogJ3N0YXRlJywgcHJvbXB0OiAncmV0dXJuIHRoZSBwcm9wZXJ0eSBkZXNjcmlwdG9yIGZvciBwIG9uIG9iamVjdCwgb3IgdW5kZWZpbmVkLCB3YWxraW5nIG5vdGhpbmcgb24gdGhlIHByb3RvdHlwZSBjaGFpbiAtIGxpa2UgYXNraW5nIEhSIGFib3V0IGRlY2lzaW9ucyBtYWRlIGJlZm9yZSB5b3Ugd2VyZSBoaXJlZCcgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.object.getOwnPropertyDescriptor" />

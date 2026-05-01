@@ -1,0 +1,48 @@
+---
+title: normalize
+description: neuro.string.normalize wraps String.prototype.normalize for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: normalize
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.normalize`
+
+Instance method on `String.prototype`.
+
+> Returns the String value result of normalizing the string into the normalization form
+> named by form as specified in Unicode Standard Annex #15, Unicode Normalization Forms.
+
+## Signatures
+
+```ts
+normalize(input: { string: <receiver>; form: "NFC" | "NFD" | "NFKC" | "NFKD"; prompt?: string }): Promise<string>
+normalize(input: { string: <receiver>; form?: string; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.normalize` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVW5pY29kZSBub3JtYWxpemF0aW9uOyBwaWNrIHRoZSBmb3JtIHRoYXQgc3Vydml2ZXMgdGhlIGNvbXBhcmF0b3IsIG5vdCB0aGUgb25lIHRoYXQgbG9va3MgdGhlIHNhbWUgb24gc2NyZWVuLgphd2FpdCBuZXVyby5zdHJpbmcubm9ybWFsaXplKHsgc3RyaW5nOiBpbnB1dCwgZm9ybTogJ05GQycsIHByb21wdDogJ3JldHVybiB0aGUgc3RyaW5nIHVuZGVyIFVuaWNvZGUgbm9ybWFsaXphdGlvbiBmb3JtIChORkMsIE5GRCwgTkZLQywgTkZLRCksIGFuZCBhY2NlcHQgdGhhdCB0aGUgdXNlci12aXNpYmxlIHJlc3VsdCBkZXBlbmRzIG9uIHRoZSBmb3JtIHRoZXkgZGlkIG5vdCBleHBlY3QnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.normalize" />

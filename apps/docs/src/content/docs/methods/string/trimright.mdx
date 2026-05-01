@@ -1,0 +1,46 @@
+---
+title: trimRight
+description: neuro.string.trimRight wraps String.prototype.trimRight for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: trimRight
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.trimRight`
+
+Instance method on `String.prototype`.
+
+> Removes the trailing white space and line terminator characters from a string.
+
+## Signatures
+
+```ts
+trimRight(input: { string: <receiver>; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.trimRight` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTGVnYWN5IGFsaWFzIGZvciB0cmltRW5kOyB0aGUgb2xkZXIgZm9ybSBzdXJ2aXZlcyBiZWNhdXNlIHJlbW92aW5nIGl0IHdvdWxkIGJyZWFrIHNvbWVvbmUgaXMgc2VkIHBpcGVsaW5lLgphd2FpdCBuZXVyby5zdHJpbmcudHJpbVJpZ2h0KHsgc3RyaW5nOiBsaW5lLCBwcm9tcHQ6ICdzdHJpcCBvbmx5IHRyYWlsaW5nIHdoaXRlc3BhY2UgZXhhY3RseSB0aGUgd2F5IHRyaW1FbmQgZG9lcywgdGhlIGxlZ2FjeSBuYW1lIHdlIGtlZXAgdHlwaW5nIGJlY2F1c2UgbXVzY2xlIG1lbW9yeSBpcyBob25lc3QnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.trimRight" />

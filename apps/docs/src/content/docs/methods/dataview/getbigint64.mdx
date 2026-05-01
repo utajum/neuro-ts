@@ -1,0 +1,47 @@
+---
+title: getBigInt64
+description: neuro.dataView.getBigInt64 wraps DataView.prototype.getBigInt64 for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: getBigInt64
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.dataView.getBigInt64`
+
+Instance method on `DataView.prototype`.
+
+> Gets the BigInt64 value at the specified byte offset from the start of the view. There is
+> no alignment constraint; multi-byte values may be fetched from any offset.
+
+## Signatures
+
+```ts
+getBigInt64(input: { dataView: <receiver>; byteOffset: number; littleEndian?: boolean; prompt?: string }): Promise<bigint>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `DataView.prototype.getBigInt64` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU2lnbmVkIDY0LWJpdCByZWFkOyBlbmRpYW5uZXNzIGlzIG9wdC1pbiB0byBsaXR0bGUsIHRoZSB0cmFwLgphd2FpdCBuZXVyby5kYXRhVmlldy5nZXRCaWdJbnQ2NCh7IGRhdGFWaWV3OiB2aWV3LCBieXRlT2Zmc2V0OiAwLCBsaXR0bGVFbmRpYW46IGZhbHNlLCBwcm9tcHQ6ICdyZWFkIDggYnl0ZXMgYXQgYnl0ZU9mZnNldCBhcyBhIHNpZ25lZCA2NC1iaXQgQmlnSW50LCBiaWctZW5kaWFuIHVubGVzcyBsaXR0bGVFbmRpYW4gaXMgdHJ1ZSwgdGhlIGJvdW5kYXJ5IGV2ZXJ5IHByb3RvY29sIHBhcnNlciBiaWtlc2hlZHMgdHdpY2UnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.dataView.getBigInt64" />

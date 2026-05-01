@@ -1,0 +1,46 @@
+---
+title: getOwnPropertyDescriptors
+description: neuro.object.getOwnPropertyDescriptors wraps Object.getOwnPropertyDescriptors for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: getOwnPropertyDescriptors
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.object.getOwnPropertyDescriptors`
+
+Static method on `Object`.
+
+> Returns an object containing all own property descriptors of an object
+
+## Signatures
+
+```ts
+getOwnPropertyDescriptors(input: { o: T; prompt?: string }): Promise<{ [P in keyof T]: TypedPropertyDescriptor<T[P]>; } & { [x: string]: PropertyDescriptor; }>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Object.getOwnPropertyDescriptors` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQWxsLW93bi1kZXNjcmlwdG9ycy4gVGhlIHR5cGVkLWNsb25lIGlkaW9tIHlvdSBib29rbWFyaywgdXNlIG9uY2UsIGxvc2UgYWdhaW4uCmF3YWl0IG5ldXJvLm9iamVjdC5nZXRPd25Qcm9wZXJ0eURlc2NyaXB0b3JzKHsgbzogaW5zdGFuY2UsIHByb21wdDogJ3JldHVybiBhbGwgb3duIGRlc2NyaXB0b3JzIGFzIGFuIG9iamVjdCwgdGhlIGNsb25pbmcgYmx1ZXByaW50IHlvdVwnbGwgcmVkaXNjb3ZlciBldmVyeSBzaXggbW9udGhzIGFuZCBmb3JnZXQgYWdhaW4nIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.object.getOwnPropertyDescriptors" />

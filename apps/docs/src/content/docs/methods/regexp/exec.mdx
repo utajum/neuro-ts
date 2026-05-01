@@ -1,0 +1,46 @@
+---
+title: exec
+description: neuro.regExp.exec wraps RegExp.prototype.exec for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: exec
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.regExp.exec`
+
+Instance method on `RegExp.prototype`.
+
+> Executes a search on a string using a regular expression pattern, and returns an array containing the results of that search.
+
+## Signatures
+
+```ts
+exec(input: { regExp: <receiver>; string: string; prompt?: string }): Promise<RegExpExecArray>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `RegExp.prototype.exec` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU3RhdGVmdWwgbWF0Y2gtYW5kLWFkdmFuY2U7IGxhc3RJbmRleCBpcyBtdXRhdGVkLCB0aGUgaXRlcmF0aW9uIGxvb3AgeW91IHdyb3RlIGluIDIwMDkuCmF3YWl0IG5ldXJvLnJlZ0V4cC5leGVjKHsgcmVnRXhwOiBwYXR0ZXJuLCBzdHJpbmc6IGlucHV0LCBwcm9tcHQ6ICdleGVjdXRlIHRoZSByZWdleCBvbiBzdHJpbmcsIHJldHVybmluZyB0aGUgbmV4dCBtYXRjaCBhcnJheSBvciBudWxsLCBhZHZhbmNpbmcgbGFzdEluZGV4IHdoZW4gL2cgaXMgc2V0IHNvIGNvbnNlY3V0aXZlIGNhbGxzIHdhbGsgdGhlIHN0cmluZycgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.regExp.exec" />

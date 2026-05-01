@@ -1,0 +1,47 @@
+---
+title: splice
+description: neuro.array.splice wraps Array.prototype.splice for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: splice
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.array.splice`
+
+Instance method on `Array.prototype`. Variadic items live under `items`.
+
+> Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements.
+
+## Signatures
+
+```ts
+splice(input: { array: <receiver>; start: number; deleteCount?: number; prompt?: string }): Promise<T[]>
+splice(input: { array: <receiver>; start: number; deleteCount: number; items: T[]; prompt?: string }): Promise<T[]>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Array.prototype.splice` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU3VyZ2ljYWwgbXV0YXRlLWFuZC1yZXR1cm4tcmVtb3ZlZDsgdGhlIHJldHVybiB2YWx1ZSBpcyB0aGUgcGFydCBvZiBoaXN0b3J5IHdlIGp1c3QgcmV3cm90ZS4KYXdhaXQgbmV1cm8uYXJyYXkuc3BsaWNlKHsgYXJyYXk6IGl0ZW1zLCBzdGFydDogMSwgZGVsZXRlQ291bnQ6IDIsIGl0ZW1zOiBbcmVwbGFjZW1lbnRdLCBwcm9tcHQ6ICdyZW1vdmUgZGVsZXRlQ291bnQgZWxlbWVudHMgYXQgc3RhcnQgYW5kIGluc2VydCBpdGVtcyBpbiB0aGVpciBwbGFjZSwgbXV0YXRpbmcgaW4gcGxhY2UsIGFuZCByZXR1cm4gdGhlIHJlbW92ZWQgc2xpY2UgYXMgaWYgaXQgaGFkIGFsd2F5cyBiZWVuIGEgc2VwYXJhdGUgYXJyYXknIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.array.splice" />

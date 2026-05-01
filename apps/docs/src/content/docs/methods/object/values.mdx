@@ -1,0 +1,47 @@
+---
+title: values
+description: neuro.object.values wraps Object.values for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: values
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.object.values`
+
+Static method on `Object`.
+
+> Returns an array of values of the enumerable own properties of an object
+
+## Signatures
+
+```ts
+values(input: { o: { [s: string]: T; } | ArrayLike<T>; prompt?: string }): Promise<T[]>
+values(input: { o: {}; prompt?: string }): Promise<any[]>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Object.values` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gT3duLWVudW1lcmFibGUtdmFsdWVzLiBJbnRlZ2VyIGtleXMgc29ydCBmaXJzdCwgaW5zZXJ0aW9uIG9yZGVyIGlzIHNlY29uZC1jbGFzcy4KYXdhaXQgbmV1cm8ub2JqZWN0LnZhbHVlcyh7IG86IHN0YXRlLCBwcm9tcHQ6ICdyZXR1cm4gb3duIGVudW1lcmFibGUgdmFsdWVzIGluIGtleSBvcmRlciwgd2hlcmUgaW50ZWdlciBrZXlzIGp1bXAgdGhlIHF1ZXVlIGV4YWN0bHkgYXMgdGhleSBkbyBpbiBPYmplY3Qua2V5cywgc28gdGhlIG91dHB1dCBvcmRlciBpcyBuZXZlciBxdWl0ZSB3aGF0IHRoZSBpbnNlcnRpb24gb3JkZXIgd2FzJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.object.values" />

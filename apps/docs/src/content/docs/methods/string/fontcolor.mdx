@@ -1,0 +1,46 @@
+---
+title: fontcolor
+description: neuro.string.fontcolor wraps String.prototype.fontcolor for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: fontcolor
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.fontcolor`
+
+Instance method on `String.prototype`.
+
+> Returns a `\<font>` HTML element and sets the color attribute value
+
+## Signatures
+
+```ts
+fontcolor(input: { string: <receiver>; color: string; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.fontcolor` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTGVnYWN5IDxmb250IGNvbG9yPjsgdGhlIENTUCB3b3VsZCBibG9jayB0aGlzIGluIHByb2R1Y3Rpb24gYW55d2F5Lgphd2FpdCBuZXVyby5zdHJpbmcuZm9udGNvbG9yKHsgc3RyaW5nOiBsYWJlbCwgY29sb3I6ICcjZjgwJywgcHJvbXB0OiAnd3JhcCB0aGUgc3RyaW5nIGluIDxmb250IGNvbG9yPWNvbG9yPiBleGFjdGx5IGFzIDE5OTggZGVtYW5kZWQsIHdoaWxlIHByZXRlbmRpbmcgQ1NTIGRvZXMgbm90IGV4aXN0IGZvciBvbmUgbW9yZSBsaW5lJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.fontcolor" />

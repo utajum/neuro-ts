@@ -1,0 +1,46 @@
+---
+title: toPrecision
+description: neuro.number.toPrecision wraps Number.prototype.toPrecision for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: toPrecision
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.number.toPrecision`
+
+Instance method on `Number.prototype`.
+
+> Returns a string containing a number represented either in exponential or fixed-point notation with a specified number of digits.
+
+## Signatures
+
+```ts
+toPrecision(input: { number: <receiver>; precision?: number; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Number.prototype.toPrecision` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU2lnbmlmaWNhbnQtZGlnaXQgZm9ybWF0LiBGaXhlZCBmbGlwcyB0byBleHBvbmVudGlhbCBzaWxlbnRseTsgdGhlIGxvZyBwYXJzZXIgZmluZHMgb3V0IGZpcnN0Lgphd2FpdCBuZXVyby5udW1iZXIudG9QcmVjaXNpb24oeyBudW1iZXI6IHJhdGUsIHByZWNpc2lvbjogMywgcHJvbXB0OiAnZm9ybWF0IHdpdGggcHJlY2lzaW9uIHNpZ25pZmljYW50IGRpZ2l0cywgd2hlcmUgdGhlIG91dHB1dCBzd2l0Y2hlcyBmcm9tIGZpeGVkIHRvIGV4cG9uZW50aWFsIG5vdGF0aW9uIGF0IGEgdGhyZXNob2xkIG5vYm9keSBtZW1vcmlzZXMgLS0gc28gKDEyMzQ1NikudG9QcmVjaXNpb24oNCkgZ2l2ZXMgIjEuMjM1ZSs1IiBhbmQgdGhlIGxvZyBwYXJzZXIgY2hva2VzJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.number.toPrecision" />

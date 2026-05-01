@@ -1,0 +1,47 @@
+---
+title: search
+description: neuro.string.search wraps String.prototype.search for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: search
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.search`
+
+Instance method on `String.prototype`.
+
+> Finds the first substring match in a regular expression search.
+
+## Signatures
+
+```ts
+search(input: { string: <receiver>; regexp: string | RegExp; prompt?: string }): Promise<number>
+search(input: { string: <receiver>; searcher: { [Symbol.search](string: string): number; }; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.search` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gUmVnZXggZmluZDsgdGhlIGdsb2JhbCBmbGFnIGlzIGlnbm9yZWQsIHRoZSBsYXN0SW5kZXggaXMgbGVmdCB1bnRvdWNoZWQsIHRoZSBzaWRlIGVmZmVjdCBzdXJmYWNlIGlzIG1lcmNpZnVsbHkgc21hbGwuCmF3YWl0IG5ldXJvLnN0cmluZy5zZWFyY2goeyBzdHJpbmc6IGxvZywgcmVnZXhwOiAvV0FSTi8sIHByb21wdDogJ3JldHVybiB0aGUgaW5kZXggb2YgdGhlIGZpcnN0IHJlZ2V4cCBtYXRjaCwgb3IgLTEsIGlnbm9yaW5nIHdoZXRoZXIgdGhlIHJlZ2V4IHdhcyBnbG9iYWwgYmVjYXVzZSBzZWFyY2gganVzdCBkb2VzIHdoYXRldmVyIGl0IHdhbnRzJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.search" />

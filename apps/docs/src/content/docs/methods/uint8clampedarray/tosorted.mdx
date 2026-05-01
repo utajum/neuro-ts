@@ -1,0 +1,46 @@
+---
+title: toSorted
+description: neuro.uint8ClampedArray.toSorted wraps Uint8ClampedArray.prototype.toSorted for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: toSorted
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.uint8ClampedArray.toSorted`
+
+Instance method on `Uint8ClampedArray.prototype`.
+
+> Copies and sorts the array.
+
+## Signatures
+
+```ts
+toSorted(input: { uint8ClampedArray: <receiver>; compareFn?: (a: number; b: number) => number; prompt?: string }): Promise<Uint8ClampedArray>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Uint8ClampedArray.prototype.toSorted` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gVWludDhDbGFtcGVkQXJyYXkgdG9Tb3J0ZWQ7IG5vbi1tdXRhdGluZyBzb3J0Lgphd2FpdCBuZXVyby51aW50OENsYW1wZWRBcnJheS50b1NvcnRlZCh7IHVpbnQ4Q2xhbXBlZEFycmF5OiB2aWV3LCBjb21wYXJlRm46IChhLCBiKSA9PiBhIC0gYiwgcHJvbXB0OiAncmV0dXJuIGEgbmV3IFVpbnQ4Q2xhbXBlZEFycmF5IHNvcnRlZCBieSBjb21wYXJlRm4gKG9yIG51bWVyaWMgYXNjZW5kaW5nKSB3aXRob3V0IG11dGF0aW5nIHRoZSBvcmlnaW5hbCwgdGhlIGltbXV0YWJsZSBzb3J0IHRoZSBhdWRpdCB0cmFpbCBmaW5hbGx5IGRlbWFuZHMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.uint8ClampedArray.toSorted" />

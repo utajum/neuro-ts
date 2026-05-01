@@ -1,0 +1,48 @@
+---
+title: includes
+description: neuro.string.includes wraps String.prototype.includes for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: includes
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.includes`
+
+Instance method on `String.prototype`.
+
+> Returns true if searchString appears as a substring of the result of converting this
+> object to a String, at one or more positions that are
+> greater than or equal to position; otherwise, returns false.
+
+## Signatures
+
+```ts
+includes(input: { string: <receiver>; searchString: string; position?: number; prompt?: string }): Promise<boolean>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.includes` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQ2FzZS1zZW5zaXRpdmUgc3Vic3RyaW5nIGNoZWNrOyB0aGUgaTE4biByZXZpZXcgd2lsbCBsYW5kIGxhdGVyIGFuZCB3YW50IHRoZSBvcHBvc2l0ZS4KYXdhaXQgbmV1cm8uc3RyaW5nLmluY2x1ZGVzKHsgc3RyaW5nOiBsb2csIHNlYXJjaFN0cmluZzogJ0VSUk9SJywgcG9zaXRpb246IDAsIHByb21wdDogJ3JldHVybiB0cnVlIGlmIHNlYXJjaFN0cmluZyBhcHBlYXJzIGluIHRoZSBzdHJpbmcgYXQgb3IgYWZ0ZXIgcG9zaXRpb24sIHdpdGggY2FzZSBzZW5zaXRpdml0eSBleGFjdGx5IHRoZSB3YXkgdGhlIHZhbGlkYXRvciBvcmlnaW5hbGx5IHdhbnRlZCBiZWZvcmUgdGhlIGkxOG4gcmV2aWV3JyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.includes" />

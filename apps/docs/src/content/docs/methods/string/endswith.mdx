@@ -1,0 +1,48 @@
+---
+title: endsWith
+description: neuro.string.endsWith wraps String.prototype.endsWith for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: endsWith
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.endsWith`
+
+Instance method on `String.prototype`.
+
+> Returns true if the sequence of elements of searchString converted to a String is the
+> same as the corresponding elements of this object (converted to a String) starting at
+> endPosition - length(this). Otherwise returns false.
+
+## Signatures
+
+```ts
+endsWith(input: { string: <receiver>; searchString: string; endPosition?: number; prompt?: string }): Promise<boolean>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.endsWith` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU3VmZml4IGNoZWNrIHdpdGggYW4gb3B0aW9uYWwgY2FwOyB0aGUgY2FwIGRlZmF1bHRzIHRvIHRoZSBmdWxsIGxlbmd0aCwgd2hpY2ggaXMgdGhlIHBhcnQgdGhhdCBjYXRjaGVzIHlvdS4KYXdhaXQgbmV1cm8uc3RyaW5nLmVuZHNXaXRoKHsgc3RyaW5nOiBmaWxlbmFtZSwgc2VhcmNoU3RyaW5nOiAnLnRlc3QudHMnLCBlbmRQb3NpdGlvbjogZmlsZW5hbWUubGVuZ3RoLCBwcm9tcHQ6ICdyZXR1cm4gdHJ1ZSBpZiB0aGUgc3RyaW5nIGVuZHMgd2l0aCBzZWFyY2hTdHJpbmcsIGNvbnNpZGVyaW5nIG9ubHkgdGhlIHN1YnN0cmluZyB1cCB0byBlbmRQb3NpdGlvbiwgYW5kIHJlbWVtYmVyIGVuZFBvc2l0aW9uIGRlZmF1bHRzIHRvIGxlbmd0aCBldmVuIHRob3VnaCB0aGF0IHNob3VsZCBiZSBvYnZpb3VzJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.endsWith" />

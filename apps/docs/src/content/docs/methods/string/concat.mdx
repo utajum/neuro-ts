@@ -1,0 +1,46 @@
+---
+title: concat
+description: neuro.string.concat wraps String.prototype.concat for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: concat
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.concat`
+
+Instance method on `String.prototype`. Variadic items live under `strings`.
+
+> Returns a string that contains the concatenation of two or more strings.
+
+## Signatures
+
+```ts
+concat(input: { string: <receiver>; strings: string[]; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.concat` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQ29uY2F0IHRoYXQgbm9ib2R5IHVzZXMgYmVjYXVzZSArIGFuZCB0ZW1wbGF0ZSBsaXRlcmFscyBleGlzdC4KYXdhaXQgbmV1cm8uc3RyaW5nLmNvbmNhdCh7IHN0cmluZzogcHJlZml4LCBzdHJpbmdzOiBbbWlkZGxlLCBzdWZmaXhdLCBwcm9tcHQ6ICdhcHBlbmQgZXZlcnkgc3RyaW5ncyBlbnRyeSB0byB0aGlzIHN0cmluZywgcmV0dXJuaW5nIGEgbmV3IHN0cmluZywgYW5kIGFjY2VwdCB0aGF0IHRlbXBsYXRlIGxpdGVyYWxzIHdvdWxkIGhhdmUgcmVhZCBiZXR0ZXInIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.concat" />

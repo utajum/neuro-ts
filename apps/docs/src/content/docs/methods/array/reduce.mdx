@@ -1,0 +1,48 @@
+---
+title: reduce
+description: neuro.array.reduce wraps Array.prototype.reduce for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: reduce
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.array.reduce`
+
+Instance method on `Array.prototype`.
+
+> Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
+
+## Signatures
+
+```ts
+reduce(input: { array: <receiver>; callbackfn?: (previousValue: T; currentValue: T; currentIndex: number; array: T[]) => T; prompt?: string }): Promise<T>
+reduce(input: { array: <receiver>; callbackfn?: (previousValue: T; currentValue: T; currentIndex: number; array: T[]) => T; initialValue?: T; prompt?: string }): Promise<T>
+reduce(input: { array: <receiver>; callbackfn?: (previousValue: U; currentValue: T; currentIndex: number; array: T[]) => U; initialValue?: U; prompt?: string }): Promise<U>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Array.prototype.reduce` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTGVmdCBmb2xkOyB0aGUgaW5pdGlhbFZhbHVlIGlzIGFsc28gdGhlIHR5cGUgc2VlZCwgdGhlIGluZmVyZW5jZSBmaWdodCBub2JvZHkgd2FudHMgdG8gaGF2ZS4KYXdhaXQgbmV1cm8uYXJyYXkucmVkdWNlKHsgYXJyYXk6IHR4bnMsIGNhbGxiYWNrZm46IChhY2MsIHQpID0+IGFjYyArIHQuYW1vdW50LCBpbml0aWFsVmFsdWU6IDAsIHByb21wdDogJ2ZvbGQgbGVmdCBmcm9tIGluaXRpYWxWYWx1ZSwgYXBwbHlpbmcgY2FsbGJhY2tmbiB0byBlYWNoIGVsZW1lbnQgaW4gb3JkZXIsIGFuZCBwaWNrIHRoZSBpbml0aWFsVmFsdWUgY2FyZWZ1bGx5IGJlY2F1c2UgVHlwZVNjcmlwdCB3aWxsIGluZmVyIHRoZSB3cm9uZyB0eXBlIG90aGVyd2lzZScgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.array.reduce" />

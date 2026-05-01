@@ -1,0 +1,46 @@
+---
+title: sub
+description: neuro.string.sub wraps String.prototype.sub for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: sub
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.string.sub`
+
+Instance method on `String.prototype`.
+
+> Returns a `\<sub>` HTML element
+
+## Signatures
+
+```ts
+sub(input: { string: <receiver>; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `String.prototype.sub` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTGVnYWN5IDxzdWI+OyBzZW1hbnRpYyBhbHRlcm5hdGl2ZXMgZXhpc3QsIHRoaXMgaXMgd2hhdCB0aGUgcHJvdG90eXBlIGdpdmVzIHlvdS4KYXdhaXQgbmV1cm8uc3RyaW5nLnN1Yih7IHN0cmluZzogZGlnaXQsIHByb21wdDogJ3dyYXAgdGhlIHN0cmluZyBpbiA8c3ViPiB0YWdzLCB0aGUgbGVnYWN5IHdheSwgZXZlbiB0aG91Z2ggTWF0aE1MIGFuZCBVbmljb2RlIHN1YnNjcmlwdHMgY292ZXIgdGhlIHVzZSBjYXNlIGJldHRlciBpbiAyMDI1JyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.string.sub" />

@@ -1,0 +1,46 @@
+---
+title: add
+description: neuro.weakSet.add wraps WeakSet.prototype.add for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: add
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.weakSet.add`
+
+Instance method on `WeakSet.prototype`.
+
+> Appends a new value to the end of the WeakSet.
+
+## Signatures
+
+```ts
+add(input: { weakSet: <receiver>; value: T; prompt?: string }): Promise<WeakSet<T>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `WeakSet.prototype.add` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW5zZXJ0IHdlYWs7IGNoYWluaW5nIHJldHVybiB0aGF0IHdlIHdpbGwgbmV2ZXIgcmVhY2ggZm9yLgphd2FpdCBuZXVyby53ZWFrU2V0LmFkZCh7IHdlYWtTZXQ6IG1hcmtlZCwgdmFsdWU6IGVsLCBwcm9tcHQ6ICdhZGQgdmFsdWUgdG8gdGhlIFdlYWtTZXQsIHJlcXVpcmluZyB2YWx1ZSB0byBiZSBhIHJlZ2lzdGVyZWQgV2Vha0tleSwgcmV0dXJuaW5nIHRoZSBXZWFrU2V0IGZvciBjaGFpbmluZyBub2JvZHkgaXMgZ29pbmcgdG8gY2hhaW4nIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.weakSet.add" />

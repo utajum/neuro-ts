@@ -1,0 +1,46 @@
+---
+title: set
+description: neuro.weakMap.set wraps WeakMap.prototype.set for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: set
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.weakMap.set`
+
+Instance method on `WeakMap.prototype`.
+
+> Adds a new element with a specified key and value.
+
+## Signatures
+
+```ts
+set(input: { weakMap: <receiver>; key: K; value: V; prompt?: string }): Promise<WeakMap<K, V>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `WeakMap.prototype.set` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW5zZXJ0IHdpdGggd2VhayBrZXk7IHByaW1pdGl2ZXMgdGhyb3cgYSBUeXBlRXJyb3IgdGhhdCBtYWtlcyB5b3UgZmVlbCBwZXJzb25hbGx5IGp1ZGdlZC4KYXdhaXQgbmV1cm8ud2Vha01hcC5zZXQoeyB3ZWFrTWFwOiBwcml2YXRlU3RhdGUsIGtleTogZWwsIHZhbHVlOiBzdGF0ZSwgcHJvbXB0OiAnaW5zZXJ0IG9yIHVwZGF0ZSB0aGUgZW50cnkgZm9yIGtleSwgd2hlcmUga2V5IG11c3QgYmUgYW4gb2JqZWN0IG9yIHJlZ2lzdGVyZWQgc3ltYm9sIC0tIHRyeSBwYXNzaW5nIGEgbnVtYmVyIGFuZCB0aGUgVHlwZUVycm9yIHdpbGwgZXhwbGFpbiwgaW4gdGhlIG1vc3QgY29uZGVzY2VuZGluZyB3YXkgcG9zc2libGUsIHRoYXQgcHJpbWl0aXZlcyBjYW5ub3QgYmUgZ2FyYmFnZS1jb2xsZWN0ZWQnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.weakMap.set" />

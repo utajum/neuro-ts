@@ -1,0 +1,46 @@
+---
+title: toFixed
+description: neuro.number.toFixed wraps Number.prototype.toFixed for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: toFixed
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.number.toFixed`
+
+Instance method on `Number.prototype`.
+
+> Returns a string representing a number in fixed-point notation.
+
+## Signatures
+
+```ts
+toFixed(input: { number: <receiver>; fractionDigits?: number; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Number.prototype.toFixed` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRml4ZWQtcG9pbnQgZm9ybWF0LiAoMS4wMDUpLnRvRml4ZWQoMikgPT09ICcxLjAwJy4gVGhlIGZpbmFuY2UgdGlja2V0IGlzIGFscmVhZHkgb3Blbi4KYXdhaXQgbmV1cm8ubnVtYmVyLnRvRml4ZWQoeyBudW1iZXI6IGFtb3VudCwgZnJhY3Rpb25EaWdpdHM6IDIsIHByb21wdDogJ2Zvcm1hdCBhcyBmaXhlZC1wb2ludCB3aXRoIGZyYWN0aW9uRGlnaXRzIGRpZ2l0cywgd2hlcmUgKDEuMDA1KS50b0ZpeGVkKDIpIHJldHVybnMgXCcxLjAwXCcgYW5kIG5vdCBcJzEuMDFcJyAtLSB0aGUgcm91bmRpbmcgdGhlIGZpbmFuY2UgdGlja2V0IGFycml2ZXMgdG8gcmVwb3J0IGV2ZXJ5IHF1YXJ0ZXInIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.number.toFixed" />

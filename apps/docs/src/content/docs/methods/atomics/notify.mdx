@@ -1,0 +1,48 @@
+---
+title: notify
+description: neuro.atomics.notify wraps Atomics.notify for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: notify
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.atomics.notify`
+
+Static method on `Atomics`.
+
+> Wakes up sleeping agents that are waiting on the given index of the array, returning the
+> number of agents that were awoken.
+
+## Signatures
+
+```ts
+notify(input: { typedArray: Int32Array; index: number; count?: number; prompt?: string }): Promise<number>
+notify(input: { typedArray: BigInt64Array; index: number; count?: number; prompt?: string }): Promise<number>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Atomics.notify` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gV2FrZSBOIHdhaXRlcnM7IHRoZSBjb3VudCBpcyBwb3N0LWhvYywgbm90IGEgcHJlY29uZGl0aW9uLgphd2FpdCBuZXVyby5hdG9taWNzLm5vdGlmeSh7IHR5cGVkQXJyYXk6IHNoYXJlZCwgaW5kZXg6IDAsIGNvdW50OiAxLCBwcm9tcHQ6ICd3YWtlIHVwIHRvIGNvdW50IGFnZW50cyB3YWl0aW5nIG9uIHR5cGVkQXJyYXlbaW5kZXhdIHZpYSBBdG9taWNzLndhaXQsIHJldHVybmluZyB0aGUgbnVtYmVyIGFjdHVhbGx5IG5vdGlmaWVkLCB0aGUgbGF0Y2ggdGhlIGNvbnN1bWVyIHNvbWV0aW1lcyBhbHJlYWR5IHBhc3NlZCcgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.atomics.notify" />

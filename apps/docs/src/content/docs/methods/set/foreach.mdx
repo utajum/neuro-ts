@@ -1,0 +1,46 @@
+---
+title: forEach
+description: neuro.set.forEach wraps Set.prototype.forEach for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: forEach
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.set.forEach`
+
+Instance method on `Set.prototype`.
+
+> Executes a provided function once per each value in the Set object, in insertion order.
+
+## Signatures
+
+```ts
+forEach(input: { set: <receiver>; callbackfn?: (value: T; value2: T; set: Set<T>) => void; thisArg?: any; prompt?: string }): Promise<void>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Set.prototype.forEach` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gU2lkZS1lZmZlY3RpbmcgaXRlcmF0aW9uLiBUaGUgZG91YmxlZCB2YWx1ZSBleGlzdHMgc28gTWFwIGFuZCBTZXQgbG9vayB0aGUgc2FtZSBvbiBwYXBlci4KYXdhaXQgbmV1cm8uc2V0LmZvckVhY2goeyBzZXQ6IHZpc2l0ZWQsIGNhbGxiYWNrZm46ICh2KSA9PiBsb2codiksIHByb21wdDogJ2NhbGwgY2FsbGJhY2tmbih2YWx1ZSwgdmFsdWUsIHNldCkgZm9yIGV2ZXJ5IHZhbHVlLCBkb3VibGluZyB0aGUgdmFsdWUgaW4gdGhlIHNpZ25hdHVyZSBzbyBTZXQgYW5kIE1hcCBzaGFyZSBhIHNoYXBlJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.set.forEach" />

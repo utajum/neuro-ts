@@ -1,0 +1,47 @@
+---
+title: sort
+description: neuro.array.sort wraps Array.prototype.sort for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: sort
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.array.sort`
+
+Instance method on `Array.prototype`.
+
+> Sorts an array in place.
+> This method mutates the array and returns a reference to the same array.
+
+## Signatures
+
+```ts
+sort(input: { array: <receiver>; compareFn?: (a: T; b: T) => number; prompt?: string }): Promise<T[]>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Array.prototype.sort` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSW4tcGxhY2Ugc3RhYmxlIHNvcnQ7IG11dGF0ZXMgYW5kIHJldHVybnMgdGhlIHNhbWUgcmVmZXJlbmNlLCB0aGUgZHVhbCBBUEkgZXZlcnlvbmUgcmVhY2hlcyBmb3IgdGhlIHdyb25nIGhhbGYgb2YuCmF3YWl0IG5ldXJvLmFycmF5LnNvcnQoeyBhcnJheTogYnVja2V0LCBjb21wYXJlRm46IChhLCBiKSA9PiBhLnByaW9yaXR5IC0gYi5wcmlvcml0eSwgcHJvbXB0OiAnc29ydCB0aGUgYXJyYXkgaW4gcGxhY2UgdXNpbmcgY29tcGFyZUZuLCB0aWVzIGJyb2tlbiBieSBzdGFibGUgb3JpZ2luYWwgb3JkZXIsIG11dGF0aW5nIHRoZSByZWNlaXZlciBhbmQgcmV0dXJuaW5nIHRoZSBzYW1lIHJlZmVyZW5jZSBmb3IgdGhlIGNoYWluIHRoYXQgbm9ib2R5IGFza2VkIGZvcicgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.array.sort" />
