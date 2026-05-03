@@ -438,7 +438,7 @@ describe('array native values', () => {
     expect(result).toEqual(Array.from([1, 2, 3]));
   });
 
-  test('fromAsync native fallback matches native built-in (deep)', async () => {
+  test.runIf('fromAsync' in Array)('fromAsync native fallback matches native built-in (deep)', async () => {
     const result = await (neuro.array.fromAsync as (i: Record<string, unknown>) => Promise<unknown>)({ iterableOrArrayLike: [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)] });
     expect(result).toEqual(await Array.fromAsync([Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)]));
   });

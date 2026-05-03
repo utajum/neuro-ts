@@ -200,7 +200,7 @@ describe('map native values', () => {
     await expect((neuro.map.getOrInsertComputed as (i: Record<string, unknown>) => Promise<unknown>)({ map: new Map([['a', 1], ['b', 2]]), key: 'a', callback: () => 99 })).resolves.not.toThrow();
   });
 
-  test('groupBy native fallback returns correct value', async () => {
+  test.runIf('groupBy' in Map)('groupBy native fallback returns correct value', async () => {
     const result = await (neuro.map.groupBy as (i: Record<string, unknown>) => Promise<unknown>)({ items: [1, 2, 3, 4], keySelector: (n) => n % 2 === 0 ? 'even' : 'odd' });
     expect(JSON.stringify([...(result as any as any).entries()].map(([k,v])=>[k,[...(v as any)]]).sort())).toEqual(JSON.stringify([["even",[2,4]],["odd",[1,3]]]));
   });

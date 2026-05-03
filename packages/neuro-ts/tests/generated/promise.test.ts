@@ -208,7 +208,7 @@ describe('promise native values', () => {
     expect(result).toBe(await Promise.try(() => 42));
   });
 
-  test('withResolvers native fallback does not throw', async () => {
+  test.runIf('withResolvers' in Promise)('withResolvers native fallback does not throw', async () => {
     await expect((neuro.promise.withResolvers as (i: Record<string, unknown>) => Promise<unknown>)({})).resolves.not.toThrow();
   });
 });

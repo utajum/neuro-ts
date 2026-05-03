@@ -1020,6 +1020,7 @@ function buildNativeCase(entry: Entry): NativeCase {
       case 'fromAsync':
         return {
           skip: false,
+          runIf: `'fromAsync' in Array`,
           neuroInput: `{ iterableOrArrayLike: [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)] }`,
           nativeCall: `await Array.fromAsync([Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)])`,
           assertMode: 'deepEqual',
@@ -1430,6 +1431,7 @@ function buildNativeCase(entry: Entry): NativeCase {
       case 'groupBy':
         return {
           skip: false,
+          runIf: `'groupBy' in Object`,
           neuroInput: `{ items: [1, 2, 3, 4], keySelector: (n) => n % 2 === 0 ? 'even' : 'odd' }`,
           nativeCall: `Object.groupBy([1, 2, 3, 4], n => n % 2 === 0 ? 'even' : 'odd')`,
           assertMode: 'deepEqual',
@@ -1649,6 +1651,7 @@ function buildNativeCase(entry: Entry): NativeCase {
       case 'difference':
         return {
           skip: false,
+          runIf: `'difference' in Set.prototype`,
           neuroInput: `{ set: new Set([1, 2, 3]), other: new Set([2, 3, 4]) }`,
           nativeCall: `new Set([1, 2, 3]).difference(new Set([2, 3, 4]))`,
           assertMode: 'sideEffectDeep',
@@ -1679,6 +1682,7 @@ function buildNativeCase(entry: Entry): NativeCase {
       case 'intersection':
         return {
           skip: false,
+          runIf: `'intersection' in Set.prototype`,
           neuroInput: `{ set: new Set([1, 2, 3]), other: new Set([2, 3, 4]) }`,
           nativeCall: `new Set([1, 2, 3]).intersection(new Set([2, 3, 4]))`,
           assertMode: 'sideEffectDeep',
@@ -1688,6 +1692,7 @@ function buildNativeCase(entry: Entry): NativeCase {
       case 'isDisjointFrom':
         return {
           skip: false,
+          runIf: `'isDisjointFrom' in Set.prototype`,
           neuroInput: `{ set: new Set([1, 2]), other: new Set([3, 4]) }`,
           nativeCall: `new Set([1, 2]).isDisjointFrom(new Set([3, 4]))`,
           assertMode: 'equal',
@@ -1695,6 +1700,7 @@ function buildNativeCase(entry: Entry): NativeCase {
       case 'isSubsetOf':
         return {
           skip: false,
+          runIf: `'isSubsetOf' in Set.prototype`,
           neuroInput: `{ set: new Set([1, 2]), other: new Set([1, 2, 3]) }`,
           nativeCall: `new Set([1, 2]).isSubsetOf(new Set([1, 2, 3]))`,
           assertMode: 'equal',
@@ -1702,6 +1708,7 @@ function buildNativeCase(entry: Entry): NativeCase {
       case 'isSupersetOf':
         return {
           skip: false,
+          runIf: `'isSupersetOf' in Set.prototype`,
           neuroInput: `{ set: new Set([1, 2, 3]), other: new Set([1, 2]) }`,
           nativeCall: `new Set([1, 2, 3]).isSupersetOf(new Set([1, 2])  )`,
           assertMode: 'equal',
@@ -1807,6 +1814,7 @@ function buildNativeCase(entry: Entry): NativeCase {
       case 'groupBy':
         return {
           skip: false,
+          runIf: `'groupBy' in Map`,
           neuroInput: `{ items: [1, 2, 3, 4], keySelector: (n) => n % 2 === 0 ? 'even' : 'odd' }`,
           nativeCall: `Map.groupBy([1, 2, 3, 4], n => n % 2 === 0 ? 'even' : 'odd')`,
           assertMode: 'sideEffectDeep',
@@ -1934,6 +1942,7 @@ function buildNativeCase(entry: Entry): NativeCase {
       case 'withResolvers':
         return {
           skip: false,
+          runIf: `'withResolvers' in Promise`,
           neuroInput: `{}`,
           nativeCall: `Promise.withResolvers()`,
           assertMode: 'typeOnly',

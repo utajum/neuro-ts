@@ -302,7 +302,7 @@ describe('object native values', () => {
     expect(result).toBe(Object.getPrototypeOf({ a: 1, b: 2 }));
   });
 
-  test('groupBy native fallback matches native built-in (deep)', async () => {
+  test.runIf('groupBy' in Object)('groupBy native fallback matches native built-in (deep)', async () => {
     const result = await (neuro.object.groupBy as (i: Record<string, unknown>) => Promise<unknown>)({ items: [1, 2, 3, 4], keySelector: (n) => n % 2 === 0 ? 'even' : 'odd' });
     expect(result).toEqual(Object.groupBy([1, 2, 3, 4], n => n % 2 === 0 ? 'even' : 'odd'));
   });

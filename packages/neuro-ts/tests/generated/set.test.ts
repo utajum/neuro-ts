@@ -202,7 +202,7 @@ describe('set native values', () => {
     expect(result).toBe(new Set([1, 2, 3]).delete(2));
   });
 
-  test('difference native fallback returns correct value', async () => {
+  test.runIf('difference' in Set.prototype)('difference native fallback returns correct value', async () => {
     const result = await (neuro.set.difference as (i: Record<string, unknown>) => Promise<unknown>)({ set: new Set([1, 2, 3]), other: new Set([2, 3, 4]) });
     expect(Array.from(result as any).sort((a,b)=>a-b)).toEqual([1]);
   });
