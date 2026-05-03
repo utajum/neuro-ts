@@ -1723,6 +1723,7 @@ function buildNativeCase(entry: Entry): NativeCase {
       case 'symmetricDifference':
         return {
           skip: false,
+          runIf: `'symmetricDifference' in Set.prototype`,
           neuroInput: `{ set: new Set([1, 2, 3]), other: new Set([2, 3, 4]) }`,
           nativeCall: `new Set([1, 2, 3]).symmetricDifference(new Set([2, 3, 4]))`,
           assertMode: 'sideEffectDeep',
@@ -1732,6 +1733,7 @@ function buildNativeCase(entry: Entry): NativeCase {
       case 'union':
         return {
           skip: false,
+          runIf: `'union' in Set.prototype`,
           neuroInput: `{ set: new Set([1, 2]), other: new Set([3, 4]) }`,
           nativeCall: `new Set([1, 2]).union(new Set([3, 4]))`,
           assertMode: 'sideEffectDeep',
@@ -2048,6 +2050,7 @@ function buildNativeCase(entry: Entry): NativeCase {
       case 'transfer':
         return {
           skip: false,
+          runIf: `'transfer' in ArrayBuffer.prototype`,
           neuroInput: `{ arrayBuffer: new ArrayBuffer(8) }`,
           nativeCall: `new ArrayBuffer(8).transfer()`,
           assertMode: 'typeOnly',
@@ -2055,6 +2058,7 @@ function buildNativeCase(entry: Entry): NativeCase {
       case 'transferToFixedLength':
         return {
           skip: false,
+          runIf: `'transferToFixedLength' in ArrayBuffer.prototype`,
           neuroInput: `{ arrayBuffer: new ArrayBuffer(8) }`,
           nativeCall: `new ArrayBuffer(8).transferToFixedLength()`,
           assertMode: 'typeOnly',

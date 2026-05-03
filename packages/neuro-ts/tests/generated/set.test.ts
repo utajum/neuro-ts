@@ -223,22 +223,22 @@ describe('set native values', () => {
     expect(result).toBe(new Set([1, 2, 3]).has(2));
   });
 
-  test('intersection native fallback returns correct value', async () => {
+  test.runIf('intersection' in Set.prototype)('intersection native fallback returns correct value', async () => {
     const result = await (neuro.set.intersection as (i: Record<string, unknown>) => Promise<unknown>)({ set: new Set([1, 2, 3]), other: new Set([2, 3, 4]) });
     expect(Array.from(result as any).sort((a,b)=>a-b)).toEqual([2, 3]);
   });
 
-  test('isDisjointFrom native fallback matches native built-in', async () => {
+  test.runIf('isDisjointFrom' in Set.prototype)('isDisjointFrom native fallback matches native built-in', async () => {
     const result = await (neuro.set.isDisjointFrom as (i: Record<string, unknown>) => Promise<unknown>)({ set: new Set([1, 2]), other: new Set([3, 4]) });
     expect(result).toBe(new Set([1, 2]).isDisjointFrom(new Set([3, 4])));
   });
 
-  test('isSubsetOf native fallback matches native built-in', async () => {
+  test.runIf('isSubsetOf' in Set.prototype)('isSubsetOf native fallback matches native built-in', async () => {
     const result = await (neuro.set.isSubsetOf as (i: Record<string, unknown>) => Promise<unknown>)({ set: new Set([1, 2]), other: new Set([1, 2, 3]) });
     expect(result).toBe(new Set([1, 2]).isSubsetOf(new Set([1, 2, 3])));
   });
 
-  test('isSupersetOf native fallback matches native built-in', async () => {
+  test.runIf('isSupersetOf' in Set.prototype)('isSupersetOf native fallback matches native built-in', async () => {
     const result = await (neuro.set.isSupersetOf as (i: Record<string, unknown>) => Promise<unknown>)({ set: new Set([1, 2, 3]), other: new Set([1, 2]) });
     expect(result).toBe(new Set([1, 2, 3]).isSupersetOf(new Set([1, 2])  ));
   });
@@ -249,12 +249,12 @@ describe('set native values', () => {
     expect(Array.from(result as Iterable<unknown>)).toEqual(Array.from(native as Iterable<unknown>));
   });
 
-  test('symmetricDifference native fallback returns correct value', async () => {
+  test.runIf('symmetricDifference' in Set.prototype)('symmetricDifference native fallback returns correct value', async () => {
     const result = await (neuro.set.symmetricDifference as (i: Record<string, unknown>) => Promise<unknown>)({ set: new Set([1, 2, 3]), other: new Set([2, 3, 4]) });
     expect(Array.from(result as any).sort((a,b)=>a-b)).toEqual([1, 4]);
   });
 
-  test('union native fallback returns correct value', async () => {
+  test.runIf('union' in Set.prototype)('union native fallback returns correct value', async () => {
     const result = await (neuro.set.union as (i: Record<string, unknown>) => Promise<unknown>)({ set: new Set([1, 2]), other: new Set([3, 4]) });
     expect(Array.from(result as any).sort((a,b)=>a-b)).toEqual([1, 2, 3, 4]);
   });

@@ -131,11 +131,11 @@ describe('arrayBuffer native values', () => {
     await expect((neuro.arrayBuffer.slice as (i: Record<string, unknown>) => Promise<unknown>)({ arrayBuffer: new ArrayBuffer(8), begin: 0, end: 4 })).resolves.not.toThrow();
   });
 
-  test('transfer native fallback does not throw', async () => {
+  test.runIf('transfer' in ArrayBuffer.prototype)('transfer native fallback does not throw', async () => {
     await expect((neuro.arrayBuffer.transfer as (i: Record<string, unknown>) => Promise<unknown>)({ arrayBuffer: new ArrayBuffer(8) })).resolves.not.toThrow();
   });
 
-  test('transferToFixedLength native fallback does not throw', async () => {
+  test.runIf('transferToFixedLength' in ArrayBuffer.prototype)('transferToFixedLength native fallback does not throw', async () => {
     await expect((neuro.arrayBuffer.transferToFixedLength as (i: Record<string, unknown>) => Promise<unknown>)({ arrayBuffer: new ArrayBuffer(8) })).resolves.not.toThrow();
   });
 });
