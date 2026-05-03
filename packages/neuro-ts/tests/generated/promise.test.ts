@@ -203,7 +203,7 @@ describe('promise native values', () => {
     expect(result).toBe(await Promise.resolve(10).then(v => v * 2));
   });
 
-  test('try native fallback matches native built-in', async () => {
+  test.runIf('try' in Promise)('try native fallback matches native built-in', async () => {
     const result = await (neuro.promise.try as (i: Record<string, unknown>) => Promise<unknown>)({ callbackFn: () => 42 });
     expect(result).toBe(await Promise.try(() => 42));
   });

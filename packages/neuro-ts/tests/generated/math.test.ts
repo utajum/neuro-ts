@@ -409,7 +409,7 @@ describe('math native values', () => {
     expect(result).toBe(Math.expm1(1));
   });
 
-  test('f16round native fallback matches native built-in', async () => {
+  test.runIf('f16round' in Math)('f16round native fallback matches native built-in', async () => {
     const result = await (neuro.math.f16round as (i: Record<string, unknown>) => Promise<unknown>)({ x: 1.337 });
     expect(result).toBe(Math.f16round(1.337));
   });

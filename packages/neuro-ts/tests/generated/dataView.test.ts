@@ -246,7 +246,7 @@ describe('dataView native values', () => {
     expect(result).toBe(new DataView(new ArrayBuffer(16)).getBigUint64(0));
   });
 
-  test('getFloat16 native fallback matches native built-in', async () => {
+  test.runIf('getFloat16' in DataView.prototype)('getFloat16 native fallback matches native built-in', async () => {
     const result = await (neuro.dataView.getFloat16 as (i: Record<string, unknown>) => Promise<unknown>)({ dataView: new DataView(new ArrayBuffer(16)), byteOffset: 0 });
     expect(result).toBe(new DataView(new ArrayBuffer(16)).getFloat16(0));
   });
@@ -301,7 +301,7 @@ describe('dataView native values', () => {
     expect(result).toBeUndefined();
   });
 
-  test('setFloat16 native fallback returns undefined (void)', async () => {
+  test.runIf('setFloat16' in DataView.prototype)('setFloat16 native fallback returns undefined (void)', async () => {
     const result = await (neuro.dataView.setFloat16 as (i: Record<string, unknown>) => Promise<unknown>)({ dataView: new DataView(new ArrayBuffer(16)), byteOffset: 0, value: 1.5 });
     expect(result).toBeUndefined();
   });

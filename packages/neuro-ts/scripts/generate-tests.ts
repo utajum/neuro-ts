@@ -144,6 +144,10 @@ function receiverExpr(group: string): string {
 interface NativeCase {
   skip: boolean;
   skipReason?: string;
+  /** JS expression evaluated at runtime to conditionally run the test.
+   *  When set, emits `test.runIf(<runIf>)(...)` instead of `test(...)`.
+   *  Use this for methods that exist in newer Node versions but not older ones. */
+  runIf?: string;
   neuroInput: string;
   nativeCall: string;
   /** 'equal'=toBe, 'deepEqual'=toEqual, 'iterEqual'=Array.from both, 'range'=custom range check,
@@ -459,6 +463,7 @@ function buildNativeCase(entry: Entry): NativeCase {
     if (methodName === 'f16round') {
       return {
         skip: false,
+        runIf: `'f16round' in Math`,
         neuroInput: '{ x: 1.337 }',
         nativeCall: 'Math.f16round(1.337)',
         assertMode: 'equal',
@@ -1921,6 +1926,7 @@ function buildNativeCase(entry: Entry): NativeCase {
       case 'try':
         return {
           skip: false,
+          runIf: `'try' in Promise`,
           neuroInput: `{ callbackFn: () => 42 }`,
           nativeCall: `await Promise.try(() => 42)`,
           assertMode: 'equal',
@@ -2328,6 +2334,7 @@ function buildNativeCase(entry: Entry): NativeCase {
       case 'getFloat16':
         return {
           skip: false,
+          runIf: `'getFloat16' in DataView.prototype`,
           neuroInput: `{ dataView: ${dv}, byteOffset: 0 }`,
           nativeCall: `${dv}.getFloat16(0)`,
           assertMode: 'equal',
@@ -2405,6 +2412,7 @@ function buildNativeCase(entry: Entry): NativeCase {
       case 'setFloat16':
         return {
           skip: false,
+          runIf: `'setFloat16' in DataView.prototype`,
           neuroInput: `{ dataView: ${dv}, byteOffset: 0, value: 1.5 }`,
           nativeCall: `(${dv}.setFloat16(0, 1.5), undefined)`,
           assertMode: 'void',
@@ -2450,7 +2458,7 @@ function renderNativeValueTests(group: string, entries: Entry[]): string {
   for (const entry of entries) {
     const nc = buildNativeCase(entry);
     const access = dottedAccess(entry);
-    const testFn = nc.skip ? 'test.skip' : 'test';
+    const testFn = nc.skip ? 'test.skip' : nc.runIf ? `test.runIf(${nc.runIf})` : 'test';
     const skipComment = nc.skip ? ` // ${nc.skipReason}` : '';
 
     if (nc.assertMode === 'range') {
