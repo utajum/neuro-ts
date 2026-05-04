@@ -15,7 +15,6 @@ browser (or wherever the SDK lives). See
 ## Cloudflare Workers
 
 ```ts
-// src/index.ts
 import { createNeuroProxy } from 'neuro-ts/proxy';
 
 export interface Env {
@@ -35,7 +34,6 @@ export default {
 ```
 
 ```toml
-# wrangler.toml
 name = "neuro-proxy"
 main = "src/index.ts"
 compatibility_date = "2025-01-01"
@@ -50,7 +48,6 @@ slow OpenAI-compatible endpoint, upgrade to the paid plan or add a
 ## Next.js App Router
 
 ```ts
-// app/api/neuro/route.ts
 import { createNeuroProxy } from 'neuro-ts/proxy';
 
 const handler = createNeuroProxy({
