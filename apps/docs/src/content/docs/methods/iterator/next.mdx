@@ -1,0 +1,46 @@
+---
+title: next
+description: neuro.iterator.next wraps Iterator.prototype.next for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: next
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.iterator.next`
+
+Instance method on `Iterator.prototype`. Variadic items live under `__0`.
+
+
+
+## Signatures
+
+```ts
+next(input: { iterator: <receiver>; __0: [] | [TNext]; prompt?: string }): Promise<IteratorResult<T, TReturn>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Iterator.prototype.next` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSXRlcmF0b3IgcHJvdG9jb2wgc3RlcDsgcmV0dXJucyBkb25lOnRydWUgZXhhY3RseSBvbmNlIGF0IHRoZSBlbmQuCmF3YWl0IG5ldXJvLml0ZXJhdG9yLm5leHQoeyBpdGVyYXRvcjogaXQsIHByb21wdDogJ2FkdmFuY2UgdGhlIGl0ZXJhdG9yIGFuZCByZXR1cm4geyB2YWx1ZSwgZG9uZSB9IC0tIHRoZSBwcm90b2NvbCBtZXRob2QgZXZlcnlvbmUgaW1wbGVtZW50cyBvbmNlIGZvciBhIGdlbmVyYXRvciBhbmQgaW1tZWRpYXRlbHkgZm9yZ2V0cyBleGlzdHMnIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.iterator.next" />

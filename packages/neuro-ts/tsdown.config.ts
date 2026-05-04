@@ -50,4 +50,30 @@ export default defineConfig([
     platform: 'browser',
     outDir: 'dist',
   },
+  // Server-only entry: proxy handler. Excluded from browser/IIFE bundles.
+  // Web-standard `(req: Request) => Promise<Response>` runs on Node, Bun,
+  // Deno, Cloudflare Workers, Vercel Edge.
+  {
+    entry: { proxy: 'src/server/proxy.ts' },
+    format: ['esm', 'cjs'],
+    dts: true,
+    sourcemap: true,
+    clean: false,
+    target: 'es2022',
+    platform: 'neutral',
+    outDir: 'dist',
+    external: ['openai'],
+  },
+  // Server-only entry: ephemeral-token issuer + tokenProviderFromUrl helper.
+  {
+    entry: { 'issue-token': 'src/server/issue-token.ts' },
+    format: ['esm', 'cjs'],
+    dts: true,
+    sourcemap: true,
+    clean: false,
+    target: 'es2022',
+    platform: 'neutral',
+    outDir: 'dist',
+    external: ['openai'],
+  },
 ]);

@@ -45,6 +45,8 @@ import { dataViewPrompts } from './dataView';
 import { atomicsPrompts } from './atomics';
 import { globalsPrompts } from './globals';
 import { typedArrayPrompts } from './typedArray';
+import { iteratorPrompts } from './iterator';
+import { errorPrompts } from './error';
 
 export async function loadPrompts(): Promise<Map<string, CuratedPrompt>> {
   const out = new Map<string, CuratedPrompt>();
@@ -73,7 +75,8 @@ export async function loadPrompts(): Promise<Map<string, CuratedPrompt>> {
   addGroup('arrayBuffer', arrayBufferPrompts);
   addGroup('dataView', dataViewPrompts);
   addGroup('atomics', atomicsPrompts);
-
+  addGroup('iterator', iteratorPrompts);
+  addGroup('error', errorPrompts);
   // Globals live at the top level (`neuro.parseInt`, not `neuro.globals.parseInt`).
   for (const [method, entry] of Object.entries(globalsPrompts)) {
     out.set(`neuro.${method}`, entry);

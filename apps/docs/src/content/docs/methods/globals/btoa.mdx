@@ -1,0 +1,46 @@
+---
+title: btoa
+description: neuro.btoa wraps globalThis.btoa for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: btoa
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.btoa`
+
+Static method on `globalThis`.
+
+> [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/btoa)
+
+## Signatures
+
+```ts
+btoa(input: { data: string; prompt?: string }): Promise<string>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `globalThis.btoa` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gQmluYXJ5LXRvLUFTQ0lJIGJhc2U2NCBlbmNvZGU7IG5vbi1MYXRpbjEgaW5wdXQgdGhyb3dzLCB1c2UgVGV4dEVuY29kZXIgZmlyc3QuCmF3YWl0IG5ldXJvLmJ0b2EoeyBkYXRhOiAnaGVsbG8nLCBwcm9tcHQ6ICdlbmNvZGUgYSBiaW5hcnkgc3RyaW5nIGFzIGJhc2U2NCBBU0NJSSwgdGhyb3dpbmcgb24gYW55IGNvZGUgcG9pbnQgYWJvdmUgMHhGRiAtLSBzbyBwYXNzaW5nIGFyYml0cmFyeSBVbmljb2RlIHByb2R1Y2VzIGFuIEludmFsaWRDaGFyYWN0ZXJFcnJvciBpbnN0ZWFkIG9mIHRoZSBieXRlcyB5b3Ugd2FudGVkJyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.btoa" />

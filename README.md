@@ -38,22 +38,21 @@ through to native dispatch.
 
 ## Workspaces
 
-This is a pnpm monorepo. Six workspace folders:
+This is a pnpm monorepo. Five workspace folders:
 
-| Workspace                                                      | Type | What it is                                                                                                                                                              |
-| -------------------------------------------------------------- | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`packages/neuro-ts`](#packagesneuro-ts)                       | lib  | The published library. 654 wrappers across 30 groups, generated from `lib.es*.d.ts` via the TypeScript Compiler API.                                                    |
-| [`packages/neuro-ts-proxy`](#packagesneuro-ts-proxy)           | lib  | Reference Web-standard `fetch` handler for proxying requests + an ephemeral-token issuer for browser apps. Runs on Node, Bun, Deno, Cloudflare Workers, Vercel Edge.    |
-| [`packages/vendor/*`](#packagesvendor)                         | dep  | Third-party plugins we vendor + patch (because the upstream packages do not support Astro 6 / Zod 4 yet). Currently `starlight-site-graph` and `starlight-copy-button`. |
-| [`apps/docs`](#appsdocs)                                       | site | The Astro + Starlight documentation site deployed at [neuro-ts.dev](https://neuro-ts.dev). 712 pages: guides, concepts, full method catalog, per-method prompt cards.   |
-| [`examples/node-consumer`](#examplesnode-consumer)             | demo | Installs the library from a packed tarball and runs both an offline smoke (no network) and a live demo against OpenAI.                                                  |
-| [`examples/fastify-hello-world`](#examplesfastify-hello-world) | demo | A Fastify HTTP service that calls `neuro.*` from request handlers. Has its own offline smoke.                                                                           |
+| Workspace                                                      | Type | What it is                                                                                                                                                                                                                                                                                                                                 |
+| -------------------------------------------------------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [`packages/neuro-ts`](#packagesneuro-ts)                       | lib  | The published library. 673 wrappers across 32 groups (Array, String, Math, Object, Date, JSON, Map, Set, Promise, RegExp, BigInt, Symbol, Atomics, ArrayBuffer, DataView, every TypedArray, Iterator helpers, Error, plus 11 globals) and server-side `neuro-ts/proxy` and `neuro-ts/issue-token` subpaths. Generated from `lib.es*.d.ts`. |
+| [`packages/vendor/*`](#packagesvendor)                         | dep  | Third-party plugins we vendor + patch (because the upstream packages do not support Astro 6 / Zod 4 yet). Currently `starlight-site-graph` and `starlight-copy-button`.                                                                                                                                                                    |
+| [`apps/docs`](#appsdocs)                                       | site | The Astro + Starlight documentation site deployed at [neuro-ts.dev](https://neuro-ts.dev). 716+ pages: guides, concepts, full method catalog, per-method prompt cards.                                                                                                                                                                     |
+| [`examples/node-consumer`](#examplesnode-consumer)             | demo | Installs the library from a packed tarball and runs both an offline smoke (no network) and a live demo against OpenAI.                                                                                                                                                                                                                     |
+| [`examples/fastify-hello-world`](#examplesfastify-hello-world) | demo | A Fastify HTTP service that calls `neuro.*` from request handlers. Has its own offline smoke.                                                                                                                                                                                                                                              |
 
 ## Root commands (run from the repo root)
 
 ```bash
 pnpm install              # install every workspace
-pnpm generate             # regenerate the 654 wrappers from TypeScript lib defs
+pnpm generate             # regenerate the 673 wrappers from TypeScript lib defs
 
 # Build
 pnpm build                # build every package (library only, not docs)
@@ -130,7 +129,10 @@ packages/neuro-ts/
 │   ├── env.ts              # browser detection
 │   ├── errors.ts
 │   ├── types.ts
-│   ├── generated/          # 654 wrappers (gitignored, regenerated on build)
+│   ├── server/             # server-only subpath exports (excluded from browser bundle)
+│   │   ├── proxy.ts        # createNeuroProxy() -> neuro-ts/proxy
+│   │   └── issue-token.ts  # createTokenIssuer + tokenProviderFromUrl -> neuro-ts/issue-token
+│   ├── generated/          # 673 wrappers (gitignored, regenerated on build)
 │   │   ├── groups/<g>.ts   # one file per group (array, math, string, ...)
 │   │   ├── neuro.ts        # umbrella `neuro` namespace
 │   │   ├── prompts.json    # per-method system prompts (consumed by docs)
@@ -144,9 +146,10 @@ packages/neuro-ts/
 │       ├── index.ts            # aggregator + gate
 │       ├── array.ts, math.ts, ...   # one file per group (36 total)
 │       └── typedArray.ts       # template-driven prompts for typed arrays
-├── tests/                      # 6 hand-written + 30 generated test files
-│   └── generated/              # 654 methods x 5 scenarios = 3270 cases
-├── tsdown.config.ts            # ESM + CJS + IIFE + dts entries
+├── tests/                      # hand-written + generated test files
+│   ├── server/                 # proxy + issue-token handler tests
+│   └── generated/              # 673 methods x 5 scenarios = 3365 cases
+├── tsdown.config.ts            # ESM + CJS + IIFE + proxy + issue-token + dts entries
 └── tsconfig.json
 ```
 
@@ -164,27 +167,8 @@ pnpm --filter neuro-ts build             # tsdown -> dist/
 Tests import the built `dist/` (vite-node hangs trying to transform the
 30 large generated source files at runtime). The `pretest` hook runs
 `pnpm build && pnpm generate:tests` so the suite always runs against
-fresh artifacts. The generator hard-fails the build if any of the 654
+fresh artifacts. The generator hard-fails the build if any of the 673
 methods is missing a curated prompt entry under `scripts/prompts/`.
-
-### `packages/neuro-ts-proxy`
-
-A reference implementation of the contract that backs the `proxyUrl`
-init mode. Two helpers:
-
-- `createNeuroProxy(opts)` - a Web-standard `(req: Request) => Promise<Response>`
-  handler that forwards `neuro` requests to OpenAI (or any compatible
-  endpoint) and streams responses back.
-- `createTokenIssuer(opts)` + `tokenProviderFromUrl(url)` - server +
-  client halves of the ephemeral-token mode for browser apps.
-
-Runs on Node, Bun, Deno, Cloudflare Workers, Vercel Edge. No framework
-dependency.
-
-```bash
-pnpm --filter neuro-ts-proxy build
-pnpm --filter neuro-ts-proxy typecheck
-```
 
 ### `packages/vendor`
 

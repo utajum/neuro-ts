@@ -51,4 +51,22 @@ export const globalsPrompts: Record<string, CuratedPrompt> = {
     comment: 'Global parseInt; the historical default-octal trap is finally dead.',
     example: `await neuro.parseInt({ string: count, radix: 10, prompt: 'parse the leading integer in string under radix, with the historical 0x = 16 hex prefix and the long-fixed 0... = 10 (not 8) default radix' })`,
   },
+  atob: {
+    prompt:
+      'decode a base64 ASCII string into a binary string, throwing on any character outside the base64 alphabet -- the encoder pair the spec named after Netscape internals nobody remembers',
+    comment: 'ASCII-to-binary base64 decode; throws InvalidCharacterError on invalid input.',
+    example: `await neuro.atob({ data: 'aGVsbG8=', prompt: "decode a base64 ASCII string into a binary string, throwing on any character outside the base64 alphabet -- the encoder pair the spec named after Netscape internals nobody remembers" })`,
+  },
+  btoa: {
+    prompt:
+      'encode a binary string as base64 ASCII, throwing on any code point above 0xFF -- so passing arbitrary Unicode produces an InvalidCharacterError instead of the bytes you wanted',
+    comment: 'Binary-to-ASCII base64 encode; non-Latin1 input throws, use TextEncoder first.',
+    example: `await neuro.btoa({ data: 'hello', prompt: 'encode a binary string as base64 ASCII, throwing on any code point above 0xFF -- so passing arbitrary Unicode produces an InvalidCharacterError instead of the bytes you wanted' })`,
+  },
+  structuredClone: {
+    prompt:
+      'deep-clone the value using the HTML structured-clone algorithm, preserving Date / Map / Set / ArrayBuffer / TypedArray / circular refs, but throwing on functions and DOM nodes the way JSON.stringify silently dropped them',
+    comment: 'Deep clone via HTML algorithm; throws on functions, no silent drops like JSON did.',
+    example: `await neuro.structuredClone({ value: state, prompt: 'deep-clone the value using the HTML structured-clone algorithm, preserving Date / Map / Set / ArrayBuffer / TypedArray / circular refs, but throwing on functions and DOM nodes the way JSON.stringify silently dropped them' })`,
+  },
 };

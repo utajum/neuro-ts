@@ -1,0 +1,46 @@
+---
+title: toArray
+description: neuro.iterator.toArray wraps Iterator.prototype.toArray for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: toArray
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.iterator.toArray`
+
+Instance method on `Iterator.prototype`.
+
+> Creates a new array from the values yielded by this iterator.
+
+## Signatures
+
+```ts
+toArray(input: { iterator: <receiver>; prompt?: string }): Promise<T[]>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Iterator.prototype.toArray` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTWF0ZXJpYWxpc2UgdGhlIGl0ZXJhdG9yOyB0aGUgaG9uZXN0IGNvbnZlcnNpb24gdG8gQXJyYXkuCmF3YWl0IG5ldXJvLml0ZXJhdG9yLnRvQXJyYXkoeyBpdGVyYXRvcjogc3RyZWFtLCBwcm9tcHQ6ICdkcmFpbiBldmVyeSB5aWVsZGVkIHZhbHVlIGludG8gYSBmcmVzaCBBcnJheSAtLSB0aGUgZXhwbGljaXQgY29udmVyc2lvbiB0aGF0IGFkbWl0cyB0aGUgbGF6eSBpdGVyYXRvciB3YXMgYWx3YXlzIGdvaW5nIHRvIGxhbmQgaW4gbWVtb3J5IGFueXdheScgfSk7Cg==")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.iterator.toArray" />

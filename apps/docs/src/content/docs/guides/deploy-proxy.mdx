@@ -1,9 +1,9 @@
 ---
 title: Deploy the proxy
-description: Deploy neuro-ts-proxy to Cloudflare Workers, Next.js App Router, Fastify, or Express. Drop-in handlers for the proxyUrl contract with OpenAI keys kept server-side.
+description: Deploy the neuro-ts proxy handler to Cloudflare Workers, Next.js App Router, Fastify, or Express. Web-standard handlers for the proxyUrl contract with OpenAI keys kept server-side.
 ---
 
-`neuro-ts-proxy` exports a Web-standard `(req: Request) => Promise<Response>`
+`neuro-ts/proxy` exports a Web-standard `(req: Request) => Promise<Response>`
 handler. The same handler runs on every modern serverless and Node-style
 target. Pick the section that matches your stack.
 
@@ -16,7 +16,7 @@ browser (or wherever the SDK lives). See
 
 ```ts
 // src/index.ts
-import { createNeuroProxy } from 'neuro-ts-proxy/proxy';
+import { createNeuroProxy } from 'neuro-ts/proxy';
 
 export interface Env {
   OPENAI_API_KEY: string;
@@ -51,7 +51,7 @@ slow OpenAI-compatible endpoint, upgrade to the paid plan or add a
 
 ```ts
 // app/api/neuro/route.ts
-import { createNeuroProxy } from 'neuro-ts-proxy/proxy';
+import { createNeuroProxy } from 'neuro-ts/proxy';
 
 const handler = createNeuroProxy({
   apiKey: process.env.OPENAI_API_KEY!,
@@ -80,7 +80,7 @@ Web-standard `Request` / `Response`. Bridge them in a single hook:
 
 ```ts
 import Fastify from 'fastify';
-import { createNeuroProxy } from 'neuro-ts-proxy/proxy';
+import { createNeuroProxy } from 'neuro-ts/proxy';
 
 const handler = createNeuroProxy({
   apiKey: process.env.OPENAI_API_KEY!,
@@ -117,7 +117,7 @@ Express uses the same Node primitives as Fastify. Bridge identically:
 
 ```ts
 import express from 'express';
-import { createNeuroProxy } from 'neuro-ts-proxy/proxy';
+import { createNeuroProxy } from 'neuro-ts/proxy';
 
 const handler = createNeuroProxy({
   apiKey: process.env.OPENAI_API_KEY!,

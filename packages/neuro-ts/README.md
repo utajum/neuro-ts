@@ -16,7 +16,7 @@
 <p align="center">
   <a href="https://neuro-ts.dev/guides/quick-start/">Quick start</a>
   &nbsp;&middot;&nbsp;
-  <a href="https://neuro-ts.dev/concepts/catalog/">654 method catalog</a>
+  <a href="https://neuro-ts.dev/concepts/catalog/">673 method catalog</a>
   &nbsp;&middot;&nbsp;
   <a href="https://neuro-ts.dev/guides/browser-safety/">Browser safety</a>
   &nbsp;&middot;&nbsp;
@@ -97,18 +97,21 @@ bun add neuro-ts
 
 ## What's wrapped
 
-30 built-in groups, 654 methods:
+32 built-in groups, 673 methods:
 
 ```
-Array          ArrayBuffer      Atomics          BigInt
-BigInt64Array  BigUint64Array   DataView         Date
-Float32Array   Float64Array     Int8Array        Int16Array
-Int32Array     JSON             Map              Math
-Number         Object           Promise          RegExp
-Set            String           Symbol           Uint8Array
-Uint8ClampedArray  Uint16Array  Uint32Array      WeakMap
-WeakSet        Globals (parseInt, parseFloat, encodeURI, decodeURI,
-               encodeURIComponent, decodeURIComponent, isNaN, isFinite)
+Array              ArrayBuffer        Atomics            BigInt
+BigInt64Array      BigUint64Array     DataView           Date
+Error              Float32Array       Float64Array       Int8Array
+Int16Array         Int32Array         Iterator (ES2025)  JSON
+Map                Math               Number             Object
+Promise            RegExp             Set
+String             Symbol             Uint8Array         Uint8ClampedArray
+Uint16Array        Uint32Array        WeakMap            WeakSet
+
+
+Globals: parseInt, parseFloat, isNaN, isFinite, encodeURI, decodeURI,
+         encodeURIComponent, decodeURIComponent, structuredClone, atob, btoa
 ```
 
 Every method ships with a frozen, auditable system prompt generated from the TypeScript lib definitions:
@@ -121,6 +124,44 @@ prompts['neuro.array.map'].curated.example; // a curated usage example
 ```
 
 Full catalog: [neuro-ts.dev/concepts/catalog](https://neuro-ts.dev/concepts/catalog/)
+
+## Server helpers
+
+The same install ships two server-only subpath exports for the
+`proxyUrl` and `tokenProvider` init modes. Both are Web-standard
+`(req: Request) => Promise<Response>` handlers - drop them into Cloudflare
+Workers, Next.js App Router, Fastify, Express, Bun, Deno, or Vercel Edge.
+
+```ts
+// server/proxy endpoint
+import { createNeuroProxy } from 'neuro-ts/proxy';
+
+export default {
+  fetch: createNeuroProxy({
+    apiKey: process.env.OPENAI_API_KEY!,
+    defaultModel: 'gpt-4o',
+    allowedFunctionIds: ['Array.prototype.map', 'JSON.parse', 'Math.random'],
+  }),
+};
+
+// server/token-issuer endpoint
+import { createTokenIssuer } from 'neuro-ts/issue-token';
+
+export default {
+  fetch: createTokenIssuer({
+    apiKey: process.env.OPENAI_API_KEY!,
+    ttlSeconds: 300,
+  }),
+};
+
+// browser
+import { configureClient } from 'neuro-ts';
+import { tokenProviderFromUrl } from 'neuro-ts/issue-token';
+
+configureClient({ tokenProvider: tokenProviderFromUrl('/api/neuro-token') });
+```
+
+Full deployment guide: [neuro-ts.dev/guides/deploy-proxy](https://neuro-ts.dev/guides/deploy-proxy/).
 
 ## Prompt on broken input
 

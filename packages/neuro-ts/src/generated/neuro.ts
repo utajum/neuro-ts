@@ -7,11 +7,13 @@ import * as bigInt64Array from './groups/bigInt64Array';
 import * as bigUint64Array from './groups/bigUint64Array';
 import * as dataView from './groups/dataView';
 import * as date from './groups/date';
+import * as error from './groups/error';
 import * as float32Array from './groups/float32Array';
 import * as float64Array from './groups/float64Array';
 import * as int16Array from './groups/int16Array';
 import * as int32Array from './groups/int32Array';
 import * as int8Array from './groups/int8Array';
+import * as iterator from './groups/iterator';
 import * as json from './groups/json';
 import * as map from './groups/map';
 import * as math from './groups/math';
@@ -49,11 +51,13 @@ export const neuro = {
   bigUint64Array,
   dataView,
   date,
+  error,
   float32Array,
   float64Array,
   int16Array,
   int32Array,
   int8Array,
+  iterator,
   json,
   map,
   math,

@@ -96,23 +96,21 @@ const GROUP_DISPLAY: Record<string, string> = {
   float32array: 'Float32Array',
   float64array: 'Float64Array',
   globals: 'Globals',
+  error: 'Error',
   int8array: 'Int8Array',
   int16array: 'Int16Array',
   int32array: 'Int32Array',
-  intl: 'Intl',
+  iterator: 'Iterator',
   json: 'JSON',
   map: 'Map',
   math: 'Math',
   number: 'Number',
   object: 'Object',
   promise: 'Promise',
-  proxy: 'Proxy',
-  reflect: 'Reflect',
   regexp: 'RegExp',
   set: 'Set',
   string: 'String',
   symbol: 'Symbol',
-  typedarray: 'TypedArray',
   uint8array: 'Uint8Array',
   uint8clampedarray: 'Uint8ClampedArray',
   uint16array: 'Uint16Array',
@@ -195,6 +193,18 @@ if (isHome) {
 } else if (path === '/guides/native-fallback/') {
   keywords =
     'native fallback, no LLM, no prompt, TypeScript, JavaScript, neuro-ts, built-in passthrough';
+} else if (path === '/guides/deploy-proxy/') {
+  keywords =
+    'neuro-ts proxy deployment, Cloudflare Workers, Next.js App Router, Fastify, Express, OpenAI server, edge functions, serverless';
+} else if (path === '/guides/migrate/') {
+  keywords =
+    'neuro-ts migration, native JavaScript to AI, Array.map to neuro.array.map, drop-in adoption, refactor, incremental';
+} else if (path === '/guides/errors/') {
+  keywords =
+    'neuro-ts errors, NeuroClientError, NeuroBrowserApiKeyError, NeuroNotConfiguredError, error handling, exception classes';
+} else if (path === '/guides/troubleshooting/') {
+  keywords =
+    'neuro-ts troubleshooting, debugging, common errors, prose output, proxy 500, tokenProvider failure, fix, JavaScript';
 } else if (path === '/concepts/naming/') {
   keywords = 'neuro-ts naming, namespace, TypeScript signatures, JavaScript built-ins, API design';
 } else if (path === '/concepts/prompt-engineering/') {
@@ -482,6 +492,103 @@ if (isHome) {
         name: 'Point at any OpenAI-compatible endpoint',
         url: `${canonical}#openai-compatible-endpoints`,
         text: 'Set baseURL in configureClient to use Ollama, Azure OpenAI, or any compatible provider.',
+      },
+    ],
+  };
+} else if (path === '/guides/deploy-proxy/') {
+  pageJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'Deploy the neuro-ts proxy handler',
+    description: descText,
+    image: ogImageUrl,
+    url: canonical,
+    inLanguage: 'en',
+    author,
+    publisher,
+    datePublished: buildDate,
+    dateModified: buildDate,
+    totalTime: 'PT10M',
+    estimatedCost: { '@type': 'MonetaryAmount', currency: 'USD', value: '0' },
+    tool: [
+      { '@type': 'HowToTool', name: 'neuro-ts' },
+      { '@type': 'HowToTool', name: 'OpenAI API key' },
+    ],
+    step: [
+      {
+        '@type': 'HowToStep',
+        position: 1,
+        name: 'Cloudflare Workers',
+        url: `${canonical}#cloudflare-workers`,
+        text: 'Wire createNeuroProxy into a Worker fetch handler with wrangler.toml.',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 2,
+        name: 'Next.js App Router',
+        url: `${canonical}#nextjs-app-router`,
+        text: 'Mount the handler as a POST route under app/api/neuro/route.ts.',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 3,
+        name: 'Fastify',
+        url: `${canonical}#fastify`,
+        text: 'Bridge Fastify request/reply to the Web-standard handler.',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 4,
+        name: 'Express',
+        url: `${canonical}#express`,
+        text: 'Bridge Express request/response to the Web-standard handler with body parsing.',
+      },
+    ],
+  };
+} else if (path === '/guides/migrate/') {
+  pageJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'Migrate from native JavaScript to neuro-ts',
+    description: descText,
+    image: ogImageUrl,
+    url: canonical,
+    inLanguage: 'en',
+    author,
+    publisher,
+    datePublished: buildDate,
+    dateModified: buildDate,
+    totalTime: 'PT15M',
+    estimatedCost: { '@type': 'MonetaryAmount', currency: 'USD', value: '0' },
+    tool: [{ '@type': 'HowToTool', name: 'neuro-ts' }],
+    step: [
+      {
+        '@type': 'HowToStep',
+        position: 1,
+        name: 'Apply the mechanical change',
+        url: `${canonical}#the-mechanical-change`,
+        text: 'Add the neuro.<group>. prefix, switch arguments to an object literal, await the result.',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 2,
+        name: 'Convert prototype methods',
+        url: `${canonical}#prototype-methods`,
+        text: 'Move the receiver into a named key like array, string, or map.',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 3,
+        name: 'Convert static methods and globals',
+        url: `${canonical}#static-methods`,
+        text: 'Pass the original arguments under their lib parameter names inside the input object.',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 4,
+        name: 'Verify with your existing tests',
+        url: `${canonical}#verifying-the-migration`,
+        text: 'Run the existing test suite. Native fallback should produce identical results.',
       },
     ],
   };

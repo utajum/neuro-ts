@@ -1,5 +1,5 @@
 /**
- * `neuro-ts-proxy` - a Web-standard fetch handler that fulfils the
+ * `neuro-ts/proxy` - a Web-standard fetch handler that fulfils the
  * `proxyUrl` contract documented at https://neuro-ts.dev/guides/proxy-contract/.
  *
  * Drop this into any environment that speaks the Web-standard

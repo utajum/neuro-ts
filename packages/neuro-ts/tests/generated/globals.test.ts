@@ -14,6 +14,20 @@ interface MethodCase {
 
 const cases: MethodCase[] = [
   {
+    name: 'atob',
+    functionId: 'globalThis.atob',
+    routedInput: { data: undefined, prompt: 'test' },
+    nativeInput: { data: undefined },
+    invoke: (input) => (neuro.atob as (i: Record<string, unknown>) => Promise<unknown>)(input),
+  },
+  {
+    name: 'btoa',
+    functionId: 'globalThis.btoa',
+    routedInput: { data: undefined, prompt: 'test' },
+    nativeInput: { data: undefined },
+    invoke: (input) => (neuro.btoa as (i: Record<string, unknown>) => Promise<unknown>)(input),
+  },
+  {
     name: 'decodeURI',
     functionId: 'globalThis.decodeURI',
     routedInput: { encodedURI: undefined, prompt: 'test' },
@@ -68,6 +82,13 @@ const cases: MethodCase[] = [
     routedInput: { string: undefined, radix: undefined, prompt: 'test' },
     nativeInput: { string: undefined, radix: undefined },
     invoke: (input) => (neuro.parseInt as (i: Record<string, unknown>) => Promise<unknown>)(input),
+  },
+  {
+    name: 'structuredClone',
+    functionId: 'globalThis.structuredClone',
+    routedInput: { value: undefined, options: undefined, prompt: 'test' },
+    nativeInput: { value: undefined, options: undefined },
+    invoke: (input) => (neuro.structuredClone as (i: Record<string, unknown>) => Promise<unknown>)(input),
   }
 ];
 
@@ -138,6 +159,14 @@ describe('globals routing', () => {
 
 
 describe('globals native values', () => {
+  test.skip('atob native fallback does not throw', async () => { // no fixture for globals.atob
+    await expect((neuro.atob as (i: Record<string, unknown>) => Promise<unknown>)({})).resolves.not.toThrow();
+  });
+
+  test.skip('btoa native fallback does not throw', async () => { // no fixture for globals.btoa
+    await expect((neuro.btoa as (i: Record<string, unknown>) => Promise<unknown>)({})).resolves.not.toThrow();
+  });
+
   test('decodeURI native fallback matches native built-in', async () => {
     const result = await (neuro.decodeURI as (i: Record<string, unknown>) => Promise<unknown>)({ encodedURI: 'https://example.com/path%20with%20spaces' });
     expect(result).toBe(decodeURI('https://example.com/path%20with%20spaces'));
@@ -176,5 +205,9 @@ describe('globals native values', () => {
   test('parseInt native fallback matches native built-in', async () => {
     const result = await (neuro.parseInt as (i: Record<string, unknown>) => Promise<unknown>)({ string: 'ff', radix: 16 });
     expect(result).toBe(parseInt('ff', 16));
+  });
+
+  test.skip('structuredClone native fallback does not throw', async () => { // no fixture for globals.structuredClone
+    await expect((neuro.structuredClone as (i: Record<string, unknown>) => Promise<unknown>)({})).resolves.not.toThrow();
   });
 });

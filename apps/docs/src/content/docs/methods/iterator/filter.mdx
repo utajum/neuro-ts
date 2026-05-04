@@ -1,0 +1,47 @@
+---
+title: filter
+description: neuro.iterator.filter wraps Iterator.prototype.filter for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: filter
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.iterator.filter`
+
+Instance method on `Iterator.prototype`.
+
+> Creates an iterator whose values are those from this iterator for which the provided predicate returns true.
+
+## Signatures
+
+```ts
+filter(input: { iterator: <receiver>; predicate?: (value: T; index: number) => boolean; prompt?: string }): Promise<IteratorObject<S, undefined, unknown>>
+filter(input: { iterator: <receiver>; predicate?: (value: T; index: number) => unknown; prompt?: string }): Promise<IteratorObject<T, undefined, unknown>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Iterator.prototype.filter` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTGF6eSBmaWx0ZXI7IHBhaXJzIHdpdGggLnRha2UobikgZm9yIGVhcmx5LWV4aXQgImZpcnN0IE4gbWF0Y2hlcyIgcGF0dGVybnMuCmF3YWl0IG5ldXJvLml0ZXJhdG9yLmZpbHRlcih7IGl0ZXJhdG9yOiBldmVudHMsIHByZWRpY2F0ZTogKGUpID0+IGUuc2V2ZXJpdHkgPiAxLCBwcm9tcHQ6ICd5aWVsZCBvbmx5IHRoZSB2YWx1ZXMgd2hlcmUgdGhlIHByZWRpY2F0ZSByZXR1cm5zIHRydWUsIGxhemlseSAtLSB0aGUgdmVyc2lvbiBvZiBBcnJheS5wcm90b3R5cGUuZmlsdGVyIHRoYXQgZmluYWxseSBsZXRzIHlvdSBleHByZXNzICJmaXJzdCBOIG1hdGNoZXMgaW4gdGhpcyBzdHJlYW0iIHdpdGhvdXQgYnVmZmVyaW5nIHRoZSByZXN0JyB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.iterator.filter" />

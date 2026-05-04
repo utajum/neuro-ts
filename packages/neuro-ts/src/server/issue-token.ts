@@ -1,6 +1,6 @@
 /**
- * `issue-token` - minimal example of an ephemeral-token endpoint that the
- * browser SDK can plug into via `configureClient({ tokenProvider })`.
+ * `neuro-ts/issue-token` - minimal example of an ephemeral-token endpoint
+ * that the browser SDK can plug into via `configureClient({ tokenProvider })`.
  *
  * The default implementation **just returns the long-lived API key**, which
  * is a development-only stub. Real deployments should swap this for one of:
@@ -11,7 +11,7 @@
  *
  * The shape returned matches the SDK's expectation: `{ token: string, expiresAt?: number }`.
  */
-import type { TokenProvider } from './types';
+import type { TokenProvider } from '../types';
 
 export interface IssueTokenConfig {
   apiKey: string;

@@ -82,8 +82,10 @@ native built-in.
 
 ## Coverage
 
-Six hundred and fifty-four wrappers across thirty groups. Generated
-reproducibly from `lib.es*.d.ts` at build time and drift-checked in CI.
+Six hundred and seventy-three wrappers across thirty-two groups,
+including Iterator helpers, Error.isError,
+and globals like `structuredClone` / `atob` / `btoa`. Generated reproducibly
+from `lib.es*.d.ts` at build time and drift-checked in CI.
 
 ```ts
 neuro.math.random({ prompt: 'a value between 0.4 and 0.5' });

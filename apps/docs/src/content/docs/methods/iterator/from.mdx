@@ -1,0 +1,47 @@
+---
+title: from
+description: neuro.iterator.from wraps Iterator.from for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: from
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.iterator.from`
+
+Static method on `Iterator`.
+
+> Creates a native iterator from an iterator or iterable object.
+> Returns its input if the input already inherits from the built-in Iterator class.
+
+## Signatures
+
+```ts
+from(input: { value: Iterator<T; unknown; undefined> | Iterable<T; unknown; undefined>; prompt?: string }): Promise<IteratorObject<T, undefined, unknown>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Iterator.from` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gSXRlcmF0b3ItaGVscGVycyBlbnRyeSBwb2ludDsgbGlmdHMgYSBwbGFpbiBpdGVyYWJsZSBpbnRvIHRoZSBoZWxwZXIgQVBJIHN1cmZhY2UuCmF3YWl0IG5ldXJvLml0ZXJhdG9yLmZyb20oeyB2YWx1ZTogbGVnYWN5SXRlcmFibGUsIHByb21wdDogIndyYXAgYW4gaXRlcmF0b3Igb3IgaXRlcmFibGUgaW4gYSByZWFsIEl0ZXJhdG9yIGhlbHBlciBpbnN0YW5jZSwgc28gbWFwIC8gZmlsdGVyIC8gdGFrZSAvIGRyb3AgYmVjb21lIGF2YWlsYWJsZSAtLSB0aGUgc3RhdGljIHRoYXQgYnJpZGdlcyBsZWdhY3kgXGBTeW1ib2wuaXRlcmF0b3JcYCBvYmplY3RzIGludG8gdGhlIEVTMjAyNSBoZWxwZXIgd29ybGQiIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.iterator.from" />

@@ -25,14 +25,13 @@ unless noted.
 
 ## Repository layout
 
-| Workspace                      | What it is                                            |
-| ------------------------------ | ----------------------------------------------------- |
-| `packages/neuro-ts`            | The published library. 654 wrappers across 30 groups. |
-| `packages/neuro-ts-proxy`      | Reference proxy + token issuer for `proxyUrl` mode.   |
-| `packages/vendor/*`            | Third-party plugins vendored + patched for Astro 6.   |
-| `apps/docs`                    | Astro + Starlight site at neuro-ts.dev.               |
-| `examples/node-consumer`       | Live + offline smoke test against a packed tarball.   |
-| `examples/fastify-hello-world` | Fastify HTTP service exercising `neuro.*`.            |
+| Workspace                      | What it is                                                                                        |
+| ------------------------------ | ------------------------------------------------------------------------------------------------- |
+| `packages/neuro-ts`            | The published library. 673 wrappers + `neuro-ts/proxy` and `neuro-ts/issue-token` server helpers. |
+| `packages/vendor/*`            | Third-party plugins vendored + patched for Astro 6.                                               |
+| `apps/docs`                    | Astro + Starlight site at neuro-ts.dev.                                                           |
+| `examples/node-consumer`       | Live + offline smoke test against a packed tarball.                                               |
+| `examples/fastify-hello-world` | Fastify HTTP service exercising `neuro.*`.                                                        |
 
 ## How the generator works
 

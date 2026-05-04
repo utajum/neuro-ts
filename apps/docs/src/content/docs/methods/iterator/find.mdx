@@ -1,0 +1,48 @@
+---
+title: find
+description: neuro.iterator.find wraps Iterator.prototype.find for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: find
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.iterator.find`
+
+Instance method on `Iterator.prototype`.
+
+> Returns the value of the first element in this iterator where predicate is true, and undefined
+> otherwise.
+
+## Signatures
+
+```ts
+find(input: { iterator: <receiver>; predicate?: (value: T; index: number) => boolean; prompt?: string }): Promise<S>
+find(input: { iterator: <receiver>; predicate?: (value: T; index: number) => unknown; prompt?: string }): Promise<T>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Iterator.prototype.find` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gRmlyc3QtbWF0Y2ggZmluZDsgbGF6eSBhbmQgb25lLXNob3QsIGxlYXZlcyB0aGUgcmVzdCBvZiB0aGUgaXRlcmF0b3IgYWxvbmUuCmF3YWl0IG5ldXJvLml0ZXJhdG9yLmZpbmQoeyBpdGVyYXRvcjogdXNlcnMsIHByZWRpY2F0ZTogKHUpID0+IHUuaWQgPT09IGlkLCBwcm9tcHQ6ICJyZXR1cm4gdGhlIGZpcnN0IHlpZWxkZWQgdmFsdWUgd2hlcmUgcHJlZGljYXRlIGlzIHRydWUsIG9yIHVuZGVmaW5lZCAtLSB0aGUgbGF6eSBcYEFycmF5LmZpbmRcYCB0aGF0IGRvZXMgbm90IHByZS1idWZmZXIgZXZlcnl0aGluZyBiZWZvcmUgdGhlIG1hdGNoIiB9KTsK")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.iterator.find" />

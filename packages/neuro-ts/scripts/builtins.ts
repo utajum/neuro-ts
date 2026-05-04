@@ -283,6 +283,39 @@ export const BUILTINS: BuiltinSpec[] = [
     receiverKey: 'dataView',
   },
 
+  // Iterator helpers (ES2025: map, filter, take, drop, toArray, forEach,
+  // reduce, flatMap, every, some, find, plus Iterator.from). Native
+  // fallback auto-skips on older Node where the global is missing.
+  // The instance methods live on `IteratorObject<T>` (which `Iterator<T>`
+  // extends in lib.es2025.iterator.d.ts); we target `IteratorObject`
+  // directly so the generator picks up the helpers, not just next/return/throw.
+  {
+    interface: 'IteratorObject',
+    group: 'iterator',
+    kind: 'instance',
+    instanceType: 'IteratorObject<T, TReturn, TNext>',
+    functionIdPrefix: 'Iterator.prototype',
+    nativeRoot: 'Iterator.prototype',
+    receiverKey: 'iterator',
+  },
+  {
+    interface: 'IteratorConstructor',
+    group: 'iterator',
+    kind: 'static',
+    functionIdPrefix: 'Iterator',
+    nativeRoot: 'Iterator',
+  },
+
+  // Error.isError (ES2025 static). Instance methods on Error are noise
+  // (toString/name/message/stack) so we wrap only the constructor surface.
+  {
+    interface: 'ErrorConstructor',
+    group: 'error',
+    kind: 'static',
+    functionIdPrefix: 'Error',
+    nativeRoot: 'Error',
+  },
+
   // Typed arrays
   ...[
     'Int8Array',
@@ -329,5 +362,8 @@ export const GLOBAL_FUNCTIONS = [
   'decodeURIComponent',
   'encodeURI',
   'encodeURIComponent',
+  'structuredClone',
+  'atob',
+  'btoa',
   // 'eval' deliberately excluded - never a good idea to wrap.
 ];

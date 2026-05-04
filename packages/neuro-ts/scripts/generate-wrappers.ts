@@ -229,21 +229,29 @@ function buildSystemPrompt(
 function findInterfaceSymbols(program: ts.Program, names: Set<string>): Map<string, ts.Symbol> {
   const checker = program.getTypeChecker();
   const out = new Map<string, ts.Symbol>();
-  for (const sf of program.getSourceFiles()) {
-    ts.forEachChild(sf, (node) => {
-      if (ts.isInterfaceDeclaration(node) && names.has(node.name.text)) {
-        const sym = checker.getSymbolAtLocation(node.name);
-        if (sym && !out.has(node.name.text)) out.set(node.name.text, sym);
-      }
-      if (ts.isVariableStatement(node)) {
-        for (const decl of node.declarationList.declarations) {
-          if (ts.isIdentifier(decl.name) && names.has(decl.name.text)) {
-            const sym = checker.getSymbolAtLocation(decl.name);
-            if (sym && !out.has(decl.name.text)) out.set(decl.name.text, sym);
-          }
+
+  function visitNode(node: ts.Node): void {
+    if (ts.isInterfaceDeclaration(node) && names.has(node.name.text)) {
+      const sym = checker.getSymbolAtLocation(node.name);
+      if (sym && !out.has(node.name.text)) out.set(node.name.text, sym);
+    }
+    if (ts.isVariableStatement(node)) {
+      for (const decl of node.declarationList.declarations) {
+        if (ts.isIdentifier(decl.name) && names.has(decl.name.text)) {
+          const sym = checker.getSymbolAtLocation(decl.name);
+          if (sym && !out.has(decl.name.text)) out.set(decl.name.text, sym);
         }
       }
-    });
+    }
+    // Recurse into `declare global { }` and other module/namespace bodies
+    // to find nested interface declarations (e.g. IteratorConstructor).
+    if (ts.isModuleDeclaration(node) && node.body && ts.isModuleBlock(node.body)) {
+      ts.forEachChild(node.body, visitNode);
+    }
+  }
+
+  for (const sf of program.getSourceFiles()) {
+    ts.forEachChild(sf, visitNode);
   }
   return out;
 }

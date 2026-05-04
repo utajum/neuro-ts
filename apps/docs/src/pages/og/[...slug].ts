@@ -66,13 +66,11 @@ const GROUP_COLORS: Record<string, string> = {
   weakMap: '#8250df',
   weakSet: '#8250df',
   object: '#656d76',
-  reflect: '#656d76',
   proxy: '#8250df',
   regexp: '#cf222e',
   error: '#cf222e',
   symbol: '#d4a72c',
   bigint: '#0550ae',
-  intl: '#0969da',
   typedArray: '#8250df',
   globals: '#a83904',
 };

@@ -4815,6 +4815,30 @@
       "example": "await neuro.date.UTC({ year: 2026, month: 0, date: 1, hours: 0, minutes: 0, seconds: 0, ms: 0, prompt: 'return epoch-ms for the year/month/date/hour/minute/second/ms in UTC, with the off-by-one month already baked in because consistency over correctness' })"
     }
   },
+  "neuro.error.isError": {
+    "group": "error",
+    "methodName": "isError",
+    "functionId": "Error.isError",
+    "kind": "static",
+    "receiverKey": "",
+    "paramOrder": [
+      "error"
+    ],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "error: unknown",
+        "returnType": "boolean",
+        "jsDoc": "Indicates whether the argument provided is a built-in Error instance or not."
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `Error.isError`.\n## Original signature(s)\n  Overload 1: (error: unknown) => boolean\n## JSDoc\nIndicates whether the argument provided is a built-in Error instance or not.\n\n## How to respond\n- Behave EXACTLY as the original `isError` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "return true only when error is a real Error instance, not a duck-typed object with name and message that the catch block has been treating as an error since 2014",
+      "comment": "True Error-instance check; cross-realm-safe, finally answers what `instanceof Error` could not.",
+      "example": "await neuro.error.isError({ error: caught, prompt: \"return true only when error is a real Error instance, not a duck-typed object with name and message that the catch block has been treating as an error since 2014\" })"
+    }
+  },
   "neuro.float32Array.at": {
     "group": "float32Array",
     "methodName": "at",
@@ -6413,6 +6437,54 @@
       "example": "await neuro.float64Array.with({ float64Array: view, index: 0, value: 0, prompt: 'return a new Float64Array with index replaced by value, leaving the original untouched, with the same coercion rule (IEEE-754 double-precision floats matching the JS Number type) the storage layer always applies' })"
     }
   },
+  "neuro.atob": {
+    "group": "globals",
+    "methodName": "atob",
+    "functionId": "globalThis.atob",
+    "kind": "static",
+    "receiverKey": "",
+    "paramOrder": [
+      "data"
+    ],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "data: string",
+        "returnType": "string",
+        "jsDoc": "[MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/atob)"
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `globalThis.atob`.\n## Original signature(s)\n  Overload 1: (data: string) => string\n## JSDoc\n[MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/atob)\n\n## How to respond\n- Behave EXACTLY as the original `atob` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "decode a base64 ASCII string into a binary string, throwing on any character outside the base64 alphabet -- the encoder pair the spec named after Netscape internals nobody remembers",
+      "comment": "ASCII-to-binary base64 decode; throws InvalidCharacterError on invalid input.",
+      "example": "await neuro.atob({ data: 'aGVsbG8=', prompt: \"decode a base64 ASCII string into a binary string, throwing on any character outside the base64 alphabet -- the encoder pair the spec named after Netscape internals nobody remembers\" })"
+    }
+  },
+  "neuro.btoa": {
+    "group": "globals",
+    "methodName": "btoa",
+    "functionId": "globalThis.btoa",
+    "kind": "static",
+    "receiverKey": "",
+    "paramOrder": [
+      "data"
+    ],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "data: string",
+        "returnType": "string",
+        "jsDoc": "[MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/btoa)"
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `globalThis.btoa`.\n## Original signature(s)\n  Overload 1: (data: string) => string\n## JSDoc\n[MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/btoa)\n\n## How to respond\n- Behave EXACTLY as the original `btoa` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "encode a binary string as base64 ASCII, throwing on any code point above 0xFF -- so passing arbitrary Unicode produces an InvalidCharacterError instead of the bytes you wanted",
+      "comment": "Binary-to-ASCII base64 encode; non-Latin1 input throws, use TextEncoder first.",
+      "example": "await neuro.btoa({ data: 'hello', prompt: 'encode a binary string as base64 ASCII, throwing on any code point above 0xFF -- so passing arbitrary Unicode produces an InvalidCharacterError instead of the bytes you wanted' })"
+    }
+  },
   "neuro.decodeURI": {
     "group": "globals",
     "methodName": "decodeURI",
@@ -6604,6 +6676,31 @@
       "prompt": "parse the leading integer in string under radix, with the historical 0x = 16 hex prefix and the long-fixed 0... = 10 (not 8) default radix",
       "comment": "Global parseInt; the historical default-octal trap is finally dead.",
       "example": "await neuro.parseInt({ string: count, radix: 10, prompt: 'parse the leading integer in string under radix, with the historical 0x = 16 hex prefix and the long-fixed 0... = 10 (not 8) default radix' })"
+    }
+  },
+  "neuro.structuredClone": {
+    "group": "globals",
+    "methodName": "structuredClone",
+    "functionId": "globalThis.structuredClone",
+    "kind": "static",
+    "receiverKey": "",
+    "paramOrder": [
+      "value",
+      "options"
+    ],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "value: T, options?: StructuredSerializeOptions",
+        "returnType": "T",
+        "jsDoc": "[MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/structuredClone)"
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `globalThis.structuredClone`.\n## Original signature(s)\n  Overload 1: (value: T, options?: StructuredSerializeOptions) => T\n## JSDoc\n[MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/structuredClone)\n\n## How to respond\n- Behave EXACTLY as the original `structuredClone` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "deep-clone the value using the HTML structured-clone algorithm, preserving Date / Map / Set / ArrayBuffer / TypedArray / circular refs, but throwing on functions and DOM nodes the way JSON.stringify silently dropped them",
+      "comment": "Deep clone via HTML algorithm; throws on functions, no silent drops like JSON did.",
+      "example": "await neuro.structuredClone({ value: state, prompt: 'deep-clone the value using the HTML structured-clone algorithm, preserving Date / Map / Set / ArrayBuffer / TypedArray / circular refs, but throwing on functions and DOM nodes the way JSON.stringify silently dropped them' })"
     }
   },
   "neuro.int16Array.at": {
@@ -9001,6 +9098,385 @@
       "prompt": "return a new Int8Array with index replaced by value, leaving the original untouched, with the same coercion rule (two-is-complement signed 8-bit integers in [-128, 127]) the storage layer always applies",
       "comment": "Int8Array with; non-mutating index-set, value coerced into the domain.",
       "example": "await neuro.int8Array.with({ int8Array: view, index: 0, value: 0, prompt: 'return a new Int8Array with index replaced by value, leaving the original untouched, with the same coercion rule (two-is-complement signed 8-bit integers in [-128, 127]) the storage layer always applies' })"
+    }
+  },
+  "neuro.iterator.drop": {
+    "group": "iterator",
+    "methodName": "drop",
+    "functionId": "Iterator.prototype.drop",
+    "kind": "instance",
+    "receiverKey": "iterator",
+    "paramOrder": [
+      "count"
+    ],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "count: number",
+        "returnType": "IteratorObject<T, undefined, unknown>",
+        "jsDoc": "Creates an iterator whose values are the values from this iterator after skipping the provided count."
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `Iterator.prototype.drop`.\n## Original signature(s)\n  Overload 1: (count: number) => IteratorObject<T, undefined, unknown>\n## JSDoc\nCreates an iterator whose values are the values from this iterator after skipping the provided count.\n\n## How to respond\n- Behave EXACTLY as the original `drop` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "skip the first count values then yield everything after, lazily -- the lazy slice(count) that pairs with take to express \"give me window [start, start+limit)\" without buffering",
+      "comment": "Skip-prefix; pairs with take() to express ranged windows lazily.",
+      "example": "await neuro.iterator.drop({ iterator: rows, count: 100, prompt: 'skip the first count values then yield everything after, lazily -- the lazy slice(count) that pairs with take to express \"give me window [start, start+limit)\" without buffering' })"
+    }
+  },
+  "neuro.iterator.every": {
+    "group": "iterator",
+    "methodName": "every",
+    "functionId": "Iterator.prototype.every",
+    "kind": "instance",
+    "receiverKey": "iterator",
+    "paramOrder": [
+      "predicate"
+    ],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "predicate?: (value: T, index: number) => unknown",
+        "returnType": "boolean",
+        "jsDoc": "Determines whether all the members of this iterator satisfy the specified test."
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `Iterator.prototype.every`.\n## Original signature(s)\n  Overload 1: (predicate?: (value: T, index: number) => unknown) => boolean\n## JSDoc\nDetermines whether all the members of this iterator satisfy the specified test.\n\n## How to respond\n- Behave EXACTLY as the original `every` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "return true only when predicate holds for every yielded value, short-circuiting on the first failure -- the universal check that closes the iterator early when it gives up",
+      "comment": "Short-circuit universal; closes the iterator on first failure.",
+      "example": "await neuro.iterator.every({ iterator: validations, predicate: (v) => v.ok, prompt: \"return true only when predicate holds for every yielded value, short-circuiting on the first failure -- the universal check that closes the iterator early when it gives up\" })"
+    }
+  },
+  "neuro.iterator.filter": {
+    "group": "iterator",
+    "methodName": "filter",
+    "functionId": "Iterator.prototype.filter",
+    "kind": "instance",
+    "receiverKey": "iterator",
+    "paramOrder": [
+      "predicate"
+    ],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "predicate?: (value: T, index: number) => boolean",
+        "returnType": "IteratorObject<S, undefined, unknown>",
+        "jsDoc": "Creates an iterator whose values are those from this iterator for which the provided predicate returns true."
+      },
+      {
+        "params": "predicate?: (value: T, index: number) => unknown",
+        "returnType": "IteratorObject<T, undefined, unknown>",
+        "jsDoc": "Creates an iterator whose values are those from this iterator for which the provided predicate returns true."
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `Iterator.prototype.filter`.\n## Original signature(s)\n  Overload 1: (predicate?: (value: T, index: number) => boolean) => IteratorObject<S, undefined, unknown>\n  Overload 2: (predicate?: (value: T, index: number) => unknown) => IteratorObject<T, undefined, unknown>\n## JSDoc\nCreates an iterator whose values are those from this iterator for which the provided predicate returns true.\n\n## How to respond\n- Behave EXACTLY as the original `filter` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "yield only the values where the predicate returns true, lazily -- the version of Array.prototype.filter that finally lets you express \"first N matches in this stream\" without buffering the rest",
+      "comment": "Lazy filter; pairs with .take(n) for early-exit \"first N matches\" patterns.",
+      "example": "await neuro.iterator.filter({ iterator: events, predicate: (e) => e.severity > 1, prompt: 'yield only the values where the predicate returns true, lazily -- the version of Array.prototype.filter that finally lets you express \"first N matches in this stream\" without buffering the rest' })"
+    }
+  },
+  "neuro.iterator.find": {
+    "group": "iterator",
+    "methodName": "find",
+    "functionId": "Iterator.prototype.find",
+    "kind": "instance",
+    "receiverKey": "iterator",
+    "paramOrder": [
+      "predicate"
+    ],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "predicate?: (value: T, index: number) => boolean",
+        "returnType": "S",
+        "jsDoc": "Returns the value of the first element in this iterator where predicate is true, and undefined\notherwise."
+      },
+      {
+        "params": "predicate?: (value: T, index: number) => unknown",
+        "returnType": "T",
+        "jsDoc": ""
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `Iterator.prototype.find`.\n## Original signature(s)\n  Overload 1: (predicate?: (value: T, index: number) => boolean) => S\n  Overload 2: (predicate?: (value: T, index: number) => unknown) => T\n## JSDoc\nReturns the value of the first element in this iterator where predicate is true, and undefined\notherwise.\n\n## How to respond\n- Behave EXACTLY as the original `find` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "return the first yielded value where predicate is true, or undefined -- the lazy `Array.find` that does not pre-buffer everything before the match",
+      "comment": "First-match find; lazy and one-shot, leaves the rest of the iterator alone.",
+      "example": "await neuro.iterator.find({ iterator: users, predicate: (u) => u.id === id, prompt: \"return the first yielded value where predicate is true, or undefined -- the lazy \\`Array.find\\` that does not pre-buffer everything before the match\" })"
+    }
+  },
+  "neuro.iterator.flatMap": {
+    "group": "iterator",
+    "methodName": "flatMap",
+    "functionId": "Iterator.prototype.flatMap",
+    "kind": "instance",
+    "receiverKey": "iterator",
+    "paramOrder": [
+      "callback"
+    ],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "callback?: (value: T, index: number) => Iterator<U, unknown, undefined> | Iterable<U, unknown, undefined>",
+        "returnType": "IteratorObject<U, undefined, unknown>",
+        "jsDoc": "Creates an iterator whose values are the result of applying the callback to the values from this iterator and then flattening the resulting iterators or iterables."
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `Iterator.prototype.flatMap`.\n## Original signature(s)\n  Overload 1: (callback?: (value: T, index: number) => Iterator<U, unknown, undefined> | Iterable<U, unknown, undefined>) => IteratorObject<U, undefined, unknown>\n## JSDoc\nCreates an iterator whose values are the result of applying the callback to the values from this iterator and then flattening the resulting iterators or iterables.\n\n## How to respond\n- Behave EXACTLY as the original `flatMap` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "map each value through callback into a sub-iterable, then yield each sub-iterable's values in order -- the lazy depth-1 flatten that finally works on async-shaped streams",
+      "comment": "Lazy flatten by one level; works on async-shaped sources.",
+      "example": "await neuro.iterator.flatMap({ iterator: pages, callback: (p) => p.items, prompt: \"map each value through callback into a sub-iterable, then yield each sub-iterable's values in order -- the lazy depth-1 flatten that finally works on async-shaped streams\" })"
+    }
+  },
+  "neuro.iterator.forEach": {
+    "group": "iterator",
+    "methodName": "forEach",
+    "functionId": "Iterator.prototype.forEach",
+    "kind": "instance",
+    "receiverKey": "iterator",
+    "paramOrder": [
+      "callbackfn"
+    ],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "callbackfn?: (value: T, index: number) => void",
+        "returnType": "void",
+        "jsDoc": "Performs the specified action for each element in the iterator."
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `Iterator.prototype.forEach`.\n## Original signature(s)\n  Overload 1: (callbackfn?: (value: T, index: number) => void) => void\n## JSDoc\nPerforms the specified action for each element in the iterator.\n\n## How to respond\n- Behave EXACTLY as the original `forEach` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "invoke callbackfn for every yielded value and return undefined -- the eager terminator with no return path, the iterator equivalent of \"I just need the side effects\"",
+      "comment": "Side-effect terminator; iterator equivalent of Array.forEach.",
+      "example": "await neuro.iterator.forEach({ iterator: events, callbackfn: (e) => publish(e), prompt: 'invoke callbackfn for every yielded value and return undefined -- the eager terminator with no return path, the iterator equivalent of \"I just need the side effects\"' })"
+    }
+  },
+  "neuro.iterator.from": {
+    "group": "iterator",
+    "methodName": "from",
+    "functionId": "Iterator.from",
+    "kind": "static",
+    "receiverKey": "",
+    "paramOrder": [
+      "value"
+    ],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "value: Iterator<T, unknown, undefined> | Iterable<T, unknown, undefined>",
+        "returnType": "IteratorObject<T, undefined, unknown>",
+        "jsDoc": "Creates a native iterator from an iterator or iterable object.\nReturns its input if the input already inherits from the built-in Iterator class."
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `Iterator.from`.\n## Original signature(s)\n  Overload 1: (value: Iterator<T, unknown, undefined> | Iterable<T, unknown, undefined>) => IteratorObject<T, undefined, unknown>\n## JSDoc\nCreates a native iterator from an iterator or iterable object.\nReturns its input if the input already inherits from the built-in Iterator class.\n\n## How to respond\n- Behave EXACTLY as the original `from` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "wrap an iterator or iterable in a real Iterator helper instance, so map / filter / take / drop become available -- the static that bridges legacy `Symbol.iterator` objects into the ES2025 helper world",
+      "comment": "Iterator-helpers entry point; lifts a plain iterable into the helper API surface.",
+      "example": "await neuro.iterator.from({ value: legacyIterable, prompt: \"wrap an iterator or iterable in a real Iterator helper instance, so map / filter / take / drop become available -- the static that bridges legacy \\`Symbol.iterator\\` objects into the ES2025 helper world\" })"
+    }
+  },
+  "neuro.iterator.map": {
+    "group": "iterator",
+    "methodName": "map",
+    "functionId": "Iterator.prototype.map",
+    "kind": "instance",
+    "receiverKey": "iterator",
+    "paramOrder": [
+      "callbackfn"
+    ],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "callbackfn?: (value: T, index: number) => U",
+        "returnType": "IteratorObject<U, undefined, unknown>",
+        "jsDoc": "Creates an iterator whose values are the result of applying the callback to the values from this iterator."
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `Iterator.prototype.map`.\n## Original signature(s)\n  Overload 1: (callbackfn?: (value: T, index: number) => U) => IteratorObject<U, undefined, unknown>\n## JSDoc\nCreates an iterator whose values are the result of applying the callback to the values from this iterator.\n\n## How to respond\n- Behave EXACTLY as the original `map` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "transform every yielded value with callbackfn, lazily -- unlike Array.prototype.map this never materialises the full sequence, so an infinite generator stays infinite and stays lazy",
+      "comment": "Lazy map; consumes one element at a time, infinite-iterator-safe.",
+      "example": "await neuro.iterator.map({ iterator: rows, callbackfn: (r) => r.id, prompt: 'transform every yielded value with callbackfn, lazily -- unlike Array.prototype.map this never materialises the full sequence, so an infinite generator stays infinite and stays lazy' })"
+    }
+  },
+  "neuro.iterator.next": {
+    "group": "iterator",
+    "methodName": "next",
+    "functionId": "Iterator.prototype.next",
+    "kind": "instance",
+    "receiverKey": "iterator",
+    "paramOrder": [
+      "__0"
+    ],
+    "variadicKey": "__0",
+    "overloads": [
+      {
+        "params": "...__0: [] | [TNext]",
+        "returnType": "IteratorResult<T, TReturn>",
+        "jsDoc": ""
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `Iterator.prototype.next`.\n## Original signature(s)\n  Overload 1: (...__0: [] | [TNext]) => IteratorResult<T, TReturn>\n## How to respond\n- Behave EXACTLY as the original `next` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "advance the iterator and return { value, done } -- the protocol method everyone implements once for a generator and immediately forgets exists",
+      "comment": "Iterator protocol step; returns done:true exactly once at the end.",
+      "example": "await neuro.iterator.next({ iterator: it, prompt: 'advance the iterator and return { value, done } -- the protocol method everyone implements once for a generator and immediately forgets exists' })"
+    }
+  },
+  "neuro.iterator.reduce": {
+    "group": "iterator",
+    "methodName": "reduce",
+    "functionId": "Iterator.prototype.reduce",
+    "kind": "instance",
+    "receiverKey": "iterator",
+    "paramOrder": [
+      "callbackfn",
+      "initialValue"
+    ],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "callbackfn?: (previousValue: T, currentValue: T, currentIndex: number) => T",
+        "returnType": "T",
+        "jsDoc": "Calls the specified callback function for all the elements in this iterator. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function."
+      },
+      {
+        "params": "callbackfn?: (previousValue: T, currentValue: T, currentIndex: number) => T, initialValue?: T",
+        "returnType": "T",
+        "jsDoc": ""
+      },
+      {
+        "params": "callbackfn?: (previousValue: U, currentValue: T, currentIndex: number) => U, initialValue?: U",
+        "returnType": "U",
+        "jsDoc": "Calls the specified callback function for all the elements in this iterator. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function."
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `Iterator.prototype.reduce`.\n## Original signature(s)\n  Overload 1: (callbackfn?: (previousValue: T, currentValue: T, currentIndex: number) => T) => T\n  Overload 2: (callbackfn?: (previousValue: T, currentValue: T, currentIndex: number) => T, initialValue?: T) => T\n  Overload 3: (callbackfn?: (previousValue: U, currentValue: T, currentIndex: number) => U, initialValue?: U) => U\n## JSDoc\nCalls the specified callback function for all the elements in this iterator. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.\n\n## How to respond\n- Behave EXACTLY as the original `reduce` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "fold every yielded value into a single accumulator using callbackfn, optionally seeded by initialValue -- the eager terminator that drains the iterator and forces every lazy pipeline upstream of it",
+      "comment": "Eager fold; the terminator that drains the lazy pipeline above it.",
+      "example": "await neuro.iterator.reduce({ iterator: txns, callbackfn: (acc, t) => acc + t.amount, prompt: 'fold every yielded value into a single accumulator using callbackfn, optionally seeded by initialValue -- the eager terminator that drains the iterator and forces every lazy pipeline upstream of it' })"
+    }
+  },
+  "neuro.iterator.return": {
+    "group": "iterator",
+    "methodName": "return",
+    "functionId": "Iterator.prototype.return",
+    "kind": "instance",
+    "receiverKey": "iterator",
+    "paramOrder": [
+      "value"
+    ],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "value?: TReturn",
+        "returnType": "IteratorResult<T, TReturn>",
+        "jsDoc": ""
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `Iterator.prototype.return`.\n## Original signature(s)\n  Overload 1: (value?: TReturn) => IteratorResult<T, TReturn>\n## How to respond\n- Behave EXACTLY as the original `return` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "finalise the iterator early with an optional return value, signalling the consumer is done -- the protocol method that lets a for-of break clean up resources nobody knew were open",
+      "comment": "Early termination signal; called by for-of break to release resources.",
+      "example": "await neuro.iterator.return({ iterator: it, value: undefined, prompt: 'finalise the iterator early with an optional return value, signalling the consumer is done -- the protocol method that lets a for-of break clean up resources nobody knew were open' })"
+    }
+  },
+  "neuro.iterator.some": {
+    "group": "iterator",
+    "methodName": "some",
+    "functionId": "Iterator.prototype.some",
+    "kind": "instance",
+    "receiverKey": "iterator",
+    "paramOrder": [
+      "predicate"
+    ],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "predicate?: (value: T, index: number) => unknown",
+        "returnType": "boolean",
+        "jsDoc": "Determines whether the specified callback function returns true for any element of this iterator."
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `Iterator.prototype.some`.\n## Original signature(s)\n  Overload 1: (predicate?: (value: T, index: number) => unknown) => boolean\n## JSDoc\nDetermines whether the specified callback function returns true for any element of this iterator.\n\n## How to respond\n- Behave EXACTLY as the original `some` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "return true at the first value where predicate holds, short-circuiting the iterator -- the only existential check that does not consume the rest of the stream after it succeeds",
+      "comment": "Short-circuit existential; leaves the rest of the iterator unconsumed on success.",
+      "example": "await neuro.iterator.some({ iterator: events, predicate: (e) => e.error, prompt: \"return true at the first value where predicate holds, short-circuiting the iterator -- the only existential check that does not consume the rest of the stream after it succeeds\" })"
+    }
+  },
+  "neuro.iterator.take": {
+    "group": "iterator",
+    "methodName": "take",
+    "functionId": "Iterator.prototype.take",
+    "kind": "instance",
+    "receiverKey": "iterator",
+    "paramOrder": [
+      "limit"
+    ],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "limit: number",
+        "returnType": "IteratorObject<T, undefined, unknown>",
+        "jsDoc": "Creates an iterator whose values are the values from this iterator, stopping once the provided limit is reached."
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `Iterator.prototype.take`.\n## Original signature(s)\n  Overload 1: (limit: number) => IteratorObject<T, undefined, unknown>\n## JSDoc\nCreates an iterator whose values are the values from this iterator, stopping once the provided limit is reached.\n\n## How to respond\n- Behave EXACTLY as the original `take` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "yield at most limit values then stop, the lazy `slice(0, limit)` that does not need to know the total length -- works on infinite iterators, returns early on finite ones",
+      "comment": "Bounded prefix; the lazy slice(0, n) that respects infinite iterators.",
+      "example": "await neuro.iterator.take({ iterator: stream, limit: 10, prompt: \"yield at most limit values then stop, the lazy \\`slice(0, limit)\\` that does not need to know the total length -- works on infinite iterators, returns early on finite ones\" })"
+    }
+  },
+  "neuro.iterator.throw": {
+    "group": "iterator",
+    "methodName": "throw",
+    "functionId": "Iterator.prototype.throw",
+    "kind": "instance",
+    "receiverKey": "iterator",
+    "paramOrder": [
+      "e"
+    ],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "e?: any",
+        "returnType": "IteratorResult<T, TReturn>",
+        "jsDoc": ""
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `Iterator.prototype.throw`.\n## Original signature(s)\n  Overload 1: (e?: any) => IteratorResult<T, TReturn>\n## How to respond\n- Behave EXACTLY as the original `throw` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "inject an exception into the iterator at the next yield point -- the protocol method nobody calls directly because every test that exercised it discovered the generator did not handle it",
+      "comment": "Inject error into iterator; rarely caught gracefully, almost always rethrown.",
+      "example": "await neuro.iterator.throw({ iterator: it, e: new Error('cancel'), prompt: 'inject an exception into the iterator at the next yield point -- the protocol method nobody calls directly because every test that exercised it discovered the generator did not handle it' })"
+    }
+  },
+  "neuro.iterator.toArray": {
+    "group": "iterator",
+    "methodName": "toArray",
+    "functionId": "Iterator.prototype.toArray",
+    "kind": "instance",
+    "receiverKey": "iterator",
+    "paramOrder": [],
+    "variadicKey": "",
+    "overloads": [
+      {
+        "params": "",
+        "returnType": "T[]",
+        "jsDoc": "Creates a new array from the values yielded by this iterator."
+      }
+    ],
+    "systemPrompt": "You are simulating the JavaScript built-in `Iterator.prototype.toArray`.\n## Original signature(s)\n  Overload 1: () => T[]\n## JSDoc\nCreates a new array from the values yielded by this iterator.\n\n## How to respond\n- Behave EXACTLY as the original `toArray` would, but use the user's intent to choose any callback / comparator / transform logic that the original would normally accept as an argument.\n- Strictly preserve the original return type and shape.\n- Output ONLY the JSON-encoded return value of the function call.\n- Do NOT include explanations, prose, comments, or markdown fences.\n- If the function would return `undefined`, output the literal string `undefined`.\n- For Date / RegExp / Map / Set / TypedArray returns, output an object of the form { \"__type\": \"Date\" | \"RegExp\" | \"Map\" | \"Set\" | \"<TypedArrayName>\", ... } so the SDK can rehydrate it.",
+    "curated": {
+      "prompt": "drain every yielded value into a fresh Array -- the explicit conversion that admits the lazy iterator was always going to land in memory anyway",
+      "comment": "Materialise the iterator; the honest conversion to Array.",
+      "example": "await neuro.iterator.toArray({ iterator: stream, prompt: 'drain every yielded value into a fresh Array -- the explicit conversion that admits the lazy iterator was always going to land in memory anyway' })"
     }
   },
   "neuro.json.parse": {

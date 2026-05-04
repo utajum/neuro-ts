@@ -137,13 +137,13 @@ export async function POST(req) {
 }
 ```
 
-## Drop-in package
+## Drop-in handler
 
-`neuro-ts-proxy` ships a Web-standard `(req: Request) => Response`
+`neuro-ts/proxy` ships a Web-standard `(req: Request) => Response`
 handler that implements this contract:
 
 ```ts
-import { createNeuroProxy } from 'neuro-ts-proxy/proxy';
+import { createNeuroProxy } from 'neuro-ts/proxy';
 
 export default {
   fetch: createNeuroProxy({

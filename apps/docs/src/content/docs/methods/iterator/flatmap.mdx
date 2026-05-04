@@ -1,0 +1,46 @@
+---
+title: flatMap
+description: neuro.iterator.flatMap wraps Iterator.prototype.flatMap for AI-augmented JavaScript. Call the original built-in with TypeScript types intact, or pass a prompt to route through GPT / OpenAI. Native fallback when prompt is empty.
+sidebar:
+  label: flatMap
+---
+
+import PromptCard from '../../../../components/PromptCard.astro';
+import { Code } from '@astrojs/starlight/components';
+
+
+## `neuro.iterator.flatMap`
+
+Instance method on `Iterator.prototype`.
+
+> Creates an iterator whose values are the result of applying the callback to the values from this iterator and then flattening the resulting iterators or iterables.
+
+## Signatures
+
+```ts
+flatMap(input: { iterator: <receiver>; callback?: (value: T; index: number) => Iterator<U; unknown; undefined> | Iterable<U; unknown; undefined>; prompt?: string }): Promise<IteratorObject<U, undefined, unknown>>
+```
+
+The `prompt` field is optional. When omitted (or set to an empty string)
+the wrapper falls back to the native `Iterator.prototype.flatMap` and returns a
+resolved Promise without contacting the LLM. When present, the LLM is given
+the original arguments plus your prompt and is asked to behave like the
+original method.
+
+## Example
+
+<Code
+  lang="ts"
+  code={atob("CmltcG9ydCB7IGNvbmZpZ3VyZUNsaWVudCwgbmV1cm8gfSBmcm9tICduZXVyby10cyc7Cgpjb25maWd1cmVDbGllbnQoeyBhcGlLZXk6IHByb2Nlc3MuZW52Lk9QRU5BSV9BUElfS0VZIH0pOwoKLy8gTGF6eSBmbGF0dGVuIGJ5IG9uZSBsZXZlbDsgd29ya3Mgb24gYXN5bmMtc2hhcGVkIHNvdXJjZXMuCmF3YWl0IG5ldXJvLml0ZXJhdG9yLmZsYXRNYXAoeyBpdGVyYXRvcjogcGFnZXMsIGNhbGxiYWNrOiAocCkgPT4gcC5pdGVtcywgcHJvbXB0OiAibWFwIGVhY2ggdmFsdWUgdGhyb3VnaCBjYWxsYmFjayBpbnRvIGEgc3ViLWl0ZXJhYmxlLCB0aGVuIHlpZWxkIGVhY2ggc3ViLWl0ZXJhYmxlJ3MgdmFsdWVzIGluIG9yZGVyIC0tIHRoZSBsYXp5IGRlcHRoLTEgZmxhdHRlbiB0aGF0IGZpbmFsbHkgd29ya3Mgb24gYXN5bmMtc2hhcGVkIHN0cmVhbXMiIH0pOwo=")}
+  wrap
+/>
+
+
+
+
+## System prompt
+
+The exact system prompt the SDK sends to your model when you provide a
+`prompt` field:
+
+<PromptCard name="neuro.iterator.flatMap" />

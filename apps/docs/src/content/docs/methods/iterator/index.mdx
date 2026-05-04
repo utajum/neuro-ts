@@ -1,0 +1,35 @@
+---
+title: Iterator
+description: AI-augmented JavaScript wrappers for `Iterator`. 15 TypeScript-first built-ins with optional GPT / OpenAI prompts and native fallback. Part of neuro-ts.
+sidebar:
+  label: Iterator
+  order: 20
+---
+
+import { Code } from '@astrojs/starlight/components';
+
+
+# Iterator
+
+15 wrappers generated from
+`Iterator` and `Iterator.prototype`.
+Every entry takes a single object literal whose keys mirror the original
+parameter names, plus an optional `prompt: string` for the LLM path.
+
+| Method | First signature |
+| --- | --- |
+| [`drop`](/methods/iterator/drop/) | <Code lang="ts" code={atob("ZHJvcChpbnB1dDogeyBpdGVyYXRvcjogPHJlY2VpdmVyPjsgY291bnQ6IG51bWJlcjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPEl0ZXJhdG9yT2JqZWN0PFQsIHVuZGVmaW5lZCwgdW5rbm93bj4+")} wrap /> |
+| [`every`](/methods/iterator/every/) | <Code lang="ts" code={atob("ZXZlcnkoaW5wdXQ6IHsgaXRlcmF0b3I6IDxyZWNlaXZlcj47IHByZWRpY2F0ZT86ICh2YWx1ZTogVDsgaW5kZXg6IG51bWJlcikgPT4gdW5rbm93bjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPGJvb2xlYW4+")} wrap /> |
+| [`filter`](/methods/iterator/filter/) | <Code lang="ts" code={atob("ZmlsdGVyKGlucHV0OiB7IGl0ZXJhdG9yOiA8cmVjZWl2ZXI+OyBwcmVkaWNhdGU/OiAodmFsdWU6IFQ7IGluZGV4OiBudW1iZXIpID0+IGJvb2xlYW47IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxJdGVyYXRvck9iamVjdDxTLCB1bmRlZmluZWQsIHVua25vd24+Pg==")} wrap /> |
+| [`find`](/methods/iterator/find/) | <Code lang="ts" code={atob("ZmluZChpbnB1dDogeyBpdGVyYXRvcjogPHJlY2VpdmVyPjsgcHJlZGljYXRlPzogKHZhbHVlOiBUOyBpbmRleDogbnVtYmVyKSA9PiBib29sZWFuOyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8Uz4=")} wrap /> |
+| [`flatMap`](/methods/iterator/flatmap/) | <Code lang="ts" code={atob("ZmxhdE1hcChpbnB1dDogeyBpdGVyYXRvcjogPHJlY2VpdmVyPjsgY2FsbGJhY2s/OiAodmFsdWU6IFQ7IGluZGV4OiBudW1iZXIpID0+IEl0ZXJhdG9yPFU7IHVua25vd247IHVuZGVmaW5lZD4gfCBJdGVyYWJsZTxVOyB1bmtub3duOyB1bmRlZmluZWQ+OyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8SXRlcmF0b3JPYmplY3Q8VSwgdW5kZWZpbmVkLCB1bmtub3duPj4=")} wrap /> |
+| [`forEach`](/methods/iterator/foreach/) | <Code lang="ts" code={atob("Zm9yRWFjaChpbnB1dDogeyBpdGVyYXRvcjogPHJlY2VpdmVyPjsgY2FsbGJhY2tmbj86ICh2YWx1ZTogVDsgaW5kZXg6IG51bWJlcikgPT4gdm9pZDsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPHZvaWQ+")} wrap /> |
+| [`from`](/methods/iterator/from/) | <Code lang="ts" code={atob("ZnJvbShpbnB1dDogeyB2YWx1ZTogSXRlcmF0b3I8VDsgdW5rbm93bjsgdW5kZWZpbmVkPiB8IEl0ZXJhYmxlPFQ7IHVua25vd247IHVuZGVmaW5lZD47IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxJdGVyYXRvck9iamVjdDxULCB1bmRlZmluZWQsIHVua25vd24+Pg==")} wrap /> |
+| [`map`](/methods/iterator/map/) | <Code lang="ts" code={atob("bWFwKGlucHV0OiB7IGl0ZXJhdG9yOiA8cmVjZWl2ZXI+OyBjYWxsYmFja2ZuPzogKHZhbHVlOiBUOyBpbmRleDogbnVtYmVyKSA9PiBVOyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8SXRlcmF0b3JPYmplY3Q8VSwgdW5kZWZpbmVkLCB1bmtub3duPj4=")} wrap /> |
+| [`next`](/methods/iterator/next/) | <Code lang="ts" code={atob("bmV4dChpbnB1dDogeyBpdGVyYXRvcjogPHJlY2VpdmVyPjsgX18wOiBbXSB8IFtUTmV4dF07IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxJdGVyYXRvclJlc3VsdDxULCBUUmV0dXJuPj4=")} wrap /> |
+| [`reduce`](/methods/iterator/reduce/) | <Code lang="ts" code={atob("cmVkdWNlKGlucHV0OiB7IGl0ZXJhdG9yOiA8cmVjZWl2ZXI+OyBjYWxsYmFja2ZuPzogKHByZXZpb3VzVmFsdWU6IFQ7IGN1cnJlbnRWYWx1ZTogVDsgY3VycmVudEluZGV4OiBudW1iZXIpID0+IFQ7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxUPg==")} wrap /> |
+| [`return`](/methods/iterator/return/) | <Code lang="ts" code={atob("cmV0dXJuKGlucHV0OiB7IGl0ZXJhdG9yOiA8cmVjZWl2ZXI+OyB2YWx1ZT86IFRSZXR1cm47IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxJdGVyYXRvclJlc3VsdDxULCBUUmV0dXJuPj4=")} wrap /> |
+| [`some`](/methods/iterator/some/) | <Code lang="ts" code={atob("c29tZShpbnB1dDogeyBpdGVyYXRvcjogPHJlY2VpdmVyPjsgcHJlZGljYXRlPzogKHZhbHVlOiBUOyBpbmRleDogbnVtYmVyKSA9PiB1bmtub3duOyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8Ym9vbGVhbj4=")} wrap /> |
+| [`take`](/methods/iterator/take/) | <Code lang="ts" code={atob("dGFrZShpbnB1dDogeyBpdGVyYXRvcjogPHJlY2VpdmVyPjsgbGltaXQ6IG51bWJlcjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPEl0ZXJhdG9yT2JqZWN0PFQsIHVuZGVmaW5lZCwgdW5rbm93bj4+")} wrap /> |
+| [`throw`](/methods/iterator/throw/) | <Code lang="ts" code={atob("dGhyb3coaW5wdXQ6IHsgaXRlcmF0b3I6IDxyZWNlaXZlcj47IGU/OiBhbnk7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxJdGVyYXRvclJlc3VsdDxULCBUUmV0dXJuPj4=")} wrap /> |
+| [`toArray`](/methods/iterator/toarray/) | <Code lang="ts" code={atob("dG9BcnJheShpbnB1dDogeyBpdGVyYXRvcjogPHJlY2VpdmVyPjsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPFRbXT4=")} wrap /> |

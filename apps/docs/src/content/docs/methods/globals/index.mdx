@@ -1,6 +1,6 @@
 ---
 title: Top-level functions
-description: AI-augmented JavaScript wrappers for top-level globals. 8 TypeScript-first built-ins with optional GPT / OpenAI prompts and native fallback. Part of neuro-ts.
+description: AI-augmented JavaScript wrappers for top-level globals. 11 TypeScript-first built-ins with optional GPT / OpenAI prompts and native fallback. Part of neuro-ts.
 sidebar:
   label: Top-level functions
   order: 1
@@ -11,13 +11,15 @@ import { Code } from '@astrojs/starlight/components';
 
 # Top-level functions
 
-8 wrappers generated from
+11 wrappers generated from
 top-level JavaScript globals.
 Every entry takes a single object literal whose keys mirror the original
 parameter names, plus an optional `prompt: string` for the LLM path.
 
 | Method | First signature |
 | --- | --- |
+| [`atob`](/methods/globals/atob/) | <Code lang="ts" code={atob("YXRvYihpbnB1dDogeyBkYXRhOiBzdHJpbmc7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxzdHJpbmc+")} wrap /> |
+| [`btoa`](/methods/globals/btoa/) | <Code lang="ts" code={atob("YnRvYShpbnB1dDogeyBkYXRhOiBzdHJpbmc7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxzdHJpbmc+")} wrap /> |
 | [`decodeURI`](/methods/globals/decodeuri/) | <Code lang="ts" code={atob("ZGVjb2RlVVJJKGlucHV0OiB7IGVuY29kZWRVUkk6IHN0cmluZzsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPHN0cmluZz4=")} wrap /> |
 | [`decodeURIComponent`](/methods/globals/decodeuricomponent/) | <Code lang="ts" code={atob("ZGVjb2RlVVJJQ29tcG9uZW50KGlucHV0OiB7IGVuY29kZWRVUklDb21wb25lbnQ6IHN0cmluZzsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPHN0cmluZz4=")} wrap /> |
 | [`encodeURI`](/methods/globals/encodeuri/) | <Code lang="ts" code={atob("ZW5jb2RlVVJJKGlucHV0OiB7IHVyaTogc3RyaW5nOyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8c3RyaW5nPg==")} wrap /> |
@@ -26,3 +28,4 @@ parameter names, plus an optional `prompt: string` for the LLM path.
 | [`isNaN`](/methods/globals/isnan/) | <Code lang="ts" code={atob("aXNOYU4oaW5wdXQ6IHsgbnVtYmVyOiBudW1iZXI7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxib29sZWFuPg==")} wrap /> |
 | [`parseFloat`](/methods/globals/parsefloat/) | <Code lang="ts" code={atob("cGFyc2VGbG9hdChpbnB1dDogeyBzdHJpbmc6IHN0cmluZzsgcHJvbXB0Pzogc3RyaW5nIH0pOiBQcm9taXNlPG51bWJlcj4=")} wrap /> |
 | [`parseInt`](/methods/globals/parseint/) | <Code lang="ts" code={atob("cGFyc2VJbnQoaW5wdXQ6IHsgc3RyaW5nOiBzdHJpbmc7IHJhZGl4PzogbnVtYmVyOyBwcm9tcHQ/OiBzdHJpbmcgfSk6IFByb21pc2U8bnVtYmVyPg==")} wrap /> |
+| [`structuredClone`](/methods/globals/structuredclone/) | <Code lang="ts" code={atob("c3RydWN0dXJlZENsb25lKGlucHV0OiB7IHZhbHVlOiBUOyBvcHRpb25zPzogU3RydWN0dXJlZFNlcmlhbGl6ZU9wdGlvbnM7IHByb21wdD86IHN0cmluZyB9KTogUHJvbWlzZTxUPg==")} wrap /> |

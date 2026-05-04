@@ -73,3 +73,17 @@ import { configureClient, neuro } from 'neuro-ts';
 configureClient({ apiKey: process.env.OPENAI_API_KEY });
 console.log(await neuro.math.random({}));
 ```
+
+## Server-side subpaths
+
+The same npm install also exposes two server-only subpaths for building a
+proxy or token-issuer endpoint. They are excluded from the browser bundle
+so the OpenAI SDK never reaches the client:
+
+```ts
+import { createNeuroProxy } from 'neuro-ts/proxy';
+import { createTokenIssuer, tokenProviderFromUrl } from 'neuro-ts/issue-token';
+```
+
+See [Custom proxy contract](/guides/proxy-contract/) and
+[Deploy the proxy](/guides/deploy-proxy/) for full setup.

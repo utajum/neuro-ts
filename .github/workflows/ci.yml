@@ -42,7 +42,6 @@ jobs:
           fi
       - run: pnpm --filter neuro-ts typecheck
       - run: pnpm --filter neuro-ts test
-      - run: pnpm --filter neuro-ts-proxy typecheck
       - run: pnpm --filter neuro-ts build
 
   install-smoke:

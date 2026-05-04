@@ -122,7 +122,7 @@ export default defineConfig({
       },
       plugins: [
         // TypeDoc only documents the small client/configuration/types
-        // surface. The 654 generated wrapper pages live under
+        // surface. The 673 generated wrapper pages live under
         // /api/methods/ and are produced by `scripts/generate-api-docs.ts`
         // straight from prompts.json (so each page can show its actual
         // system prompt).
@@ -152,13 +152,16 @@ export default defineConfig({
           // ("neuro-ts") and `description` option - no need to repeat them.
           details: [
             'neuro-ts wraps every standard JavaScript built-in (Math, Array, String,',
-            'Object, Number, Date, Map, Set, Promise, RegExp, JSON, BigInt, Atomics,',
-            'TypedArray, Intl, and the global functions) so each method accepts an',
-            'optional trailing natural-language prompt. With no prompt the wrapper',
-            'falls through to the native built-in. With a prompt the call is routed',
-            'to an LLM (OpenAI by default, or any OpenAI-compatible endpoint).',
+            'Object, Number, Date, Map, Set, Promise, RegExp, JSON, BigInt, BigInt64Array,',
+            'BigUint64Array, ArrayBuffer, DataView, Atomics, Symbol, WeakMap, WeakSet,',
+            'every TypedArray, and the global functions) so each method accepts an',
+            'optional `prompt` field on a single object literal. With no prompt the',
+            'wrapper falls through to the native built-in. With a prompt the call is',
+            'routed to an LLM (OpenAI by default, or any OpenAI-compatible endpoint).',
             'The library is TypeScript-first: each wrapper preserves the original',
-            'signature exactly, plus an optional `prompt: string` field.',
+            'parameter names from the lib.es*.d.ts signatures, plus an optional',
+            '`prompt: string`. Server-side helpers `neuro-ts/proxy` and',
+            '`neuro-ts/issue-token` ship the matching Web-standard handlers.',
           ].join(' '),
           promote: ['index', 'guides/install', 'guides/quick-start'],
           customSets: [
@@ -171,7 +174,7 @@ export default defineConfig({
             {
               label: 'Method reference',
               description:
-                'AI-augmented wrappers for every JavaScript built-in (654 methods across 30 groups).',
+                'AI-augmented wrappers for every JavaScript built-in (673 methods across 32 groups).',
               paths: ['methods/**'],
             },
             {
