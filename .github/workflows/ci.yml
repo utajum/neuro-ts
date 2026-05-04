@@ -94,7 +94,6 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22.x
-          cache: pnpm
       - name: Install neuro-ts from npm registry and run smoke
         run: |
           mkdir -p "$RUNNER_TEMP/${{ matrix.project.name }}"
